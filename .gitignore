@@ -1,0 +1,9 @@
+/AH.Microservices.Company/Src/*/AH.Company.*/obj/*
+/AH.Microservices.Company/Src/*/AH.Company.*/bin/*
+/AH.Microservices.Metadata/Src/*/AH.Metadata.*/obj/*
+/AH.Microservices.Metadata/Src/*/AH.Metadata.*/bin/*
+/Shared/AH.Shared.*/obj/*
+/Shared/AH.Shared.*/bin/*
+
+/obj/Docker/*
+

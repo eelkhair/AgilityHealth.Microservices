@@ -1,0 +1,29 @@
+{
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5001"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
+      "publishAllPorts": true
+    },
+    "dapr": {
+      "commandName": "Executable",
+      "workingDirectory": "$(ProjectDir)",
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:5001",
+      "executablePath": "dapr.exe",
+      "commandLineArgs": "run --app-id ah-metadata --resources-path ../../../../Components/ --app-port 5001 --dapr-http-port 50001 dotnet run"
+    }
+  },
+  "$schema": "https://json.schemastore.org/launchsettings.json"
+}

@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\Shared\AH.Shared.Application\AH.Shared.Application.csproj" />
+      <ProjectReference Include="..\AH.Metadata.Domain\AH.Metadata.Domain.csproj" />
+    </ItemGroup>
+
+
+
+
+
+    <ItemGroup>
+      <EmbeddedResource Update="Resources\ValidationMessages.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>ValidationMessages.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+
+
+
+
+    <ItemGroup>
+      <Compile Update="Resources\ValidationMessages.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>ValidationMessages.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+
+
+
+
+    <ItemGroup>
+      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
+    </ItemGroup>
+
+
+</Project>

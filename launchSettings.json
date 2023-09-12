@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "ah.main.api": "StartDebugging",
+        "ah.metadata.api": "StartDebugging"
+      }
+    }
+  }
+}

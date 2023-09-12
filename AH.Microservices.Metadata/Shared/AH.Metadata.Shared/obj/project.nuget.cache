@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "dgSpecHash": "ROH3JbJ34bQTzM8jMt8cM/rtkigPOdv2pbDJFyk0zG0Ms8Ekdzcb6GTbQ6VnbD+t8Wa8tzdVFF25tOf3Cqy0pA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\elkha\\RiderProjects\\AgilityHealthMicroServices\\AgilityHealth.Microservices\\AH.Microservices.Metadata\\Shared\\AH.Metadata.Shared\\AH.Metadata.Shared.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\elkha\\.nuget\\packages\\dapr.actors\\1.11.0\\dapr.actors.1.11.0.nupkg.sha512",
+    "C:\\Users\\elkha\\.nuget\\packages\\dapr.client\\1.11.0\\dapr.client.1.11.0.nupkg.sha512",
+    "C:\\Users\\elkha\\.nuget\\packages\\google.api.commonprotos\\2.2.0\\google.api.commonprotos.2.2.0.nupkg.sha512",
+    "C:\\Users\\elkha\\.nuget\\packages\\google.protobuf\\3.15.0\\google.protobuf.3.15.0.nupkg.sha512",
+    "C:\\Users\\elkha\\.nuget\\packages\\grpc.core.api\\2.47.0\\grpc.core.api.2.47.0.nupkg.sha512",
+    "C:\\Users\\elkha\\.nuget\\packages\\grpc.net.client\\2.47.0\\grpc.net.client.2.47.0.nupkg.sha512",
+    "C:\\Users\\elkha\\.nuget\\packages\\grpc.net.common\\2.47.0\\grpc.net.common.2.47.0.nupkg.sha512",
+    "C:\\Users\\elkha\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\3.1.0\\microsoft.extensions.logging.abstractions.3.1.0.nupkg.sha512",
+    "C:\\Users\\elkha\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
+    "C:\\Users\\elkha\\.nuget\\packages\\system.net.http.json\\5.0.0\\system.net.http.json.5.0.0.nupkg.sha512",
+    "C:\\Users\\elkha\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.5.2\\system.runtime.compilerservices.unsafe.4.5.2.nupkg.sha512"
+  ],
+  "logs": []
+}

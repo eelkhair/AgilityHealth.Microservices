@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  ah-company-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - 5002:80
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro'
+  ah-metadata-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - 5001:80
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro

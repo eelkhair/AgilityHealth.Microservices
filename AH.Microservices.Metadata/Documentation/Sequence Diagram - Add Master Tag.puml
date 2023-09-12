@@ -1,0 +1,47 @@
+﻿@startuml
+title <u>AgilityHealth Sync - Add Master Tag Sequence Diagram</u>
+
+!theme vibrant
+
+autonumber
+
+database "Legacy Db" as LegacyDB
+participant "Message Handler" as messageHandler
+participant "Legacy System" as Legacy
+
+participant "Metadata MicroService" as MicroService
+database "MicroService DB" as MicroServiceDB
+queue "AH Service Bus" as serviceBus
+participant "Company MicroService" as CM
+
+== Create Master Tags ==
+
+opt The application will have a dev flag <b>(Example tag-microservice-enabled: true)</b>. \nThe controllers will check if it can use the MicroServices or not. \n This diagram is for when the MicroService is enabled
+end
+Legacy --> MicroService: Make a call to the AddMasterTag in the TagIntegration Class. \n It will use the metadata agent to call the Metadata microservice
+MicroService --> MicroServiceDB: Store the new tag in the database
+group background process
+MicroService --> serviceBus: Send a message to the service bus with the new tag including the id
+note right of MicroService
+Other services will listen to this message (to update their lookup tables)
+end note
+serviceBus --> CM: Company Microservice will receive the message from the service bus \n and update the master tag lookup table
+serviceBus --> messageHandler: Legacy System will receive the message from the service bus
+end
+MicroService --> Legacy: return details of the new tag to the controller so that the user can proceed
+
+== Handling background process ==
+
+note right of messageHandler
+The handler will parse the message. The message will contain the type (tags, company, team, radar etc). it will route the message based on the type to the correct handler (TagsHandler in this case).
+The message will also contain the method name that was called and the parameters that were passed to the method. It will also contain the id of the master tag in the microservice.
+end note
+
+messageHandler --> Legacy : Call the method that will add the tag to the legacy system \n (in the TagsUnitOfWork class). 
+note right of messageHandler 
+All of the request parameters will be passed to the method (including the id of the master tag in the microservice)
+end note
+Legacy --> LegacyDB: Add the tag to the database. The MetadataId will be stored in the legacy database \n (we will do our best to keep the legacy database id  in sync with the microservice database id)
+
+====
+@enduml

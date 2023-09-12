@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\Shared\AH.Shared.Application\AH.Shared.Application.csproj" />
+      <ProjectReference Include="..\AH.Company.Domain\AH.Company.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Commands\" />
+      <Folder Include="Interfaces\" />
+      <Folder Include="Queries\" />
+      <Folder Include="Resources\" />
+    </ItemGroup>
+
+</Project>
