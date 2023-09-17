@@ -4,6 +4,7 @@
 /AH.Microservices.Metadata/Src/*/AH.Metadata.*/bin/*
 /Shared/AH.Shared.*/obj/*
 /Shared/AH.Shared.*/bin/*
-
 /obj/Docker/*
-
+.idea/*
+AH.Microservices.*/.idea/*
+obj/Debug/*

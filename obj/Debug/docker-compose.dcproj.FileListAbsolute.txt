@@ -1,0 +1,1 @@
+C:\Users\elkha\RiderProjects\AgilityHealthMicroServices\AgilityHealth.Microservices\obj\Debug\docker-compose.dcproj.CoreCompileInputs.cache
