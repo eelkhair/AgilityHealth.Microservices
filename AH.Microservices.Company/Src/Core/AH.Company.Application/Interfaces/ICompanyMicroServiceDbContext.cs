@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using AH.Company.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace AH.Company.Application.Interfaces;
 
@@ -17,6 +18,7 @@ public interface ICompanyMicroServiceDbContext
     DbSet<CompanyStakeholderTag> CompanyStakeholderTags { get; set; }
     DbSet<CompanyTeamMemberCategory> CompanyTeamMemberCategories { get; set; }
     DbSet<CompanyTeamMemberTag> CompanyTeamMemberTags { get; set; }
+    ChangeTracker ChangeTracker { get; set; }
     Task<int> SaveChangesAsync(ClaimsPrincipal user);
 
 }

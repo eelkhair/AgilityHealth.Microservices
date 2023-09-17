@@ -6,6 +6,7 @@ using AH.Shared.Domain.Constants;
 using AH.Shared.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 
@@ -24,7 +25,7 @@ public partial class CompanyMicroserviceDbContext
     public  DbSet<CompanyStakeholderTag> CompanyStakeholderTags { get; set; } = null!;
     public  DbSet<CompanyTeamMemberCategory> CompanyTeamMemberCategories { get; set; } = null!;
     public  DbSet<CompanyTeamMemberTag> CompanyTeamMemberTags { get; set; } = null!;
-
+    public ChangeTracker ChangeTracker { get; set; }
 }
 public partial class CompanyMicroserviceDbContext : DbContext, ICompanyMicroServiceDbContext
 {

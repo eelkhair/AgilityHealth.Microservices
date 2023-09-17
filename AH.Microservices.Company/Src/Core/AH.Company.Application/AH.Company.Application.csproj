@@ -11,10 +11,9 @@
       <ProjectReference Include="..\AH.Company.Domain\AH.Company.Domain.csproj" />
     </ItemGroup>
 
+
     <ItemGroup>
-      <Folder Include="Commands\" />
-      <Folder Include="Queries\" />
-      <Folder Include="Resources\" />
+      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
     </ItemGroup>
 
 </Project>
