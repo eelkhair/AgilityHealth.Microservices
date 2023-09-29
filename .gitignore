@@ -7,4 +7,7 @@
 /obj/Docker/*
 .idea/*
 AH.Microservices.*/.idea/*
-obj/Debug/*
+/obj/Debug/*
+/AH.Microservices.Metadata/Tests/Tests.Unit.Application/bin/
+/AH.Microservices.Metadata/Tests/Tests.Unit.Application/obj/
+*.DotSettings*

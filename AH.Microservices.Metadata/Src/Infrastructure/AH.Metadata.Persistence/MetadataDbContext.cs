@@ -10,14 +10,14 @@ namespace AH.Metadata.Persistence;
 
 public partial class MetadataDbContext
 {
-    public DbSet<MasterTag> MasterTags { get; set; }
-    public DbSet<MasterTagCategory> MasterTagCategories { get; set; }
-    public DbSet<Company> Companies { get; set; }
-    public DbSet<Country> Countries { get; set; }
-    public DbSet<Domain.Entities.Domain> Domains { get; set; }
-    public DbSet<GrowthPlanStatus> GrowthPlanStatuses { get; set; }
-    public DbSet<Industry> Industries { get; set; }
-    public DbSet<SurveyType> SurveyTypes { get; set; }
+    public DbSet<MasterTag> MasterTags { get; set; } = null!;
+    public DbSet<MasterTagCategory> MasterTagCategories { get; set; } = null!;
+    public DbSet<Company> Companies { get; set; } = null!;
+    public DbSet<Country> Countries { get; set; } = null!;
+    public DbSet<Domain.Entities.Domain> Domains { get; set; } = null!;
+    public DbSet<GrowthPlanStatus> GrowthPlanStatuses { get; set; } = null!;
+    public DbSet<Industry> Industries { get; set; } = null!;
+    public DbSet<SurveyType> SurveyTypes { get; set; } = null!;
 }
 
 public partial class MetadataDbContext : DbContext, IMetadataDbContext

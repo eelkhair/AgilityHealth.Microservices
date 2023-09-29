@@ -84,6 +84,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{D8A27C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AH.Metadata.Shared", "AH.Microservices.Metadata\Src\Shared\AH.Metadata.Shared\AH.Metadata.Shared.csproj", "{FCFD1BDE-EE7A-41DB-8F96-771BAC4B38F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Unit.Application", "AH.Microservices.Metadata\Tests\Tests.Unit.Application\Tests.Unit.Application.csproj", "{07D90C3E-51E3-4F48-9DE8-1197655BC181}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -154,6 +156,10 @@ Global
 		{FCFD1BDE-EE7A-41DB-8F96-771BAC4B38F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCFD1BDE-EE7A-41DB-8F96-771BAC4B38F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCFD1BDE-EE7A-41DB-8F96-771BAC4B38F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07D90C3E-51E3-4F48-9DE8-1197655BC181}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07D90C3E-51E3-4F48-9DE8-1197655BC181}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07D90C3E-51E3-4F48-9DE8-1197655BC181}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07D90C3E-51E3-4F48-9DE8-1197655BC181}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -190,6 +196,7 @@ Global
 		{8720DA5A-BF4B-469F-9BE0-86042722ECBA} = {92AB78D7-8BD2-4AD8-86D8-39CB1132F862}
 		{D8A27CE3-314C-4C6C-80C8-179958D68643} = {CD4A391A-E393-4232-95DC-B5D85A7C2C33}
 		{FCFD1BDE-EE7A-41DB-8F96-771BAC4B38F7} = {D8A27CE3-314C-4C6C-80C8-179958D68643}
+		{07D90C3E-51E3-4F48-9DE8-1197655BC181} = {EDE1BAE5-7D9C-4918-90BE-8085E0627F7A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ADA7513C-1144-4397-870D-DF008958C056}

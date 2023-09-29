@@ -56,7 +56,7 @@ public class DomainsController : BaseController
     /// <response code="404">Domain not found</response>
     /// <response code="500">Internal Server Error</response>
     /// <returns></returns>
-    [HttpGet("{uid}")]
+    [HttpGet("{uid:guid}")]
     [ProducesResponseType(typeof(GetDomainViewModel), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetDomain(Guid uid)
     {
@@ -124,7 +124,7 @@ public class DomainsController : BaseController
     /// <response code="400">Invalid request</response>
     /// <response code="500">Internal Server Error</response>
     /// <returns></returns>
-    [HttpDelete("{uid}")]
+    [HttpDelete("{uid:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> DeleteDomain(Guid uid)
     {

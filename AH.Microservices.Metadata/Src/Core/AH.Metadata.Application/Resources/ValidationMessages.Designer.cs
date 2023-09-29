@@ -21,7 +21,7 @@ namespace AH.Metadata.Application.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ValidationMessages {
+    public class ValidationMessages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -62,7 +62,7 @@ namespace AH.Metadata.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Name cannot exceed 250 characters.
         /// </summary>
-        internal static string CreateDomain_NameMaxLength {
+        public static string CreateDomain_NameMaxLength {
             get {
                 return ResourceManager.GetString("CreateDomain.NameMaxLength", resourceCulture);
             }
@@ -71,7 +71,7 @@ namespace AH.Metadata.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Name cannot be empty.
         /// </summary>
-        internal static string CreateDomain_NameNotEmpty {
+        public static string CreateDomain_NameNotEmpty {
             get {
                 return ResourceManager.GetString("CreateDomain.NameNotEmpty", resourceCulture);
             }
