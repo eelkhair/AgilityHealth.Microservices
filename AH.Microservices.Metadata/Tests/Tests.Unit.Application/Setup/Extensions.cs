@@ -24,9 +24,9 @@ public static class Extensions
         return entity;
     }
 
-    public static TDto SetCommonDtoProps<TDto>(this TDto dto) where TDto : BaseDto
+    public static TDto SetCommonDtoProps<TDto>(this TDto dto , bool newGuid = true) where TDto : BaseDto
     {
-        dto.UId = Guid.NewGuid();
+        if (newGuid) dto.UId = Guid.NewGuid();
         dto.CreatedAt = DateTime.UtcNow;
         dto.CreatedBy = "TestHarness";
         dto.UpdatedAt = DateTime.UtcNow;

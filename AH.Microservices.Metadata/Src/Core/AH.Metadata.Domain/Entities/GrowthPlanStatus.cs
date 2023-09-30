@@ -1,9 +1,8 @@
 ﻿using AH.Shared.Domain.Entities;
 
-namespace AH.Metadata.Domain.Entities
+namespace AH.Metadata.Domain.Entities;
+
+public class GrowthPlanStatus : BaseAuditableEntity
 {
-    public class GrowthPlanStatus : BaseAuditableEntity
-    {
-        public string Name { get; set; }
-    }
+    public string Name { get; set; } = null!;
 }

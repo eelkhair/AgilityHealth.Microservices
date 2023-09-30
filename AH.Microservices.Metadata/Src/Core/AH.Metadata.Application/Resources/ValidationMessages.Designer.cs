@@ -80,7 +80,7 @@ namespace AH.Metadata.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to UId doesn&apos;t exist.
         /// </summary>
-        internal static string DeleteDomain_UIdDoesNotExist {
+        public static string DeleteDomain_UIdDoesNotExist {
             get {
                 return ResourceManager.GetString("DeleteDomain_UIdDoesNotExist", resourceCulture);
             }
@@ -89,7 +89,7 @@ namespace AH.Metadata.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to UId cannot be empty.
         /// </summary>
-        internal static string DeleteDomain_UIdNotEmpty {
+        public static string DeleteDomain_UIdNotEmpty {
             get {
                 return ResourceManager.GetString("DeleteDomain_UIdNotEmpty", resourceCulture);
             }
@@ -98,7 +98,7 @@ namespace AH.Metadata.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to UId doesn&apos;t exist.
         /// </summary>
-        internal static string UpdateDomain_UIdDoesNotExist {
+        public static string UpdateDomain_UIdDoesNotExist {
             get {
                 return ResourceManager.GetString("UpdateDomain_UIdDoesNotExist", resourceCulture);
             }
@@ -107,7 +107,7 @@ namespace AH.Metadata.Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to UId cannot be empty.
         /// </summary>
-        internal static string UpdateDomain_UIdNotEmpty {
+        public static string UpdateDomain_UIdNotEmpty {
             get {
                 return ResourceManager.GetString("UpdateDomain_UIdNotEmpty", resourceCulture);
             }

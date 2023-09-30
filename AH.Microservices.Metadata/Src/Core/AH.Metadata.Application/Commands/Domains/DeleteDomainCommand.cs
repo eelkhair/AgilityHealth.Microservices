@@ -40,7 +40,7 @@ public class DeleteDomainCommandValidator : AbstractValidator<DeleteDomainComman
     {
         RuleFor(x => x.Uid).NotEmpty()
             .WithMessage(ValidationMessages.DeleteDomain_UIdNotEmpty);
-        RuleFor(x => x.Uid).Must((uid) =>
+        RuleFor(x => x.Uid).Must(uid =>
         {
             var domain = context.Domains.FirstOrDefault(x => x.UId == uid);
             return domain != null;

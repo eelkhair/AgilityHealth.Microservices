@@ -4,7 +4,7 @@ using AH.Metadata.Application.Resources;
 using Bogus;
 using Tests.Unit.Application.Setup;
 
-namespace Tests.Unit.Application.ValidatorTests;
+namespace Tests.Unit.Application.ValidatorTests.Domains;
 
 [TestClass]
 public class CreateDomainCommandValidatorTests: BaseTest
@@ -24,7 +24,7 @@ public class CreateDomainCommandValidatorTests: BaseTest
     {
         // Arrange
         var dto = new Faker<DomainDto>()
-            .RuleFor(x => x.Name, f => string.Empty)
+            .RuleFor(x => x.Name, _ => string.Empty)
             .Generate()
             .SetCommonDtoProps();
         MockingHelper.SetupCompanyAdminUser();

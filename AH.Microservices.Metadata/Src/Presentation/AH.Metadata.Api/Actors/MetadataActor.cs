@@ -26,11 +26,10 @@ public class MetadataActor : Actor, IMetadataActor
     /// </summary>
     /// <param name="host"></param>
     /// <param name="logger"></param>
-    /// <param name="mediator"></param>
-    /// <param name="mapper"></param>
+    /// <param name="provider"></param>
+    /// <param name="messageSender"></param>
     public MetadataActor(ActorHost host, ILogger<MetadataActor> logger, IServiceProvider provider, IMessageSender messageSender) : base(host)
     {
-;
         _mapper = provider.GetRequiredService<IMapper>();
         _logger = logger;
         _mediator = provider.GetRequiredService<IMediator>();
@@ -53,7 +52,7 @@ public class MetadataActor : Actor, IMetadataActor
     }
 
     /// <summary>
-    /// Sends a message to the pubsub
+    /// Sends a pub-sub message
     /// </summary>
     /// <param name="message"></param>
     /// <param name="userId"></param>

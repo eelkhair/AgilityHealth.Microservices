@@ -5,7 +5,7 @@ public class MasterTag : BaseAuditableEntity
 {
     public int MasterTagCategoryId { get; set; }
     public int? ParentMasterTagId { get; set; }
-    public string Name { get; set; }
-    public string ClassName { get; set; }
-    public MasterTagCategory MasterTagCategory { get; set; }
+    public string Name { get; set; } = null!;
+    public string ClassName { get; set; } = null!;
+    public MasterTagCategory MasterTagCategory { get; set; } = null!;
 }

@@ -4,7 +4,7 @@ using Bogus;
 using Microsoft.EntityFrameworkCore;
 using Tests.Unit.Application.Setup;
 
-namespace Tests.Unit.Application.CommandTests;
+namespace Tests.Unit.Application.CommandTests.Domains;
 
 [TestClass]
 public class CreateDomainCommandTests : BaseTest

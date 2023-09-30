@@ -11,7 +11,7 @@ public interface IMetadataDbContext
     DbSet<MasterTagCategory> MasterTagCategories { get; set; }
     DbSet<Company> Companies { get; set; }
     DbSet<Country> Countries { get; set; }
-    DbSet<Domain.Entities.Domain> Domains { get; set; }
+    DbSet<Domain.Entities.Domain> Domains { get; }
     DbSet<GrowthPlanStatus> GrowthPlanStatuses { get; set; }
     DbSet<Industry> Industries { get; set; }
     DbSet<SurveyType> SurveyTypes { get; set; }

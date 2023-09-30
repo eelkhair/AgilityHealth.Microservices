@@ -27,6 +27,7 @@ internal abstract class DbContextFactory
     
     public static void CreateBatchEntities<TEntity>(MetadataDbContext context, Func<TEntity> entityDelegate, int recordCount, bool saveChanges = true)
     {
+        var entities = new List<TEntity>();
         for (var i = 0; i < recordCount; i++)
         {
             var entity = entityDelegate.Invoke();
@@ -34,12 +35,14 @@ internal abstract class DbContextFactory
         }
 
         if (saveChanges) { context.SaveChanges(); }
+        
     }
 
-    public static void CreateEntity<TEntity>(MetadataDbContext context, TEntity entity)
+    public static TEntity CreateEntity<TEntity>(MetadataDbContext context, TEntity entity)
     {
         if (entity != null) context.Add(entity);
         context.SaveChanges();
+        return entity;
     }
 
     private static void SeedDatabase(MetadataDbContext context)

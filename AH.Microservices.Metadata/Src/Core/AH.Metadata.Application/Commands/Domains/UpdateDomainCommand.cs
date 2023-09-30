@@ -1,5 +1,4 @@
-﻿using System.Data;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using AH.Metadata.Application.Dtos;
 using AH.Metadata.Application.Interfaces;
 using AH.Metadata.Application.Resources;
@@ -49,7 +48,7 @@ public class UpdateDomainCommandValidator : AbstractValidator<UpdateDomainComman
             .WithMessage(ValidationMessages.CreateDomain_NameMaxLength);
         RuleFor(x=> x.Domain.UId).NotEmpty()
             .WithMessage(ValidationMessages.UpdateDomain_UIdNotEmpty);
-        RuleFor(x=>x.Domain.UId).Must((uid) =>
+        RuleFor(x=>x.Domain.UId).Must(uid =>
         {
             var domain = context.Domains.FirstOrDefault(x=> x.UId == uid);
             return domain != null;

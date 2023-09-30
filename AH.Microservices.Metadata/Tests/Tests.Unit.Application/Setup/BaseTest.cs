@@ -12,7 +12,7 @@ public abstract class BaseTest
     }
     
     protected MockingHelper MockingHelper { get; }
-    protected MetadataDbContext MetadataDbContext { get; set; } = null!;
+    protected MetadataDbContext MetadataDbContext { get; private set; } = null!;
 
     protected static IMapper Mapper => MapperSingleton.GetInstance().Mapper;
 
