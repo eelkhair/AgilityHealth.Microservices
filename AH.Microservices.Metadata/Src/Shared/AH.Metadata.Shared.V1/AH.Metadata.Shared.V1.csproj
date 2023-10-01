@@ -7,8 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Dapr.Actors" Version="1.11.0" />
+      <Folder Include="Models\Requests\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Dapr.Actors" Version="1.11.0" />
+    </ItemGroup>
 
 </Project>

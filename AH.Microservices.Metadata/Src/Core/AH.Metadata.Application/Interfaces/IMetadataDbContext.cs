@@ -9,12 +9,12 @@ public interface IMetadataDbContext
 {
     DbSet<MasterTag> MasterTags { get; set; }
     DbSet<MasterTagCategory> MasterTagCategories { get; set; }
-    DbSet<Company> Companies { get; set; }
-    DbSet<Country> Countries { get; set; }
+    DbSet<Company> Companies { get; }
+    DbSet<Country> Countries { get; }
     DbSet<Domain.Entities.Domain> Domains { get; }
-    DbSet<GrowthPlanStatus> GrowthPlanStatuses { get; set; }
-    DbSet<Industry> Industries { get; set; }
-    DbSet<SurveyType> SurveyTypes { get; set; }
+    DbSet<GrowthPlanStatus> GrowthPlanStatuses { get; }
+    DbSet<Industry> Industries { get; }
+    DbSet<SurveyType> SurveyTypes { get; }
     ChangeTracker ChangeTracker { get;  }
     Task<int> SaveChangesAsync(ClaimsPrincipal user, CancellationToken cancellationToken);
 }

@@ -14,7 +14,7 @@ public class GrowthPlanStatusConfiguration : IEntityTypeConfiguration<GrowthPlan
         
         builder.Property(x=>x.Id).HasColumnName("GrowthPlanStatusId");
         builder.Property(x=>x.UId).HasColumnName("GrowthPlanStatusUId");
-        builder.Property(e => e.Name)
+        builder.Property(e => e.Status)
                     .HasColumnName("GrowthPlanStatusName")
                     .HasMaxLength(250)
                     .IsRequired();

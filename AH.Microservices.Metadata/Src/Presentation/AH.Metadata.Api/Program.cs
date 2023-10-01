@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using System.Reflection;
+using AH.Metadata.Api;
 using AH.Metadata.Api.Actors;
 using AH.Metadata.Api.Configuration.Filters;
 using AH.Metadata.Api.Configuration.Middleware;
-using AH.Metadata.Api.Models;
 using AH.Metadata.Application;
 using AH.Metadata.Application.Dtos;
 using AH.Metadata.Persistence;
@@ -42,6 +42,7 @@ builder.Services.AddSingleton(mapper);
 builder.Services.AddActors(options =>
 {
     options.Actors.RegisterActor<MetadataActor>();
+    options.Actors.RegisterActor<SelectionListsActor>();
 });
 
 
@@ -62,6 +63,6 @@ app.MapControllers();
 app.MapActorsHandlers();
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 #if DEBUG
-Debugger.Launch();
+ Debugger.Launch();
 #endif
 app.Run();

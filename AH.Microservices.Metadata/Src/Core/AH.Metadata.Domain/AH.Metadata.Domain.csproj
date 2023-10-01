@@ -7,10 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Constants\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\..\..\..\Shared\AH.Shared.Domain\AH.Shared.Domain.csproj" />
     </ItemGroup>
 

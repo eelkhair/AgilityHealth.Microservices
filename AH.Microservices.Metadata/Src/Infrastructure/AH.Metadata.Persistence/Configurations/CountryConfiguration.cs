@@ -14,6 +14,9 @@ public class CountryConfiguration : IEntityTypeConfiguration<Country>
         
         builder.Property(x=>x.Id).HasColumnName("CountryId");
         builder.Property(x=>x.UId).HasColumnName("CountryUId");
+        builder.Property(e => e.Code).HasColumnName("CountryCode")
+                    .HasMaxLength(250)
+                    .IsRequired();
          builder.Property(e => e.Name).HasColumnName("CountryName")
                     .HasMaxLength(250)
                     .IsRequired();

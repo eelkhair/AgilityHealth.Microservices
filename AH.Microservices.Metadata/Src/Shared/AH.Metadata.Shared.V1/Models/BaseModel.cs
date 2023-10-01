@@ -1,10 +1,12 @@
-﻿namespace AH.Metadata.Shared.Models;
+﻿namespace AH.Metadata.Shared.V1.Models;
 
-public abstract class BaseDto
+public abstract class BaseModel
 {
-    public int Id { get; set; }
     public Guid UId { get; set; }
-    
+}
+
+public abstract class BaseAuditableModel
+{
     public DateTime CreatedAt { get; set; }
     public string CreatedBy { get; set; } = string.Empty;
     public DateTime? UpdatedAt { get; set; }

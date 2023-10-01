@@ -1,10 +1,9 @@
 ﻿using System.Security.Claims;
 using AH.Metadata.Application.Queries.Domains;
-using AH.Metadata.Shared;
-using AH.Metadata.Shared.Models;
+using AH.Metadata.Shared.V1.ActorInterfaces;
+using AH.Metadata.Shared.V1.Models.Responses;
 using AH.Shared.Application.Interfaces;
 using AH.Shared.Domain.Constants;
-using AH.Shared.Infrastructure;
 using AutoMapper;
 using Dapr.Actors.Runtime;
 using MediatR;
@@ -43,12 +42,12 @@ public class MetadataActor : Actor, IMetadataActor
     /// <param name="domainUId"></param>
     /// <param name="user"></param>
     /// <returns></returns>
-    public async Task<DomainDto> GetDomain(Guid domainUId, string user)
+    public async Task<DomainResponse> GetDomain(Guid domainUId, string user)
     {
         _logger.LogInformation("received request for domain {DomainUId} from user {User}", domainUId, user);
         var query = new GetDomainQuery(new ClaimsPrincipal(), _logger, domainUId);
         var result = await _mediator.Send(query);
-        return _mapper.Map<DomainDto>(result);
+        return _mapper.Map<DomainResponse>(result);
     }
 
     /// <summary>
@@ -64,7 +63,7 @@ public class MetadataActor : Actor, IMetadataActor
             await _messageSender.SendEventAsync(PubSubNames.Redis, TopicNames.Metadata, userId, new { Message = message});
             return "Message sent";
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             return "Message not sent";
         }
