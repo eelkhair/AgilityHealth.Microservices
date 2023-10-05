@@ -36,7 +36,7 @@ public class CreateDomainCommandValidatorTests: BaseTest
         
         // Assert
         Assert.IsFalse(result.IsValid);
-        Assert.IsTrue(result.Errors.Any(x => x.ErrorMessage == ValidationMessages.CreateDomain_NameNotEmpty));
+        Assert.IsTrue(result.Errors.Exists(x => x.ErrorMessage == ValidationMessages.CreateDomain_NameNotEmpty));
     }
     
     [TestMethod]
@@ -56,6 +56,25 @@ public class CreateDomainCommandValidatorTests: BaseTest
         
         // Assert
         Assert.IsFalse(result.IsValid);
-        Assert.IsTrue(result.Errors.Any(x => x.ErrorMessage == ValidationMessages.CreateDomain_NameMaxLength));
+        Assert.IsTrue(result.Errors.Exists(x => x.ErrorMessage == ValidationMessages.CreateDomain_NameMaxLength));
+    }
+    
+    [TestMethod]
+    public async Task GivenCreateDomainCommandValidator_WhenValidName_ThenReturnValid()
+    {
+        // Arrange
+        var dto = new Faker<DomainDto>()
+            .RuleFor(x => x.Name, f => f.Random.String2(250))
+            .Generate()
+            .SetCommonDtoProps();
+        MockingHelper.SetupCompanyAdminUser();
+        var command = new CreateDomainCommand(MockingHelper.MockUser, MockingHelper.MockLogger, dto );
+        
+        // Act
+        var validator = new CreateDomainCommandValidator();
+        var result = await validator.ValidateAsync(command, CancellationToken.None);
+        
+        // Assert
+        Assert.IsTrue(result.IsValid);
     }
 }

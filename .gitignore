@@ -12,3 +12,5 @@ AH.Microservices.*/.idea/*
 /AH.Microservices.Metadata/Tests/Tests.Unit.Application/obj/
 *.DotSettings*
 AH.Microservices.Metadata.sln*
+bin/Debug/
+.vs/

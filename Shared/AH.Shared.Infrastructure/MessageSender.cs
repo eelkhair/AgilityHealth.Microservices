@@ -16,19 +16,20 @@ public class MessageSender : IMessageSender
         _daprClient = daprClient;
     }
     
-    public async Task SendEventAsync<T>(string pubSubName, string topic, string userId, T data)
-    {
+    public async Task SendEventAsync<T>(string pubSubName, string topic, string userId, T message)
+    { 
+        var messageInfo = new {pubSubName, topic, userId, message};
         try
         {
-            _logger.LogInformation("Sending event {PubSubName} {Topic} {UserId} {Data}", pubSubName, topic, userId, data);
-            var eventModel = new EventDto(userId, data);
+            _logger.LogInformation("Sending event - {MessageInfo}", messageInfo);
+            var eventModel = new EventDto(userId, message);
             await _daprClient.PublishEventAsync(pubSubName, topic, eventModel);
            
-            _logger.LogInformation("Event sent {PubSubName} {Topic} {UserId} {Data}", pubSubName, topic, userId, data);
+            _logger.LogInformation("Event sent - {MessageInfo}", messageInfo);
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error sending event {PubSubName} {Topic} {UserId} {Data}", pubSubName, topic, userId, data);
+            _logger.LogError(e, "Error sending event - {MessageInfo}", messageInfo);
         }
     }
 }

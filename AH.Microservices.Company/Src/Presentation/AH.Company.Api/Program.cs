@@ -11,7 +11,7 @@ using AutoMapper;
 using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddMessageSender(builder.Configuration);
 
 builder.Services.AddApplication();
@@ -43,7 +43,6 @@ builder.Services.AddActors(options =>
   // Example :  options.Actors.RegisterActor<MetadataActor>();
 });
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -63,4 +62,5 @@ app.UseMiddleware<ExceptionHandlerMiddleware>();
 #if DEBUG
 Debugger.Launch();
 #endif
+
 app.Run();

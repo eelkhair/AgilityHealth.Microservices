@@ -25,7 +25,7 @@ public partial class CompanyMicroserviceDbContext
     public  DbSet<CompanyStakeholderTag> CompanyStakeholderTags { get; set; } = null!;
     public  DbSet<CompanyTeamMemberCategory> CompanyTeamMemberCategories { get; set; } = null!;
     public  DbSet<CompanyTeamMemberTag> CompanyTeamMemberTags { get; set; } = null!;
-    public ChangeTracker ChangeTracker { get; set; }
+    public new ChangeTracker? ChangeTracker { get; set; } 
 }
 public partial class CompanyMicroserviceDbContext : DbContext, ICompanyMicroServiceDbContext
 {
@@ -36,15 +36,12 @@ public partial class CompanyMicroserviceDbContext : DbContext, ICompanyMicroServ
     {
         _configuration = configuration;
         _contextAccessor = contextAccessor;
+
     }
+
     public CompanyMicroserviceDbContext()
     {
-        
-    }
-    
-    public CompanyMicroserviceDbContext(DbContextOptions options) : base(options)
-    {
-        
+       
     }
 
     public CompanyMicroserviceDbContext(string connectionString) : base(GetOptions(connectionString))
@@ -57,20 +54,21 @@ public partial class CompanyMicroserviceDbContext : DbContext, ICompanyMicroServ
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var connectionString = _configuration.GetConnectionString("DefaultConnection");
-        var fhh = _contextAccessor.HttpContext.Request.Headers["X-Forwarded-Host"].ToString();
-        if (_contextAccessor.HttpContext.Request.Host.Host != "localhost" && !string.IsNullOrEmpty(fhh))
-        {
-            var key = fhh.Replace("apim-", "").Replace(".", "") + "company";
-            connectionString = _configuration[key];
-        }
-        optionsBuilder.UseSqlServer(connectionString, x =>
+        if (optionsBuilder.IsConfigured) return;
+        var connection =  _contextAccessor.HttpContext?.Request.Headers["Host"].ToString();
+        connection = connection != null
+            ? connection.Replace(":", "")
+            : _configuration.GetConnectionString("DefaultConnection");
+            
+            
+        optionsBuilder.UseSqlServer(_configuration.GetConnectionString(connection!), x =>
         {
             x.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "Company");
         });
+
         base.OnConfiguring(optionsBuilder);
     }
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {                  
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(CompanyMicroserviceDbContext).Assembly);
@@ -82,7 +80,7 @@ public partial class CompanyMicroserviceDbContext : DbContext, ICompanyMicroServ
     {
         var now = DateTime.UtcNow;
 
-        foreach (var entry in ChangeTracker.Entries<BaseAuditableEntity>())
+        foreach (var entry in ChangeTracker!.Entries<BaseAuditableEntity>())
             switch (entry.State)
             {
                 case EntityState.Added:

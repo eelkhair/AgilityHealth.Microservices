@@ -1,7 +1,10 @@
-﻿using AH.Metadata.Api.Models.Domain;
-using AH.Metadata.Application.Dtos;
+﻿using AH.Metadata.Application.Dtos;
 using AH.Metadata.Domain.Constants;
-using AH.Metadata.Shared.V1.Models.Responses;
+using AH.Metadata.Shared.V1.Models.Requests.Companies;
+using AH.Metadata.Shared.V1.Models.Requests.Domains;
+using AH.Metadata.Shared.V1.Models.Responses.Companies;
+using AH.Metadata.Shared.V1.Models.Responses.Domains;
+using AH.Metadata.Shared.V1.Models.Responses.Lists;
 using AutoMapper;
 
 namespace AH.Metadata.Api;
@@ -16,13 +19,18 @@ public class ApiMappingProfileV1 : Profile
     /// </summary>
     public ApiMappingProfileV1()
     {
-        CreateMap<DomainDto, GetDomainViewModel>();
-        CreateMap<CreateDomainViewModel, DomainDto>();
-        CreateMap<UpdateDomainViewModel, DomainDto>();
+        CreateMap<CompanyDto, CompanyResponse>();
+        CreateMap<CompanyDto, CompanyWithDomainResponse>();
+        CreateMap<CreateCompanyRequest, CompanyDto>()
+            .ForPath(x => x.Domain.UId, opt => opt.MapFrom(src => src.DomainUId));
+        CreateMap<UpdateCompanyRequest, CompanyDto>();
         CreateMap<CountryDto, CountryResponse>();
-        CreateMap<SurveyTypeDto, SurveyTypeResponse>();
-        CreateMap<IndustryDto, IndustryResponse>();
+        CreateMap<DomainDto, DomainResponse>();
+        CreateMap<DomainDto, DomainWithCompaniesResponse>();
+        CreateMap<DomainRequest, DomainDto>();
         CreateMap<GrowthPlanStatusDto, GrowthPlanStatusResponse>();
+        CreateMap<IndustryDto, IndustryResponse>();
+        CreateMap<SurveyTypeDto, SurveyTypeResponse>();
     }
 }
 
@@ -31,34 +39,32 @@ public class ApiMappingProfileV1 : Profile
 /// </summary>
 public static class MapperExtensions
 {
-  
-    
     /// <summary>
     /// Map selection lists
     /// </summary>
     /// <param name="mapper"></param>
-    /// <param name="selectionListDto"></param>
+    /// <param name="listDto"></param>
     /// <returns></returns>
-    public static SelectionListResponse MapSelectionList(this IMapper mapper, SelectionListDto selectionListDto)
+    public static ListResponse MapLists(this IMapper mapper, ListDto listDto)
     {
-        var result = new SelectionListResponse();
-        foreach(var item in selectionListDto.Data)
+        var result = new ListResponse();
+        foreach(var item in listDto.Data)
         {
             switch (item.Key)
             {
-                case SelectionListTypes.Countries:
+                case ListTypes.Countries:
                     result.Countries = mapper.Map<List<CountryResponse>>(item.Value);
                     break;
                 
-                case SelectionListTypes.SurveyTypes:
+                case ListTypes.SurveyTypes:
                     result.SurveyTypes = mapper.Map<List<SurveyTypeResponse>>(item.Value);
                     break;
                 
-                case SelectionListTypes.Industries:
+                case ListTypes.Industries:
                     result.Industries = mapper.Map<List<IndustryResponse>>(item.Value);
                     break;
                 
-                case SelectionListTypes.GrowthPlanStatuses:
+                case ListTypes.GrowthPlanStatuses:
                     result.GrowthPlanStatuses = mapper.Map<List<GrowthPlanStatusResponse>>(item.Value);
                     break;
             }

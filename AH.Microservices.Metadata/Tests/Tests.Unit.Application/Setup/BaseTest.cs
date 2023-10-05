@@ -3,15 +3,11 @@ using AutoMapper;
 
 namespace Tests.Unit.Application.Setup;
 
+[TestCategory("Unit")]
 [TestClass]
 public abstract class BaseTest
 {
-    protected BaseTest()
-    {
-        MockingHelper = new MockingHelper();
-    }
-    
-    protected MockingHelper MockingHelper { get; }
+    protected MockingHelper MockingHelper { get; } = new();
     protected MetadataDbContext MetadataDbContext { get; private set; } = null!;
 
     protected static IMapper Mapper => MapperSingleton.GetInstance().Mapper;

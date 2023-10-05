@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.Reflection;
 using AH.Metadata.Api;
-using AH.Metadata.Api.Actors;
 using AH.Metadata.Api.Configuration.Filters;
 using AH.Metadata.Api.Configuration.Middleware;
 using AH.Metadata.Application;
@@ -39,13 +38,6 @@ var mapper = new MapperConfiguration(c =>
 
 builder.Services.AddSingleton(mapper);
 
-builder.Services.AddActors(options =>
-{
-    options.Actors.RegisterActor<MetadataActor>();
-    options.Actors.RegisterActor<SelectionListsActor>();
-});
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -60,7 +52,6 @@ app.UseAuthorization();
 app.UseCloudEvents();
 app.MapSubscribeHandler();
 app.MapControllers();
-app.MapActorsHandlers();
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 #if DEBUG
  Debugger.Launch();

@@ -14,6 +14,10 @@
     <DocumentationFile>bin\Debug\AH.Company.Api.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DocumentationFile>bin\Release\AH.Company.Api.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Dapr.Actors.AspNetCore" Version="1.11.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
@@ -37,7 +41,6 @@
 
 
   <ItemGroup>
-    <Folder Include="Actors\" />
     <Folder Include="Configuration\" />
   </ItemGroup>
 

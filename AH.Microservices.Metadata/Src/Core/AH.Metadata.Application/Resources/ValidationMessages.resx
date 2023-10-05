@@ -135,4 +135,25 @@
   <data name="DeleteDomain_UIdDoesNotExist" xml:space="preserve">
     <value>UId doesn't exist</value>
   </data>
+  <data name="Company_NameNotEmpty" xml:space="preserve">
+    <value>Name cannot be empty</value>
+  </data>
+  <data name="Company_NameMaxLength" xml:space="preserve">
+    <value>Name cannot exceed 250 characters</value>
+  </data>
+  <data name="Company_DomainUIdNotEmpty" xml:space="preserve">
+    <value>Domain UId cannot be empty</value>
+  </data>
+  <data name="Company_DomainUIdNotFound" xml:space="preserve">
+    <value>Domain UId doesn't exist</value>
+  </data>
+  <data name="Company_UIdDoesNotExist" xml:space="preserve">
+    <value>UId doesn't exist</value>
+  </data>
+  <data name="Company_UIdNotEmpty" xml:space="preserve">
+    <value>UId cannot be empty</value>
+  </data>
+  <data name="List_ListTypeNotEmpty" xml:space="preserve">
+    <value>no list types provided</value>
+  </data>
 </root>

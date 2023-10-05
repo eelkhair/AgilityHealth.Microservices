@@ -7,14 +7,15 @@ services:
       context: .
       dockerfile: AH.Microservices.Company/Src/Presentation/AH.Company.Api/Dockerfile
     ports:
-      - 5002:80
+      - "5002:80"
+      - "5003:80"
   ah-metadata-api:
     image: ${DOCKER_REGISTRY-}ahmetadataapi
     build:
       context: .
       dockerfile: AH.Microservices.Metadata/Src/Presentation/AH.Metadata.Api/Dockerfile
     ports:
-      - 5001:80
+      - "5001:80"
       
   ah-company-api-dapr:
     image: "daprio/daprd:edge"

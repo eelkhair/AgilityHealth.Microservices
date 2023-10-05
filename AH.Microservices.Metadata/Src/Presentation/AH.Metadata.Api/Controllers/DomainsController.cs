@@ -1,8 +1,9 @@
 ﻿using System.Text.Json;
-using AH.Metadata.Api.Models.Domain;
 using AH.Metadata.Application.Commands.Domains;
 using AH.Metadata.Application.Dtos;
 using AH.Metadata.Application.Queries.Domains;
+using AH.Metadata.Shared.V1.Models.Requests.Domains;
+using AH.Metadata.Shared.V1.Models.Responses.Domains;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -32,15 +33,16 @@ public class DomainsController : BaseController
     /// <response code="404">No domains exist</response>
     /// <response code="500">Internal Server Error</response>
     /// <returns></returns>
-    [ProducesResponseType(typeof(List<GetDomainViewModel>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<DomainResponse>), StatusCodes.Status200OK)]
     [HttpGet]
     public async Task<IActionResult> GetDomains()
     {
         Logger.LogInformation("Getting all domains");
         var query = new ListDomainsQuery(User, Logger);
         var domains = await Mediator.Send(query);
+        if(domains.Count == 0) return NotFound();
         
-        var model = Mapper.Map<List<GetDomainViewModel>>(domains);
+        var model = Mapper.Map<List<DomainResponse>>(domains);
         Logger.LogInformation("{Count} domains found.{Data}", domains.Count, JsonSerializer.Serialize(model));
         
         return Ok(model);
@@ -55,14 +57,15 @@ public class DomainsController : BaseController
     /// <response code="500">Internal Server Error</response>
     /// <returns></returns>
     [HttpGet("{uid:guid}")]
-    [ProducesResponseType(typeof(GetDomainViewModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(DomainWithCompaniesResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetDomain(Guid uid)
     {
         Logger.LogInformation("Getting domain {Uid}", uid);
         var query = new GetDomainQuery(User, Logger, uid);
         var domain = await Mediator.Send(query);
         if (domain == null) return NotFound();
-        var model = Mapper.Map<GetDomainViewModel>(domain);
+        
+        var model = Mapper.Map<DomainWithCompaniesResponse>(domain);
         Logger.LogInformation("Domain found {Data}", JsonSerializer.Serialize(model));
         
         return Ok(model);
@@ -77,38 +80,43 @@ public class DomainsController : BaseController
     /// <response code="500">Internal Server Error</response>
     /// <returns></returns>
     [HttpPost]
-    [ProducesResponseType(typeof(GetDomainViewModel), StatusCodes.Status201Created)]
-    public async Task<IActionResult> CreateDomain(CreateDomainViewModel model)
+    [ProducesResponseType(typeof(DomainResponse), StatusCodes.Status201Created)]
+    public async Task<IActionResult> CreateDomain(DomainRequest model)
     {
-        Logger.LogInformation("Creating domain {Data}", JsonSerializer.Serialize(model));
         var dto = Mapper.Map<DomainDto>(model);
+        Logger.LogInformation("Creating domain {Data}", JsonSerializer.Serialize(model));
+        
         var command = new CreateDomainCommand(User, Logger, dto);
         var domain = await Mediator.Send(command);
         
-        var domainModel = Mapper.Map<GetDomainViewModel>(domain);
+        var domainModel = Mapper.Map<DomainResponse>(domain);
         Logger.LogInformation("Domain created {Data}", JsonSerializer.Serialize(domainModel));
         
         return CreatedAtAction(nameof(GetDomain), new { uid = domain.UId }, domainModel);
     }
-    
+
     /// <summary>
     /// Update a domain
     /// </summary>
-    /// <response code="201">Successfully created domain</response>
+    /// <param name="uId">The uid of the domain to update</param>
+    /// `/// <param name="model">The domain to update</param>
+    /// <response code="201">Successfully updated domain</response>
     /// <response code="400">Invalid request</response>
+    /// <response code="404">Domain not found</response>
     /// <response code="500">Internal Server Error</response>
-    /// <param name="model">The domain to update</param>
-    [HttpPut]
-    [ProducesResponseType(typeof(GetDomainViewModel), StatusCodes.Status200OK)]
-    public async Task<IActionResult> UpdateDomain(UpdateDomainViewModel model)
+    /// <returns></returns>
+    [ProducesResponseType(typeof(DomainResponse), StatusCodes.Status200OK)] 
+    [HttpPut("{uid:guid}")]
+    public async Task<IActionResult> UpdateDomain(Guid uid, DomainRequest model)
     {
-        Logger.LogInformation("Updating domain {Uid} {Data}", model.UId, JsonSerializer.Serialize(model));
+        Logger.LogInformation("Updating domain {Uid} {Data}", uid, JsonSerializer.Serialize(model));
         var dto = Mapper.Map<DomainDto>(model);
+        dto.UId = uid;
         
         var command = new UpdateDomainCommand(User, Logger, dto);
         var domain = await Mediator.Send(command);
         
-        var domainModel = Mapper.Map<GetDomainViewModel>(domain);
+        var domainModel = Mapper.Map<DomainResponse>(domain);
         Logger.LogInformation("Domain updated {Data}", JsonSerializer.Serialize(domainModel));
         
         return Ok(domainModel);

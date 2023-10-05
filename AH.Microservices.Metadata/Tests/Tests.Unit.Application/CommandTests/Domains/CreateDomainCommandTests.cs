@@ -33,11 +33,11 @@ public class CreateDomainCommandTests : BaseTest
         // Act
         var handler = new CreateDomainCommandHandler(MetadataDbContext, Mapper);
         var result = await handler.Handle(command, CancellationToken.None);
-        // Assert
+         var item = await MetadataDbContext.Domains.FirstOrDefaultAsync(x => x.Name == dto.Name, CancellationToken.None);
+        
+         // Assert
         Assert.IsNotNull(result);
         Assert.IsNotNull(result.UId);
-        
-        var item = await MetadataDbContext.Domains.FirstOrDefaultAsync(x => x.Name == dto.Name, CancellationToken.None);
         Assert.IsNotNull(item);
     }
 }

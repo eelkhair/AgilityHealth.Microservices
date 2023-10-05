@@ -8,7 +8,7 @@ namespace AH.Metadata.Api.Controllers;
 /// Base controller for all controllers
 /// </summary>
 [ApiController]
-[Route("api/[controller]")]
+[Route("/v1/[controller]")]
 public abstract class BaseController : ControllerBase
 {
     protected readonly IMapper Mapper;

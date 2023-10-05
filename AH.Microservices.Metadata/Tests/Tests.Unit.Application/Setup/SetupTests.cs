@@ -6,6 +6,7 @@ public class SetupTests
     public void DatabaseTest()
     {
         var context = DbContextFactory.Create();
+        
         Assert.IsNotNull(context);
     }
 }

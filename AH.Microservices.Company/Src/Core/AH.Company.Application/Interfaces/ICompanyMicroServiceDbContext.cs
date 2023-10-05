@@ -18,7 +18,7 @@ public interface ICompanyMicroServiceDbContext
     DbSet<CompanyStakeholderTag> CompanyStakeholderTags { get; set; }
     DbSet<CompanyTeamMemberCategory> CompanyTeamMemberCategories { get; set; }
     DbSet<CompanyTeamMemberTag> CompanyTeamMemberTags { get; set; }
-    ChangeTracker ChangeTracker { get; set; }
+    ChangeTracker? ChangeTracker { get; set; }
     Task<int> SaveChangesAsync(ClaimsPrincipal user);
 
 }

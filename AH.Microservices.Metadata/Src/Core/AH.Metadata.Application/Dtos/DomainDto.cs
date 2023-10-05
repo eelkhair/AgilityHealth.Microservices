@@ -4,5 +4,6 @@ namespace AH.Metadata.Application.Dtos;
 
 public class DomainDto : BaseDto
 {
-    public required string Name { get; set; }
+    public string Name { get; set; }
+    public List<CompanyDto> Companies { get; set; } = new();
 }

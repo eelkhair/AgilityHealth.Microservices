@@ -7,16 +7,10 @@ namespace Tests.Unit.Application.Setup;
 
 public class MockingHelper
 {
-    public MockingHelper()
-    {
-        MockUser = Substitute.For<ClaimsPrincipal>();
-        MockLogger = Substitute.For<ILogger>();
-    }
+    public ILogger MockLogger { get; } = Substitute.For<ILogger>();
 
-    public ILogger MockLogger { get; }
+    public ClaimsPrincipal MockUser { get; } = Substitute.For<ClaimsPrincipal>();
 
-    public ClaimsPrincipal MockUser { get; }
-    
     #region Users
     public void SetupCompanyAdminUser()
     {

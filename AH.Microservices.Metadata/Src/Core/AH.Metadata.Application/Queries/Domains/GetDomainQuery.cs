@@ -12,7 +12,6 @@ namespace AH.Metadata.Application.Queries.Domains;
 public class GetDomainQuery: BaseQuery<DomainDto>
 {
     public Guid DomainUid { get; }
-
     public GetDomainQuery(ClaimsPrincipal user, ILogger logger, Guid uid) : base(user, logger)
     {
         DomainUid = uid;
@@ -27,7 +26,7 @@ public class GetDomainQueryHandler : BaseQueryHandler, IRequestHandler<GetDomain
 
     public async Task<DomainDto> Handle(GetDomainQuery request, CancellationToken cancellationToken)
     {
-        var domain = await Context.Domains.FirstOrDefaultAsync(x => x.UId == request.DomainUid, cancellationToken);
+        var domain = await Context.Domains.Where(x => x.UId == request.DomainUid).Include(x=>x.Companies).FirstOrDefaultAsync(cancellationToken);
         return Mapper.Map<DomainDto>(domain);
     }
 }

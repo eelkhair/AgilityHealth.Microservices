@@ -35,7 +35,7 @@ namespace AH.Metadata.Application.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AH.Metadata.Application.Resources.ValidationMessages", typeof(ValidationMessages).Assembly);
@@ -50,12 +50,66 @@ namespace AH.Metadata.Application.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Domain UId cannot be empty.
+        /// </summary>
+        public static string Company_DomainUIdNotEmpty {
+            get {
+                return ResourceManager.GetString("Company_DomainUIdNotEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Domain UId doesn&apos;t exist.
+        /// </summary>
+        public static string Company_DomainUIdNotFound {
+            get {
+                return ResourceManager.GetString("Company_DomainUIdNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name cannot exceed 250 characters.
+        /// </summary>
+        public static string Company_NameMaxLength {
+            get {
+                return ResourceManager.GetString("Company_NameMaxLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name cannot be empty.
+        /// </summary>
+        public static string Company_NameNotEmpty {
+            get {
+                return ResourceManager.GetString("Company_NameNotEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UId doesn&apos;t exist.
+        /// </summary>
+        public static string Company_UIdDoesNotExist {
+            get {
+                return ResourceManager.GetString("Company_UIdDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UId cannot be empty.
+        /// </summary>
+        public static string Company_UIdNotEmpty {
+            get {
+                return ResourceManager.GetString("Company_UIdNotEmpty", resourceCulture);
             }
         }
         
@@ -92,6 +146,15 @@ namespace AH.Metadata.Application.Resources {
         public static string DeleteDomain_UIdNotEmpty {
             get {
                 return ResourceManager.GetString("DeleteDomain_UIdNotEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to no list types provided.
+        /// </summary>
+        public static string List_ListTypeNotEmpty {
+            get {
+                return ResourceManager.GetString("List_ListTypeNotEmpty", resourceCulture);
             }
         }
         
