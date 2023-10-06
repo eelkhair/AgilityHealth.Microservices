@@ -9,6 +9,13 @@ services:
     ports:
       - "5002:80"
       - "5003:80"
+  ah-company-orchestration-api:
+    image: ${DOCKER_REGISTRY-}companyorchestrationapi
+    build:
+      context: .
+      dockerfile: AH.Microservices.CompanyOrchestration/Src/Presentation/AH.CompanyOrchestration.Api/Dockerfile
+    ports:
+      - "5004:80"
   ah-metadata-api:
     image: ${DOCKER_REGISTRY-}ahmetadataapi
     build:
@@ -16,7 +23,7 @@ services:
       dockerfile: AH.Microservices.Metadata/Src/Presentation/AH.Metadata.Api/Dockerfile
     ports:
       - "5001:80"
-      
+     
   ah-company-api-dapr:
     image: "daprio/daprd:edge"
     command: [
@@ -33,6 +40,22 @@ services:
       - placement
     network_mode: "service:ah-company-api"  
     
+  ah-company-orchestration-api-dapr:
+    image: "daprio/daprd:edge"
+    command: [
+      "./daprd",
+      "--app-id", "ah-company-orchestration-api",
+      "--app-port", "80",
+      "--placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
+      "--components-path", "./Components"
+    ]
+    volumes:
+      - "./Components/:/Components" # Mount our components folder for the runtime to use. The mounted location must match the --resources-path argument.
+    depends_on:
+      - ah-company-api
+      - placement
+    network_mode: "service:ah-company-orchestration-api"
+        
   ah-metadata-api-dapr:
     image: "daprio/daprd:edge"
     command: [

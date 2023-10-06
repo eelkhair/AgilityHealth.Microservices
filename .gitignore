@@ -1,5 +1,7 @@
 /AH.Microservices.Company/Src/*/AH.Company.*/obj/*
 /AH.Microservices.Company/Src/*/AH.Company.*/bin/*
+/AH.Microservices.CompanyOrchestration/Src/*/AH.CompanyOrchestration.*/obj/*
+/AH.Microservices.CompanyOrchestration/Src/*/AH.CompanyOrchestration.*/bin/*
 /AH.Microservices.Metadata/Src/*/AH.Metadata.*/obj/*
 /AH.Microservices.Metadata/Src/*/AH.Metadata.*/bin/*
 /Shared/AH.Shared.*/obj/*
