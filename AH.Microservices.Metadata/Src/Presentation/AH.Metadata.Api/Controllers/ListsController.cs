@@ -1,6 +1,5 @@
 ﻿using AH.Metadata.Application.Commands.Lists;
-using AH.Metadata.Shared.V1.Constants;
-using AH.Metadata.Shared.V1.Models.Responses;
+using AH.Metadata.Application.Queries.Lists;
 using AH.Metadata.Shared.V1.Models.Responses.Lists;
 using AutoMapper;
 using MediatR;
@@ -53,9 +52,9 @@ public class ListsController : BaseController
     [HttpGet("countries")]
     public async Task<IActionResult> GetCountries()
     {
-        var command = new GetListsCommand(User, Logger, new List<string> { ListTypes.Countries });
-        var countries = await Mediator.Send(command);
-        var vm = Mapper.Map<List<CountryResponse>>(countries.Data[ListTypes.Countries]);
+        var query = new ListCountriesQuery(User, Logger);
+        var countries = await Mediator.Send(query);
+        var vm = Mapper.Map<List<CountryResponse>>(countries);
         return Ok(vm);
     }
 
@@ -69,9 +68,9 @@ public class ListsController : BaseController
     [HttpGet("survey-types")]
     public async Task<IActionResult> GetSurveyTypes()
     {
-        var command = new GetListsCommand(User, Logger, new List<string> { ListTypes.SurveyTypes });
-        var surveyTypes = await Mediator.Send(command);
-        var vm = Mapper.Map<List<SurveyTypeResponse>>(surveyTypes.Data[ListTypes.SurveyTypes]);
+        var query = new ListSurveyTypesQuery(User, Logger);
+        var surveyTypes = await Mediator.Send(query);
+        var vm = Mapper.Map<List<SurveyTypeResponse>>(surveyTypes);
         return Ok(vm);
     }
 
@@ -85,9 +84,9 @@ public class ListsController : BaseController
     [HttpGet("industries")]
     public async Task<IActionResult> GetIndustries()
     {
-        var command = new GetListsCommand(User, Logger, new List<string> { ListTypes.Industries });
-        var industries = await Mediator.Send(command);
-        var vm = Mapper.Map<List<IndustryResponse>>(industries.Data[ListTypes.Industries]);
+        var query = new ListIndustriesQuery(User, Logger);
+        var industries = await Mediator.Send(query);
+        var vm = Mapper.Map<List<IndustryResponse>>(industries);
         return Ok(vm);
     }
 
@@ -101,9 +100,9 @@ public class ListsController : BaseController
     [HttpGet("growth-plan-statuses")]
     public async Task<IActionResult> GetGrowthPlanStatuses()
     {
-        var command = new GetListsCommand(User, Logger, new List<string> { ListTypes.GrowthPlanStatuses });
-        var growthPlanStatuses = await Mediator.Send(command);
-        var vm = Mapper.Map<List<GrowthPlanStatusResponse>>(growthPlanStatuses.Data[ListTypes.GrowthPlanStatuses]);
+        var query = new ListGrowthPlanStatusesQuery(User, Logger);
+        var growthPlanStatuses = await Mediator.Send(query);
+        var vm = Mapper.Map<List<GrowthPlanStatusResponse>>(growthPlanStatuses);
         return Ok(vm);
     }
 }

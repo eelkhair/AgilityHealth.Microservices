@@ -24,7 +24,15 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Src\Infrastructure\AH.Metadata.Persistence\AH.Metadata.Persistence.csproj" />
+
+
+
+
     </ItemGroup>
+
+
+
+
 
 
 

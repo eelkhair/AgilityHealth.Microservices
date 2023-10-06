@@ -98,6 +98,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AH.CompanyOrchestration.Api", "AH.Microservices.CompanyOrchestration\Src\Presentation\AH.CompanyOrchestration.Api\AH.CompanyOrchestration.Api.csproj", "{E617D943-1777-4EAF-B187-4FF3B03F3572}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{3D0F4610-21B9-403A-83FB-B25DC8E05AB0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
