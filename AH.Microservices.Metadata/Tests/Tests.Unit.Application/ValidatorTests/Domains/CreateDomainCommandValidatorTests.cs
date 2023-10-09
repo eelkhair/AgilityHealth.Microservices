@@ -1,6 +1,6 @@
 ﻿using AH.Metadata.Application.Commands.Domains;
 using AH.Metadata.Application.Dtos;
-using AH.Metadata.Application.Resources;
+using AH.Metadata.Domain.Constants;
 using Bogus;
 using Tests.Unit.Application.Setup;
 
@@ -36,7 +36,7 @@ public class CreateDomainCommandValidatorTests: BaseTest
         
         // Assert
         Assert.IsFalse(result.IsValid);
-        Assert.IsTrue(result.Errors.Exists(x => x.ErrorMessage == ValidationMessages.CreateDomain_NameNotEmpty));
+        Assert.IsTrue(result.Errors.Exists(x => x.ErrorMessage == ValidationMessages.DomainNameNotEmpty));
     }
     
     [TestMethod]
@@ -56,7 +56,7 @@ public class CreateDomainCommandValidatorTests: BaseTest
         
         // Assert
         Assert.IsFalse(result.IsValid);
-        Assert.IsTrue(result.Errors.Exists(x => x.ErrorMessage == ValidationMessages.CreateDomain_NameMaxLength));
+        Assert.IsTrue(result.Errors.Exists(x => x.ErrorMessage == ValidationMessages.DomainNameMaxLength));
     }
     
     [TestMethod]

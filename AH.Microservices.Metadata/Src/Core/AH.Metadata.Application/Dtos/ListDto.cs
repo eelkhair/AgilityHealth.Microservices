@@ -2,5 +2,5 @@
 
 public class ListDto
 {
-    public Dictionary<string, object> Data { get; set; }
+    public Dictionary<string, object> Data { get; init; } = null!;
 }

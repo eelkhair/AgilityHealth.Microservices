@@ -1,6 +1,5 @@
 ﻿using AH.Metadata.Application.Commands.Companies;
-
-using AH.Metadata.Application.Resources;
+using AH.Metadata.Domain.Constants;
 using AH.Metadata.Domain.Entities;
 using Tests.Unit.Application.Setup;
 
@@ -57,7 +56,7 @@ public class DeleteCompanyCommandValidatorTests : BaseTest
         
         // Assert
         Assert.IsFalse(result.IsValid);
-        Assert.IsTrue(result.Errors.Exists(x=>x.ErrorMessage == ValidationMessages.Company_UIdDoesNotExist));
+        Assert.IsTrue(result.Errors.Exists(x=>x.ErrorMessage == ValidationMessages.CompanyUIdDoesNotExist));
     }
     
     [TestMethod]
@@ -73,6 +72,6 @@ public class DeleteCompanyCommandValidatorTests : BaseTest
         
         // Assert
         Assert.IsFalse(result.IsValid);
-        Assert.IsTrue(result.Errors.Exists(x=>x.ErrorMessage == ValidationMessages.Company_UIdNotEmpty));
+        Assert.IsTrue(result.Errors.Exists(x=>x.ErrorMessage == ValidationMessages.CompanyUIdNotEmpty));
     }
 }

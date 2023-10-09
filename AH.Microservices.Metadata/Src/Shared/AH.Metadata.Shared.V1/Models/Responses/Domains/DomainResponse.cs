@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents an Domain.
 /// </summary>
-public class DomainResponse : BaseModel
+public class DomainResponse : BaseResponse
 {
     /// <summary>
     /// Domain Name

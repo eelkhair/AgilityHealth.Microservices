@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a Survey Type.
 /// </summary>
-public class SurveyTypeResponse : BaseModel
+public class SurveyTypeResponse : BaseResponse
 {
     /// <summary>
     /// The name of the survey type.

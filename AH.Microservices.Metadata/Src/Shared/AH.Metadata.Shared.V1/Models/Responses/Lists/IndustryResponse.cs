@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents an Industry.
 /// </summary>
-public class IndustryResponse : BaseModel
+public class IndustryResponse : BaseResponse
 {
     /// <summary>
     /// Industry Name

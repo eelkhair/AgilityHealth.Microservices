@@ -26,7 +26,7 @@ public class GetCompanyQueryHandler : BaseQueryHandler, IRequestHandler<GetCompa
 
     public async Task<CompanyDto> Handle(GetCompanyQuery request, CancellationToken cancellationToken)
     {
-        var company = await Context.Companies.FirstOrDefaultAsync(x => x.UId == request.CompanyUId, cancellationToken);
+        var company = await Context.Companies.Include(x=>x.Domain).FirstOrDefaultAsync(x => x.UId == request.CompanyUId, cancellationToken);
         return Mapper.Map<CompanyDto>(company);
     }
 }

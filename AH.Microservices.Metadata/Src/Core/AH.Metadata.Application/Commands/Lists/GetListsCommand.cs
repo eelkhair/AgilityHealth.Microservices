@@ -1,7 +1,6 @@
 ﻿using System.Security.Claims;
 using AH.Metadata.Application.Dtos;
 using AH.Metadata.Application.Interfaces;
-using AH.Metadata.Application.Resources;
 using AH.Metadata.Domain.Constants;
 using AH.Shared.Application.Commands;
 using AH.Shared.Application.Extensions;
@@ -63,7 +62,7 @@ public class GetListsCommandHandler : BaseCommandHandler, IRequestHandler<GetLis
             }
         }
 
-        return new ListDto(){ Data = result};
+        return new ListDto { Data = result};
     }
 }
 
@@ -78,7 +77,7 @@ public class GetListsCommandValidator : AbstractValidator<GetListsCommand>
                 {
                     context.AddFailure(new ValidationFailure
                     {
-                        ErrorCode = "900", ErrorMessage = ValidationMessages.List_ListTypeNotEmpty,
+                        ErrorCode = "900", ErrorMessage = ValidationMessages.ListTypeNotEmpty,
                         PropertyName = "ListTypes"
                     });
                 }

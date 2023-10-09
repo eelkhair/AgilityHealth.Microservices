@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Reflection;
+using System.Text.Json.Serialization;
 using AH.Metadata.Api;
 using AH.Metadata.Api.Configuration.Filters;
 using AH.Metadata.Api.Configuration.Middleware;
@@ -15,7 +16,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMessageSender(builder.Configuration);
 
 builder.Services.AddApplication();
-builder.Services.AddControllers().AddDapr();
+builder.Services.AddControllers().AddDapr().AddJsonOptions(x =>
+{
+    x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddPersistence(builder.Configuration);
 
@@ -25,7 +29,7 @@ builder.Services.AddSwaggerGen(setup =>
     setup.DocumentFilter<JsonPatchDocumentFilter>();
     setup.EnableAnnotations();
     setup.ExampleFilters();
-    
+
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     setup.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });

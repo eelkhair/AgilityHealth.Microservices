@@ -81,7 +81,7 @@ public class DomainsController : BaseController
     /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(typeof(DomainResponse), StatusCodes.Status201Created)]
-    public async Task<IActionResult> CreateDomain(DomainRequest model)
+    public async Task<IActionResult> CreateDomain([FromQuery] DomainRequest model)
     {
         var dto = Mapper.Map<DomainDto>(model);
         Logger.LogInformation("Creating domain {Data}", JsonSerializer.Serialize(model));
@@ -107,7 +107,7 @@ public class DomainsController : BaseController
     /// <returns></returns>
     [ProducesResponseType(typeof(DomainResponse), StatusCodes.Status200OK)] 
     [HttpPut("{uid:guid}")]
-    public async Task<IActionResult> UpdateDomain(Guid uid, DomainRequest model)
+    public async Task<IActionResult> UpdateDomain(Guid uid, [FromQuery] DomainRequest model)
     {
         Logger.LogInformation("Updating domain {Uid} {Data}", uid, JsonSerializer.Serialize(model));
         var dto = Mapper.Map<DomainDto>(model);

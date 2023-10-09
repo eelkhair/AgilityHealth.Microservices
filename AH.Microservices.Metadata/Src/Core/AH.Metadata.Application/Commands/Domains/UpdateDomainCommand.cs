@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using AH.Metadata.Application.Dtos;
 using AH.Metadata.Application.Interfaces;
-using AH.Metadata.Application.Resources;
+using AH.Metadata.Domain.Constants;
 using AH.Shared.Application.Commands;
 using AutoMapper;
 using FluentValidation;
@@ -43,16 +43,16 @@ public class UpdateDomainCommandValidator : AbstractValidator<UpdateDomainComman
     public UpdateDomainCommandValidator(IMetadataDbContext context)
     {
         RuleFor(x => x.Domain.Name).NotEmpty()
-            .WithMessage(ValidationMessages.CreateDomain_NameNotEmpty);    
+            .WithMessage(ValidationMessages.DomainNameNotEmpty);    
         RuleFor(x => x.Domain.Name).MaximumLength(250)
-            .WithMessage(ValidationMessages.CreateDomain_NameMaxLength);
+            .WithMessage(ValidationMessages.DomainNameMaxLength);
         RuleFor(x=> x.Domain.UId).NotEmpty()
-            .WithMessage(ValidationMessages.UpdateDomain_UIdNotEmpty);
+            .WithMessage(ValidationMessages.DomainUIdNotEmpty);
         RuleFor(x=>x.Domain.UId).Must(uid =>
         {
             var domain = context.Domains.FirstOrDefault(x=> x.UId == uid);
             return domain != null;
-        }).WithMessage(ValidationMessages.UpdateDomain_UIdDoesNotExist);
+        }).WithMessage(ValidationMessages.DomainUIdDoesNotExist);
      
     }
 }

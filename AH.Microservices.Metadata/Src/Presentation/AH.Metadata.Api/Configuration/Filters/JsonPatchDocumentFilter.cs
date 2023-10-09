@@ -3,8 +3,10 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace AH.Metadata.Api.Configuration.Filters;
 
+/// <inheritdoc />
 public class JsonPatchDocumentFilter : IDocumentFilter
 {
+    /// <inheritdoc />
     public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
     {
         //Remove irrelevant schemas

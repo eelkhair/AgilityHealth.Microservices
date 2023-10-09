@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using AH.Metadata.Application.Interfaces;
-using AH.Metadata.Application.Resources;
+using AH.Metadata.Domain.Constants;
 using AH.Shared.Application.Commands;
 using AutoMapper;
 using FluentValidation;
@@ -39,11 +39,11 @@ public class DeleteCompanyCommandValidator : AbstractValidator<DeleteCompanyComm
     public DeleteCompanyCommandValidator(IMetadataDbContext context)
     {
         RuleFor(x => x.Uid).NotEmpty()
-            .WithMessage(ValidationMessages.Company_UIdNotEmpty);
+            .WithMessage(ValidationMessages.CompanyUIdNotEmpty);
         RuleFor(x => x.Uid).Must(uid =>
         {
             var company = context.Companies.FirstOrDefault(x => x.UId == uid);
             return company != null;
-        }).WithMessage(ValidationMessages.Company_UIdDoesNotExist);
+        }).WithMessage(ValidationMessages.CompanyUIdDoesNotExist);
     }
 }

@@ -6,12 +6,7 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-      <PackageReference Include="Dapr.Actors" Version="1.11.0" />
-    </ItemGroup>
-
-
-
-
-
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DocumentationFile>bin\Debug\AH.Metadata.Shared.V1.xml</DocumentationFile>
+    </PropertyGroup>
 </Project>

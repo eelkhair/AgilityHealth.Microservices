@@ -1,6 +1,6 @@
 ﻿using AH.Metadata.Application.Commands.Companies;
 using AH.Metadata.Application.Dtos;
-using AH.Metadata.Application.Resources;
+using AH.Metadata.Domain.Constants;
 using AH.Metadata.Domain.Entities;
 using Bogus;
 using Tests.Unit.Application.Setup;
@@ -27,7 +27,7 @@ public class CreateCompanyCommandValidatorTests: BaseTest
         var dto = new CompanyDto
             {
                 Name = string.Empty,
-                Domain = new DomainDto() { UId = Guid.NewGuid() }
+                Domain = new DomainDto{ UId = Guid.NewGuid() }
             }
             .SetCommonDtoProps();
         MockingHelper.SetupCompanyAdminUser();
@@ -40,7 +40,7 @@ public class CreateCompanyCommandValidatorTests: BaseTest
         
         // Assert
         Assert.IsFalse(result.IsValid);
-        Assert.IsTrue(result.Errors.Exists(x => x.ErrorMessage == ValidationMessages.Company_NameNotEmpty));
+        Assert.IsTrue(result.Errors.Exists(x => x.ErrorMessage == ValidationMessages.CompanyNameNotEmpty));
     }
     
     [TestMethod]
@@ -50,7 +50,7 @@ public class CreateCompanyCommandValidatorTests: BaseTest
         var dto = new CompanyDto
             {
                 Name = new Faker().Random.String2(251),
-                Domain = new DomainDto() { UId = Guid.NewGuid() }
+                Domain = new DomainDto{ UId = Guid.NewGuid() }
             }
             .SetCommonDtoProps();
      
@@ -62,7 +62,7 @@ public class CreateCompanyCommandValidatorTests: BaseTest
         
         // Assert
         Assert.IsFalse(result.IsValid);
-        Assert.IsTrue(result.Errors.Exists(x => x.ErrorMessage == ValidationMessages.Company_NameMaxLength));
+        Assert.IsTrue(result.Errors.Exists(x => x.ErrorMessage == ValidationMessages.CompanyNameMaxLength));
     }
     
     [TestMethod]
@@ -72,7 +72,7 @@ public class CreateCompanyCommandValidatorTests: BaseTest
         var dto = new CompanyDto
             {
                 Name = new Faker().Random.String2(250),
-                Domain = new DomainDto() { UId = Guid.Empty }
+                Domain = new DomainDto{ UId = Guid.Empty }
             }
             .SetCommonDtoProps();
      
@@ -84,7 +84,7 @@ public class CreateCompanyCommandValidatorTests: BaseTest
         
         // Assert
         Assert.IsFalse(result.IsValid);
-        Assert.IsTrue(result.Errors.Exists(x => x.ErrorMessage == ValidationMessages.Company_DomainUIdNotEmpty));
+        Assert.IsTrue(result.Errors.Exists(x => x.ErrorMessage == ValidationMessages.CompanyDomainUIdNotEmpty));
     }
     
     [TestMethod]
@@ -94,7 +94,7 @@ public class CreateCompanyCommandValidatorTests: BaseTest
         var dto = new CompanyDto
             {
                 Name = new Faker().Random.String2(250),
-                Domain = new DomainDto() { UId = Guid.NewGuid() }
+                Domain = new DomainDto { UId = Guid.NewGuid() }
             }
             .SetCommonDtoProps();
      
@@ -106,14 +106,14 @@ public class CreateCompanyCommandValidatorTests: BaseTest
         
         // Assert
         Assert.IsFalse(result.IsValid);
-        Assert.IsTrue(result.Errors.Exists(x => x.ErrorMessage == ValidationMessages.Company_DomainUIdNotFound));
+        Assert.IsTrue(result.Errors.Exists(x => x.ErrorMessage == ValidationMessages.CompanyDomainUIdNotFound));
     }
     
     [TestMethod]
     public async Task GivenCreateCompanyCommandValidator_WhenValid_ThenReturnValid()
     {
         // Arrange
-        var domain = new Domain()
+        var domain = new Domain
         {
             UId = Guid.NewGuid(),
             Name = new Faker().Random.String2(250)
@@ -123,7 +123,7 @@ public class CreateCompanyCommandValidatorTests: BaseTest
         var dto = new CompanyDto
             {
                 Name = new Faker().Random.String2(250),
-                Domain = new DomainDto() { UId = domain.UId }
+                Domain = new DomainDto { UId = domain.UId }
             }
             .SetCommonDtoProps();
         MockingHelper.SetupCompanyAdminUser();

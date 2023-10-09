@@ -1,5 +1,5 @@
 ﻿using AH.Metadata.Application.Commands.Domains;
-using AH.Metadata.Application.Resources;
+using AH.Metadata.Domain.Constants;
 using AH.Metadata.Domain.Entities;
 using Tests.Unit.Application.Setup;
 
@@ -50,7 +50,7 @@ public class DeleteDomainCommandValidatorTests : BaseTest
         
         // Assert
         Assert.IsFalse(result.IsValid);
-        Assert.IsTrue(result.Errors.Exists(x=>x.ErrorMessage == ValidationMessages.DeleteDomain_UIdDoesNotExist));
+        Assert.IsTrue(result.Errors.Exists(x=>x.ErrorMessage == ValidationMessages.DomainUIdDoesNotExist));
     }
     
     [TestMethod]
@@ -66,6 +66,6 @@ public class DeleteDomainCommandValidatorTests : BaseTest
         
         // Assert
         Assert.IsFalse(result.IsValid);
-        Assert.IsTrue(result.Errors.Exists(x=>x.ErrorMessage == ValidationMessages.DeleteDomain_UIdNotEmpty));
+        Assert.IsTrue(result.Errors.Exists(x=>x.ErrorMessage == ValidationMessages.DomainUIdNotEmpty));
     }
 }

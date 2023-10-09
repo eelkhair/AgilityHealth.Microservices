@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using AH.Metadata.Application.Dtos;
 using AH.Metadata.Application.Interfaces;
-using AH.Metadata.Application.Resources;
+using AH.Metadata.Domain.Constants;
 using AH.Shared.Application.Commands;
 using AutoMapper;
 using FluentValidation;
@@ -40,8 +40,8 @@ public class CreateDomainCommandValidator : AbstractValidator<CreateDomainComman
     public CreateDomainCommandValidator()
     {
         RuleFor(x => x.Domain.Name).NotEmpty()
-            .WithMessage(ValidationMessages.CreateDomain_NameNotEmpty);    
+            .WithMessage(ValidationMessages.DomainNameNotEmpty);    
         RuleFor(x => x.Domain.Name).MaximumLength(250)
-            .WithMessage(ValidationMessages.CreateDomain_NameMaxLength);
+            .WithMessage(ValidationMessages.DomainNameMaxLength);
     }
 }

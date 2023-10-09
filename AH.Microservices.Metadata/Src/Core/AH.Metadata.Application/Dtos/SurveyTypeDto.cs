@@ -4,5 +4,5 @@ namespace AH.Metadata.Application.Dtos;
 
 public class SurveyTypeDto : BaseDto
 {
-    public required string Name { get; set; }
+    public string? Name { get; set; }
 }

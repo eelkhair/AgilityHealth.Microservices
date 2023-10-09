@@ -3,6 +3,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace AH.Metadata.Api.Configuration.Filters;
 
+/// <inheritdoc />
 public  class LowercaseDocumentFilter : IDocumentFilter
 {
     private static string LowercaseEverythingButParams(string key)
@@ -10,6 +11,7 @@ public  class LowercaseDocumentFilter : IDocumentFilter
         return string.Join("/", key.Split('/').Select(x => x.Contains('{') ? x : x.ToLower()));
     }
 
+    /// <inheritdoc />
     public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
     {
         var paths = swaggerDoc.Paths;

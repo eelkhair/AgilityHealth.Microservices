@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using AH.Metadata.Application.Interfaces;
-using AH.Metadata.Application.Resources;
+using AH.Metadata.Domain.Constants;
 using AH.Shared.Application.Commands;
 using AutoMapper;
 using FluentValidation;
@@ -39,11 +39,11 @@ public class DeleteDomainCommandValidator : AbstractValidator<DeleteDomainComman
     public DeleteDomainCommandValidator(IMetadataDbContext context)
     {
         RuleFor(x => x.Uid).NotEmpty()
-            .WithMessage(ValidationMessages.DeleteDomain_UIdNotEmpty);
+            .WithMessage(ValidationMessages.DomainUIdNotEmpty);
         RuleFor(x => x.Uid).Must(uid =>
         {
             var domain = context.Domains.FirstOrDefault(x => x.UId == uid);
             return domain != null;
-        }).WithMessage(ValidationMessages.DeleteDomain_UIdDoesNotExist);
+        }).WithMessage(ValidationMessages.DomainUIdDoesNotExist);
     }
 }

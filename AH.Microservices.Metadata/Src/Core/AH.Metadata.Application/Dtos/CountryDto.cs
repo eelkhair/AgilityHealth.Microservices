@@ -4,6 +4,6 @@ namespace AH.Metadata.Application.Dtos;
 
 public class CountryDto : BaseDto
 {
-    public required string Name { get; set; }
-    public required string Code { get; set; }
+    public string? Name { get; set; }
+    public string? Code { get; set; }
 }

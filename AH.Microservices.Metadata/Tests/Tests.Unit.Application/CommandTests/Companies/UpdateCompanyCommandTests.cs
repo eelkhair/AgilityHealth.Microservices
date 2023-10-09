@@ -31,8 +31,10 @@ public class UpdateCompanyCommandTests : BaseTest
             .RuleFor(x => x.Name, f => f.Random.String2(250))
             .Generate()
             .SetCommonDtoProps();
-        dto.Domain = new DomainDto();
-        dto.Domain.UId = Uid;
+        dto.Domain = new DomainDto
+        {
+            UId = Uid
+        };
         MockingHelper.SetupCompanyAdminUser();
         var command = new CreateCompanyCommand(MockingHelper.MockUser, MockingHelper.MockLogger, dto );
         var handler = new CreateCompanyCommandHandler(MetadataDbContext, Mapper);

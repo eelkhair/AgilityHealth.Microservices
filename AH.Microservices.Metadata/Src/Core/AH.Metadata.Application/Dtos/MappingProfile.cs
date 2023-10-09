@@ -14,5 +14,10 @@ public class MappingProfile : Profile
         CreateMap<Industry, IndustryDto>().ReverseMap();
         CreateMap<GrowthPlanStatus, GrowthPlanStatusDto>().ReverseMap();
         CreateMap<SurveyType, SurveyTypeDto>().ReverseMap();
+        CreateMap<MasterTagCategory, MasterTagCategoryDto>().ReverseMap()
+            .ForMember(x => x.Id, opt => opt.Ignore())
+            .ForMember(x => x.CreatedAt, opt => opt.Ignore())
+            .ForMember(x => x.CreatedBy, opt => opt.Ignore());
+        CreateMap<MasterTag, MasterTagDto>().ReverseMap();
     }
 }

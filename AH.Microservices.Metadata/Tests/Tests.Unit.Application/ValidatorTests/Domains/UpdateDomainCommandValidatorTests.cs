@@ -1,6 +1,6 @@
 ﻿using AH.Metadata.Application.Commands.Domains;
 using AH.Metadata.Application.Dtos;
-using AH.Metadata.Application.Resources;
+using AH.Metadata.Domain.Constants;
 using AH.Metadata.Domain.Entities;
 using Bogus;
 using Tests.Unit.Application.Setup;
@@ -61,7 +61,7 @@ public class UpdateDomainCommandValidatorTests : BaseTest
         
         // Assert
         Assert.IsFalse(result.IsValid);
-        Assert.IsTrue(result.Errors.Exists(x => x.ErrorMessage == ValidationMessages.CreateDomain_NameNotEmpty));
+        Assert.IsTrue(result.Errors.Exists(x => x.ErrorMessage == ValidationMessages.DomainNameNotEmpty));
     }
     
     [TestMethod]
@@ -81,7 +81,7 @@ public class UpdateDomainCommandValidatorTests : BaseTest
         
         // Assert
         Assert.IsFalse(result.IsValid);
-        Assert.IsTrue(result.Errors.Exists(x => x.ErrorMessage == ValidationMessages.CreateDomain_NameMaxLength));
+        Assert.IsTrue(result.Errors.Exists(x => x.ErrorMessage == ValidationMessages.DomainNameMaxLength));
     }
     
     [TestMethod]
@@ -101,7 +101,7 @@ public class UpdateDomainCommandValidatorTests : BaseTest
         
         // Assert
         Assert.IsFalse(result.IsValid);
-        Assert.IsTrue(result.Errors.Exists(x => x.ErrorMessage == ValidationMessages.UpdateDomain_UIdNotEmpty));
+        Assert.IsTrue(result.Errors.Exists(x => x.ErrorMessage == ValidationMessages.DomainUIdNotEmpty));
     }
     
     [TestMethod]
@@ -121,6 +121,6 @@ public class UpdateDomainCommandValidatorTests : BaseTest
         
         // Assert
         Assert.IsFalse(result.IsValid);
-        Assert.IsTrue(result.Errors.Exists(x => x.ErrorMessage == ValidationMessages.UpdateDomain_UIdDoesNotExist));
+        Assert.IsTrue(result.Errors.Exists(x => x.ErrorMessage == ValidationMessages.DomainUIdDoesNotExist));
     }
 }

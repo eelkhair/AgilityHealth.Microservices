@@ -4,5 +4,5 @@ namespace AH.Metadata.Application.Dtos;
 
 public class GrowthPlanStatusDto   : BaseDto
 {
-    public required string Status { get; set; }
+    public string? Status { get; set; }
 }

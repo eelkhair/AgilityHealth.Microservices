@@ -46,7 +46,7 @@ public class ListSurveyTypesQueryTests : BaseTest
         // Assert
         var firstSurveyTypeInResult = result[0];
        
-        var firstSurveyTypeInDb = await MetadataDbContext.SurveyTypes.FirstOrDefaultAsync(x => x.Id == firstSurveyTypeInResult.Id);
+        var firstSurveyTypeInDb = await MetadataDbContext.SurveyTypes.FirstOrDefaultAsync(x => x.UId == firstSurveyTypeInResult.UId);
         Assert.IsNotNull(firstSurveyTypeInDb);
         Assert.AreEqual(firstSurveyTypeInResult.Name, firstSurveyTypeInDb.Name);
 

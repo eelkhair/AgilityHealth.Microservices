@@ -6,10 +6,9 @@ namespace Tests.Unit.Application.Setup;
 
 public static class Extensions
 {
-    public static TEntity SetCommonEntityProps<TEntity>(this TEntity entity) where TEntity : BaseEntity
+    private static void SetCommonEntityProps<TEntity>(this TEntity entity) where TEntity : BaseEntity
     {
         entity.UId = Guid.NewGuid();
-        return entity;
     }
 
     public static TEntity SetCommonAuditableEntityProps<TEntity>(this TEntity entity)

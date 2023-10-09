@@ -1,10 +1,12 @@
-﻿using AH.Shared.Application.Dtos;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
+using AH.Shared.Application.Dtos;
 using AH.Shared.Application.Interfaces;
 using Dapr.Client;
 using Microsoft.Extensions.Logging;
 
 namespace AH.Shared.Infrastructure;
-
+[ExcludeFromCodeCoverage]
 public class MessageSender : IMessageSender
 {
     private readonly ILogger<MessageSender> _logger;
@@ -18,10 +20,14 @@ public class MessageSender : IMessageSender
     
     public async Task SendEventAsync<T>(string pubSubName, string topic, string userId, T message)
     { 
-        var messageInfo = new {pubSubName, topic, userId, message};
+        var options = new JsonSerializerOptions
+                  {
+                      PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                      WriteIndented = true
+                  };
+        var messageInfo = new {pubSubName, topic, userId, Message = JsonSerializer.Serialize(message, options)};
         try
         {
-            _logger.LogInformation("Sending event - {MessageInfo}", messageInfo);
             var eventModel = new EventDto(userId, message);
             await _daprClient.PublishEventAsync(pubSubName, topic, eventModel);
            

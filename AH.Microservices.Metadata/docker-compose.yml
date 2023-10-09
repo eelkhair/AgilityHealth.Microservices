@@ -1,0 +1,34 @@
+version: '3.4'
+
+services:
+  agilityhealth-metadata-api:
+    image: ${DOCKER_REGISTRY-}ahmetadataapi
+    build:
+      context: .
+      dockerfile: Src/Presentation/AH.Metadata.Api/Dockerfile
+    ports:
+      - "5011:80"  
+
+  agilityhealth-metadata-api-dapr:
+    image: "daprio/daprd:edge"
+    command: [
+      "./daprd",
+      "--app-id", "agilityhealth-metadata-api",
+      "--app-port", "80",
+      "--dapr-http-port", "3500",
+      "--placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
+      "--resources-path", "./Components"
+    ]
+    volumes:
+      - "../Components/:/Components" # Mount our components folder for the runtime to use. The mounted location must match the --resources-path argument.
+    depends_on:
+      - agilityhealth-metadata-api
+      - placement
+    network_mode: "service:agilityhealth-metadata-api"
+    
+  placement:
+    image: "daprio/dapr"
+    command: [ "./placement", "--port", "50006" ]
+    ports:
+      - "50016:50006"
+  

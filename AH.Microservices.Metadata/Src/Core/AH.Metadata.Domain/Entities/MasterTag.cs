@@ -8,4 +8,5 @@ public class MasterTag : BaseAuditableEntity
     public string Name { get; set; } = null!;
     public string ClassName { get; set; } = null!;
     public MasterTagCategory MasterTagCategory { get; set; } = null!;
+
 }

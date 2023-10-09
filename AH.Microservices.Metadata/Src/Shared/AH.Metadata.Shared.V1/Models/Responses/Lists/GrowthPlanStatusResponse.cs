@@ -3,7 +3,7 @@
 /// <summary>
 /// Represent a Growth Plan Status
 /// </summary>
-public class GrowthPlanStatusResponse : BaseModel
+public class GrowthPlanStatusResponse : BaseResponse
 {
     /// <summary>
     /// The status of the growth plan item.

@@ -4,6 +4,6 @@ namespace AH.Metadata.Application.Dtos;
 
 public class IndustryDto : BaseDto
 {
-    public required string Name { get; set; }
+    public string? Name { get; set; }
     public bool IsDefault { get; set; }
 }

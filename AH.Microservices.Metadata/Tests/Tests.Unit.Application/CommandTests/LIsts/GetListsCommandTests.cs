@@ -4,7 +4,7 @@ using AH.Metadata.Domain.Constants;
 using Microsoft.EntityFrameworkCore;
 using Tests.Unit.Application.Setup;
 
-namespace Tests.Unit.Application.CommandTests.LIsts;
+namespace Tests.Unit.Application.CommandTests.Lists;
 
 [TestClass]
 public class GetListsCommandTests : BaseTest
@@ -23,7 +23,7 @@ public class GetListsCommandTests : BaseTest
     public async Task GivenGetListsCommandHandle_WhenAllTypesSelected_ThenReturnValidResults()
     {
         // Arrange
-        var command = new GetListsCommand(MockingHelper.MockUser, MockingHelper.MockLogger, new()
+        var command = new GetListsCommand(MockingHelper.MockUser, MockingHelper.MockLogger, new List<string>
         {
             ListTypes.SurveyTypes,
             ListTypes.GrowthPlanStatuses,
@@ -47,7 +47,7 @@ public class GetListsCommandTests : BaseTest
     public async Task GivenGetListsCommandHandle_WhenSomeTypesSelected_ThenReturnValidResults()
     {
         // Arrange
-        var command = new GetListsCommand(MockingHelper.MockUser, MockingHelper.MockLogger, new()
+        var command = new GetListsCommand(MockingHelper.MockUser, MockingHelper.MockLogger, new List<string>
         {
             ListTypes.SurveyTypes,
             ListTypes.GrowthPlanStatuses
@@ -68,7 +68,7 @@ public class GetListsCommandTests : BaseTest
     public async Task GivenGetListsCommandHandle_WhenNoTypesSelected_ThenReturnValidResults()
     {
         // Arrange
-        var command = new GetListsCommand(MockingHelper.MockUser, MockingHelper.MockLogger, new());
+        var command = new GetListsCommand(MockingHelper.MockUser, MockingHelper.MockLogger, new List<string>());
         
         // Act
         var handler = new GetListsCommandHandler(MetadataDbContext, Mapper);
@@ -82,7 +82,7 @@ public class GetListsCommandTests : BaseTest
     public async Task GivenGetListsCommandHandle_WhenInvalidTypeSelected_ThenReturnValidResults()
     {
         // Arrange
-        var command = new GetListsCommand(MockingHelper.MockUser, MockingHelper.MockLogger, new()
+        var command = new GetListsCommand(MockingHelper.MockUser, MockingHelper.MockLogger, new List<string>
         {
             "InvalidListType"
         });
@@ -100,7 +100,7 @@ public class GetListsCommandTests : BaseTest
     {
         // Arrange
         MockingHelper.SetupCompanyAdminUser();
-        var command = new GetListsCommand(MockingHelper.MockUser, MockingHelper.MockLogger, new()
+        var command = new GetListsCommand(MockingHelper.MockUser, MockingHelper.MockLogger, new List<string>
         {
             ListTypes.Countries
         });
@@ -118,7 +118,7 @@ public class GetListsCommandTests : BaseTest
     {
         // Arrange
         MockingHelper.SetupCompanyAdminUser();
-        var command = new GetListsCommand(MockingHelper.MockUser, MockingHelper.MockLogger, new()
+        var command = new GetListsCommand(MockingHelper.MockUser, MockingHelper.MockLogger, new List<string>
         {
             ListTypes.SurveyTypes
         });
@@ -136,7 +136,7 @@ public class GetListsCommandTests : BaseTest
     {
         // Arrange
         MockingHelper.SetupCompanyAdminUser();
-        var command = new GetListsCommand(MockingHelper.MockUser, MockingHelper.MockLogger, new()
+        var command = new GetListsCommand(MockingHelper.MockUser, MockingHelper.MockLogger, new List<string>
         {
             ListTypes.Industries
         });
@@ -154,7 +154,7 @@ public class GetListsCommandTests : BaseTest
     {
         // Arrange
         MockingHelper.SetupCompanyAdminUser();
-        var command = new GetListsCommand(MockingHelper.MockUser, MockingHelper.MockLogger, new()
+        var command = new GetListsCommand(MockingHelper.MockUser, MockingHelper.MockLogger, new List<string>
         {
             ListTypes.GrowthPlanStatuses
         });

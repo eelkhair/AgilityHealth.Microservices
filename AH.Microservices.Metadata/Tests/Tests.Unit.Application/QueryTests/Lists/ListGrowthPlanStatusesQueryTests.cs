@@ -46,7 +46,7 @@ public class ListGrowthPlanStatusesQueryTests : BaseTest
         // Assert
         var firstGrowthPlanStatusInResult = result[0];
        
-        var firstGrowthPlanStatusInDb = await MetadataDbContext.GrowthPlanStatuses.FirstOrDefaultAsync(x => x.Id == firstGrowthPlanStatusInResult.Id);
+        var firstGrowthPlanStatusInDb = await MetadataDbContext.GrowthPlanStatuses.FirstOrDefaultAsync(x => x.UId == firstGrowthPlanStatusInResult.UId);
         Assert.IsNotNull(firstGrowthPlanStatusInDb);
         Assert.AreEqual(firstGrowthPlanStatusInResult.Status, firstGrowthPlanStatusInDb.Status);
        

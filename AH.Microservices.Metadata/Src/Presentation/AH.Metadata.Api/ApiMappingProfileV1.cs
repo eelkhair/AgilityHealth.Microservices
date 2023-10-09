@@ -2,9 +2,12 @@
 using AH.Metadata.Domain.Constants;
 using AH.Metadata.Shared.V1.Models.Requests.Companies;
 using AH.Metadata.Shared.V1.Models.Requests.Domains;
+using AH.Metadata.Shared.V1.Models.Requests.Tags;
 using AH.Metadata.Shared.V1.Models.Responses.Companies;
 using AH.Metadata.Shared.V1.Models.Responses.Domains;
 using AH.Metadata.Shared.V1.Models.Responses.Lists;
+using AH.Metadata.Shared.V1.Models.Responses.MasterTagCategories;
+using AH.Metadata.Shared.V1.Models.Responses.MasterTags;
 using AutoMapper;
 
 namespace AH.Metadata.Api;
@@ -31,6 +34,12 @@ public class ApiMappingProfileV1 : Profile
         CreateMap<GrowthPlanStatusDto, GrowthPlanStatusResponse>();
         CreateMap<IndustryDto, IndustryResponse>();
         CreateMap<SurveyTypeDto, SurveyTypeResponse>();
+        
+        CreateMap<MasterTagCategoryDto, MasterTagCategoryResponse>();
+        CreateMap<MasterTagCategoryDto, MasterTagCategoryWithTagsResponse>();
+        CreateMap<MasterTagCategoryRequest, MasterTagCategoryDto>();
+        CreateMap<MasterTagDto, MasterTagNameUIdResponse>();
+            CreateMap<MasterTagDto, MasterTagResponse>();
     }
 }
 

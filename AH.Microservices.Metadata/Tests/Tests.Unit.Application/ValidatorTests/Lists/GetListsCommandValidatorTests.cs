@@ -1,5 +1,4 @@
 ﻿using AH.Metadata.Application.Commands.Lists;
-using AH.Metadata.Application.Resources;
 using AH.Metadata.Domain.Constants;
 using Tests.Unit.Application.Setup;
 
@@ -21,7 +20,7 @@ public class GetListsCommandValidatorTests : BaseTest
     {
         // Arrange
         MockingHelper.SetupCompanyAdminUser();
-        var command = new GetListsCommand(MockingHelper.MockUser, MockingHelper.MockLogger, new()
+        var command = new GetListsCommand(MockingHelper.MockUser, MockingHelper.MockLogger, new List<string>
         {
             ListTypes.SurveyTypes,
             ListTypes.GrowthPlanStatuses,
@@ -42,7 +41,7 @@ public class GetListsCommandValidatorTests : BaseTest
     {
         // Arrange
         MockingHelper.SetupCompanyAdminUser();
-        var command = new GetListsCommand(MockingHelper.MockUser, MockingHelper.MockLogger, new()
+        var command = new GetListsCommand(MockingHelper.MockUser, MockingHelper.MockLogger, new List<string>
         {
             "InvalidListType"
         });
@@ -61,7 +60,7 @@ public class GetListsCommandValidatorTests : BaseTest
     {
         // Arrange
         MockingHelper.SetupCompanyAdminUser();
-        var command = new GetListsCommand(MockingHelper.MockUser, MockingHelper.MockLogger, new());
+        var command = new GetListsCommand(MockingHelper.MockUser, MockingHelper.MockLogger, new List<string>());
         
 
         // Act
@@ -70,7 +69,7 @@ public class GetListsCommandValidatorTests : BaseTest
 
         // Assert
         Assert.IsFalse(result.IsValid);
-        Assert.IsTrue(result.Errors.Exists(x => x.ErrorMessage == ValidationMessages.List_ListTypeNotEmpty));
+        Assert.IsTrue(result.Errors.Exists(x => x.ErrorMessage == ValidationMessages.ListTypeNotEmpty));
     }
 
 

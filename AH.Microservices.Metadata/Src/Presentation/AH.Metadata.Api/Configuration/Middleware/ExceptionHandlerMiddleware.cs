@@ -4,8 +4,10 @@ using AH.Shared.Application.Exceptions;
 
 namespace AH.Metadata.Api.Configuration.Middleware;
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 public class ExceptionHandlerMiddleware
-    {
+
+{
         private readonly RequestDelegate _next;
         private readonly ILogger _logger;
         private readonly IWebHostEnvironment _environment;
@@ -67,3 +69,4 @@ public class ExceptionHandlerMiddleware
             return builder.UseMiddleware<ExceptionHandlerMiddleware>();
         }
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

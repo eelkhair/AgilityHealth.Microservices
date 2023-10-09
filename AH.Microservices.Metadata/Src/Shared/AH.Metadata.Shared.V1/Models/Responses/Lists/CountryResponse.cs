@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a Country.
 /// </summary>
-public class CountryResponse : BaseModel
+public class CountryResponse : BaseResponse
 {
     /// <summary>
     /// The name of the country.

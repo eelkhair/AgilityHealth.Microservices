@@ -19,7 +19,7 @@ public class MasterTagCategoryConfiguration : IEntityTypeConfiguration<MasterTag
             .HasMaxLength(250)
             .IsRequired();
         builder.Property(e => e.ClassName).HasMaxLength(100).IsRequired();
-        builder.Property(e => e.Type).HasMaxLength(25);
+    builder.Property(e => e.Type).HasMaxLength(25).IsRequired(false);
         builder.HasMany(e => e.MasterTags)
             .WithOne(x => x.MasterTagCategory)
             .HasForeignKey(x => x.MasterTagCategoryId)

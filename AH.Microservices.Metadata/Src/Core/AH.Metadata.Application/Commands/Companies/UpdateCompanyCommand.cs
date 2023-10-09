@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using AH.Metadata.Application.Dtos;
 using AH.Metadata.Application.Interfaces;
-using AH.Metadata.Application.Resources;
+using AH.Metadata.Domain.Constants;
 using AH.Shared.Application.Commands;
 using AutoMapper;
 using FluentValidation;
@@ -18,7 +18,7 @@ public class UpdateCompanyCommand : BaseCommand<CompanyDto>
         Company = company;
     }
 
-    public CompanyDto Company { get; set; }
+    public CompanyDto Company { get; }
 }
 
 public class UpdateCompanyCommandHandler : BaseCommandHandler, IRequestHandler<UpdateCompanyCommand, CompanyDto>
@@ -43,16 +43,16 @@ public class UpdateCompanyCommandValidator : AbstractValidator<UpdateCompanyComm
     public UpdateCompanyCommandValidator(IMetadataDbContext context)
     {
         RuleFor(x => x.Company.Name).NotEmpty()
-            .WithMessage(ValidationMessages.Company_NameNotEmpty);    
+            .WithMessage(ValidationMessages.CompanyNameNotEmpty);    
         RuleFor(x => x.Company.Name).MaximumLength(250)
-            .WithMessage(ValidationMessages.Company_NameMaxLength);
+            .WithMessage(ValidationMessages.CompanyNameMaxLength);
         RuleFor(x=>x.Company.UId).NotEmpty()
-            .WithMessage(ValidationMessages.Company_UIdNotEmpty);
+            .WithMessage(ValidationMessages.CompanyUIdNotEmpty);
         RuleFor(x => x.Company.UId).Must(uid =>
         {
             var company = context.Companies.FirstOrDefault(x => x.UId == uid);
             return company != null;
-        }).WithMessage(ValidationMessages.Company_UIdDoesNotExist);
+        }).WithMessage(ValidationMessages.CompanyUIdDoesNotExist);
             
             
     }

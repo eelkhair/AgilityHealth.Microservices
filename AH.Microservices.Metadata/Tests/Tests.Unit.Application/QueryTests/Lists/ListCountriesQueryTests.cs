@@ -46,7 +46,7 @@ public class ListCountriesQueryTests : BaseTest
         // Assert
         var firstCountryInResult = result[0];
        
-        var firstCountryInDb = await MetadataDbContext.Countries.FirstOrDefaultAsync(x => x.Id == firstCountryInResult.Id);
+        var firstCountryInDb = await MetadataDbContext.Countries.FirstOrDefaultAsync(x => x.UId == firstCountryInResult.UId);
         Assert.IsNotNull(firstCountryInDb);
         Assert.AreEqual(firstCountryInResult.Name, firstCountryInDb.Name);
         Assert.AreEqual(firstCountryInResult.Code, firstCountryInDb.Code);

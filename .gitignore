@@ -1,9 +1,12 @@
 /AH.Microservices.Company/Src/*/AH.Company.*/obj/*
 /AH.Microservices.Company/Src/*/AH.Company.*/bin/*
+/AH.Microservices.Company/obj/*
 /AH.Microservices.CompanyOrchestration/Src/*/AH.CompanyOrchestration.*/obj/*
 /AH.Microservices.CompanyOrchestration/Src/*/AH.CompanyOrchestration.*/bin/*
+/AH.Microservices.CompanyOrchestration/obj/*
 /AH.Microservices.Metadata/Src/*/AH.Metadata.*/obj/*
 /AH.Microservices.Metadata/Src/*/AH.Metadata.*/bin/*
+/AH.Microservices.Metadata/obj/*
 /Shared/AH.Shared.*/obj/*
 /Shared/AH.Shared.*/bin/*
 /obj/Docker/*
@@ -16,3 +19,4 @@ AH.Microservices.*/.idea/*
 AH.Microservices.Metadata.sln*
 bin/Debug/
 .vs/
+

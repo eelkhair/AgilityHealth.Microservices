@@ -46,7 +46,7 @@ public class ListIndustriesQueryTests : BaseTest
         // Assert
         var firstIndustryInResult = result.FirstOrDefault(x=>x.IsDefault) ?? result[0];
        
-        var firstIndustryInDb = await MetadataDbContext.Industries.FirstOrDefaultAsync(x => x.Id == firstIndustryInResult.Id);
+        var firstIndustryInDb = await MetadataDbContext.Industries.FirstOrDefaultAsync(x => x.UId == firstIndustryInResult.UId);
         Assert.IsNotNull(firstIndustryInDb);
         Assert.AreEqual(firstIndustryInResult.Name, firstIndustryInDb.Name);
         Assert.AreEqual(firstIndustryInResult.IsDefault, firstIndustryInDb.IsDefault);

@@ -1,5 +1,7 @@
 ﻿using AH.Metadata.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+// ReSharper disable StringLiteralTypo
+
 
 namespace AH.Metadata.Persistence;
 

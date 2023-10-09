@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using AH.Metadata.Application.Dtos;
 using AH.Metadata.Application.Interfaces;
-using AH.Metadata.Application.Resources;
+using AH.Metadata.Domain.Constants;
 using AH.Shared.Application.Commands;
 using AutoMapper;
 using FluentValidation;
@@ -46,15 +46,15 @@ public class CreateCompanyCommandValidator : AbstractValidator<CreateCompanyComm
     public CreateCompanyCommandValidator(IMetadataDbContext context)
     {
         RuleFor(x => x.Company.Name).NotEmpty()
-            .WithMessage(ValidationMessages.Company_NameNotEmpty);    
+            .WithMessage(ValidationMessages.CompanyNameNotEmpty);    
         RuleFor(x => x.Company.Name).MaximumLength(250)
-            .WithMessage(ValidationMessages.Company_NameMaxLength);
+            .WithMessage(ValidationMessages.CompanyNameMaxLength);
         RuleFor(x=> x.Company.Domain.UId).NotEmpty()
-            .WithMessage(ValidationMessages.Company_DomainUIdNotEmpty);
+            .WithMessage(ValidationMessages.CompanyDomainUIdNotEmpty);
         RuleFor(x => x.Company.Domain.UId).Must(uid =>
         {
             var domain = context.Domains.FirstOrDefault(x => x.UId == uid);
             return domain != null;
-        }).WithMessage(ValidationMessages.Company_DomainUIdNotFound);
+        }).WithMessage(ValidationMessages.CompanyDomainUIdNotFound);
     }
 }

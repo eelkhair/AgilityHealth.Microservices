@@ -9,9 +9,7 @@ namespace AH.Metadata.Api.Controllers;
 
 /// <summary>
 /// Represents a ListsController.
-
 /// </summary>
-
 public class ListsController : BaseController
 {
     /// <summary>
