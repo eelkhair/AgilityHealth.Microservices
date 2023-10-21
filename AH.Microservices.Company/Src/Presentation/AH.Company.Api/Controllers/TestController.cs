@@ -22,7 +22,7 @@ public class TestController : BaseController
     public async Task<IActionResult> Get()
     {
 
-        await _sender.SendEventAsync(PubSubNames.Redis, TopicNames.Metadata, "test", new { test = "test" });
+        await _sender.SendEventAsync(PubSubNames.Redis, TopicNames.Metadata, "test", "test");
         return Ok();
     }
 }

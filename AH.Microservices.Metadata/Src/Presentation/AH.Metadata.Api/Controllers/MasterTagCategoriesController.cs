@@ -181,7 +181,6 @@ public class MasterTagCategoriesController : BaseController
         
         Logger.LogInformation("Master tag category with uid {Uid} deleted", uid);
         
-        
         await SendMasterTagCategoryEvent(User, "Delete", dto);
         return NoContent();
     }

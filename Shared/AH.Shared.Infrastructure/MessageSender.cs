@@ -18,14 +18,10 @@ public class MessageSender : IMessageSender
         _daprClient = daprClient;
     }
     
-    public async Task SendEventAsync<T>(string pubSubName, string topic, string userId, T message)
+    public async Task SendEventAsync(string pubSubName, string topic, string userId, string message)
     { 
-        var options = new JsonSerializerOptions
-                  {
-                      PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                      WriteIndented = true
-                  };
-        var messageInfo = new {pubSubName, topic, userId, Message = JsonSerializer.Serialize(message, options)};
+      
+        var messageInfo = new {pubSubName, topic, userId, message};
         try
         {
             var eventModel = new EventDto(userId, message);

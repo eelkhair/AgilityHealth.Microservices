@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
+using System.Text.Json;
 using AH.Metadata.Application.Dtos;
 using AH.Metadata.Application.Interfaces;
 using AH.Shared.Application.Commands;
@@ -37,9 +38,10 @@ public class SendMasterTagCategoryEventCommandHandler :BaseCommandHandler, IRequ
     {
         var domains = await Context.Domains.ToListAsync(cancellationToken);
 
-        foreach (var domain in domains)
+        foreach (var message in domains.Select(domain => new MasterTagCategoryEventDto
+                     { Domain = domain.Name, MasterTagCategory = request.MasterTagCategory }))
         {
-            await _sender.SendEventAsync(PubSubNames.Redis, "MasterTagCategory", request.User.GetUserId(), new MasterTagCategoryEventDto{ Domain = domain.Name, EventType = request.EventType, MasterTagCategory = request.MasterTagCategory });
+            await _sender.SendEventAsync(PubSubNames.Redis, $"{request.EventType}MasterTagCategory", request.User.GetUserId(), JsonSerializer.Serialize(message));
         }
         
         return Unit.Value;

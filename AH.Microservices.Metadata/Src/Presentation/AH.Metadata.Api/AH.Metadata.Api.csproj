@@ -36,7 +36,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\AH.Metadata.Infrastructure\AH.Metadata.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\AH.Metadata.Persistence\AH.Metadata.Persistence.csproj" />
-    <ProjectReference Include="..\..\Shared\AH.Metadata.Shared.V1\AH.Metadata.Shared.V1.csproj" />
 
 
   </ItemGroup>
