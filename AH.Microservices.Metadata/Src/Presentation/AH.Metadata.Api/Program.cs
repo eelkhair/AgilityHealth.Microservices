@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using System.Reflection;
-using System.Text.Json.Serialization;
 using AH.Metadata.Api;
 using AH.Metadata.Api.Configuration.Middleware;
 using AH.Metadata.Api.MessageSenders;
@@ -11,7 +10,6 @@ using AH.Metadata.Domain.Constants;
 using AH.Metadata.Persistence;
 using AH.Shared.Api;
 using AH.Shared.Api.Dtos;
-using AH.Shared.Infrastructure;
 using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,25 +36,11 @@ builder.Services.AddSingleton(mapper);
 builder.Services.AddApplication();
 builder.Services.AddPersistence(builder.Configuration);
 
-// builder.Services.AddMessageSender(builder.Configuration);
-// builder.Services.AddControllers().AddDapr().AddJsonOptions(x =>
-// {
-//     x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-// });
-
-
-
-
-
 builder.Services.AddScoped<IMasterTagCategoriesMessageSender, MasterTagCategoriesMessageSender>();
-
 
 var app = builder.Build();
 app.Initialize(auth0Config);
 
-app.UseCloudEvents();
-app.MapSubscribeHandler();
-app.MapControllers();
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 #if DEBUG
  Debugger.Launch();
