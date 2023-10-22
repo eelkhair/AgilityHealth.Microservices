@@ -7,7 +7,7 @@
         <RootNamespace>AH.Shared.Api</RootNamespace>
         <PackageId>AH.Shared.Api</PackageId>
         <Authors>Elkhair Elkhair</Authors>
-        <Version>1.0.2</Version>
+        <Version>1.0.3</Version>
         <Description>Shared components for authorization</Description>
         <IsPackable>true</IsPackable>
     </PropertyGroup>

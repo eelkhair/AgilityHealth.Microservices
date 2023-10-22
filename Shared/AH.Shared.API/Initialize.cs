@@ -29,5 +29,9 @@ public static class AppConfig
         app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();
+        
+        // app.UseCloudEvents();
+        // app.MapSubscribeHandler();
+        // app.MapControllers();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AH.Shared.Api.Authorization;
+using AH.Shared.Api.Dapr;
 using AH.Shared.Api.Dtos;
 using AH.Shared.Api.Swagger;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +13,7 @@ public static class Services
         // configuration.AddJsonFile(path, true, true);
         services.RegisterSwagger(swagger, auth0Config);
         services.RegisterAuth0(auth0Config, swagger);
+        services.RegisterDapr();
 
-        
     }
 }

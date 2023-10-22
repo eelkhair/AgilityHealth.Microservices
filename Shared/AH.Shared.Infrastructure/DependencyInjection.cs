@@ -1,5 +1,4 @@
 ﻿using AH.Shared.Application.Interfaces;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -7,7 +6,7 @@ namespace AH.Shared.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static void AddMessageSender(this IServiceCollection services, IConfiguration configuration)
+    public static void AddMessageSender(this IServiceCollection services)
     {
         services.AddSingleton<IMessageSender, MessageSender>();
         

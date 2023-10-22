@@ -11,65 +11,49 @@ using AH.Metadata.Domain.Constants;
 using AH.Metadata.Persistence;
 using AH.Shared.Api;
 using AH.Shared.Api.Dtos;
-using AH.Shared.Api.Swagger;
 using AH.Shared.Infrastructure;
 using AutoMapper;
-using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var swagger = new SwaggerDocSetup("AgilityHealth.Tags.WebApi", PermissionDefinitions.GetPermissions());
+var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
+
+var swaggerConfig = new SwaggerDocSetup("AgilityHealth.Metadata.Api", PermissionDefinitions.GetPermissions(), xmlPath);
 var auth0Config = new Auth0Configuration(
     builder.Configuration[$"Auth0:Domain"],
     builder.Configuration["Auth0:Audience"],
     builder.Configuration["Auth0:ClientId"],
     builder.Configuration["Auth0:ClientSecret"]
 );
-
-builder.Services.AddApplication();
-builder.Services.AddMessageSender(builder.Configuration);
-builder.Services.AddControllers().AddDapr().AddJsonOptions(x =>
-{
-    x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-});
-//builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddPersistence(builder.Configuration);
-
-// builder.Services.AddSwaggerGen(setup =>
-// {
-//     setup.DocumentFilter<LowercaseDocumentFilter>();
-//     setup.DocumentFilter<JsonPatchDocumentFilter>();
-//     setup.EnableAnnotations();
-//     setup.ExampleFilters();
-//
-//     // var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-//     // setup.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
-// });
-// builder.Services.AddSwaggerExamplesFromAssemblies(Assembly.GetExecutingAssembly());
+builder.Services.Build(swaggerConfig,auth0Config);
 
 var mapper = new MapperConfiguration(c =>
 {
     c.AddProfile(new MappingProfile());
     c.AddProfile(new ApiMappingProfileV1());
 }).CreateMapper();
-
 builder.Services.AddSingleton(mapper);
+
+builder.Services.AddApplication();
+builder.Services.AddPersistence(builder.Configuration);
+
+// builder.Services.AddMessageSender(builder.Configuration);
+// builder.Services.AddControllers().AddDapr().AddJsonOptions(x =>
+// {
+//     x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+// });
+
+
+
+
+
 builder.Services.AddScoped<IMasterTagCategoriesMessageSender, MasterTagCategoriesMessageSender>();
 
 
-builder.Services.Build(swagger,auth0Config);
 var app = builder.Build();
 app.Initialize(auth0Config);
 
-// Configure the HTTP request pipeline.
-// if (app.Environment.IsDevelopment())
-// {
-//     app.UseSwagger();
-//     app.UseSwaggerUI();
-// }
-
-//app.UseRouting();
-//app.UseAuthorization();
 app.UseCloudEvents();
 app.MapSubscribeHandler();
 app.MapControllers();
