@@ -30,8 +30,8 @@ public static class AppConfig
         app.UseAuthentication();
         app.UseAuthorization();
         
-        // app.UseCloudEvents();
-        // app.MapSubscribeHandler();
-        // app.MapControllers();
+        app.UseCloudEvents();
+        app.MapSubscribeHandler();
+        app.MapControllers();
     }
 }
