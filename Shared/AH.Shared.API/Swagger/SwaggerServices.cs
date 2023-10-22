@@ -49,9 +49,8 @@ public static class SwaggerServices
                 }
             });
             setup.OperationFilter<SecurityRequirementsOperationFilter>();
-            
-            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            setup.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+           
+            setup.IncludeXmlComments(doc.XmlCommentsPath);
             setup.ExampleFilters();
         });
         
