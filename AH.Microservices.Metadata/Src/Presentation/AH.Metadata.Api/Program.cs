@@ -4,6 +4,8 @@ using System.Text.Json.Serialization;
 using AH.Metadata.Api;
 using AH.Metadata.Api.Configuration.Filters;
 using AH.Metadata.Api.Configuration.Middleware;
+using AH.Metadata.Api.MessageSenders;
+using AH.Metadata.Api.MessageSenders.Interfaces;
 using AH.Metadata.Application;
 using AH.Metadata.Application.Dtos;
 using AH.Metadata.Persistence;
@@ -14,6 +16,7 @@ using Swashbuckle.AspNetCore.Filters;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddMessageSender(builder.Configuration);
+
 
 builder.Services.AddApplication();
 builder.Services.AddControllers().AddDapr().AddJsonOptions(x =>
@@ -41,7 +44,7 @@ var mapper = new MapperConfiguration(c =>
 }).CreateMapper();
 
 builder.Services.AddSingleton(mapper);
-
+builder.Services.AddScoped<IMasterTagCategoriesMessageSender, MasterTagCategoriesMessageSender>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

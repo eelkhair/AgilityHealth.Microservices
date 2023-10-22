@@ -1,6 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Security.Claims;
-using System.Text.Json;
+﻿using System.Text.Json;
+using AH.Metadata.Api.MessageSenders.Interfaces;
 using AH.Metadata.Application.Commands.MasterTagCategories;
 using AH.Metadata.Application.Dtos;
 using AH.Metadata.Application.Queries.MasterTagCategories;
@@ -17,15 +16,19 @@ namespace AH.Metadata.Api.Controllers;
 /// </summary>
 public class MasterTagCategoriesController : BaseController
 {
+    
+    private readonly IMasterTagCategoriesMessageSender _sender;
+
     /// <summary>
     /// Constructor for MasterTagCategoriesController.
     /// </summary>
     /// <param name="mapper">The mapper.</param>
     /// <param name="logger">The logger.</param>
     /// <param name="mediator">The mediator.</param>
-    public MasterTagCategoriesController(IMapper mapper, ILogger logger, IMediator mediator) : base(mapper, logger, mediator)
+    /// <param name="sender"></param>
+    public MasterTagCategoriesController(IMapper mapper, ILogger logger, IMediator mediator, IMasterTagCategoriesMessageSender sender) : base(mapper, logger, mediator)
     {
-        
+        _sender = sender;
     }
     
     /// <summary>
@@ -122,7 +125,7 @@ public class MasterTagCategoriesController : BaseController
         var model = Mapper.Map<MasterTagCategoryResponse>(masterTagCategory);
         Logger.LogInformation("Master tag category created.{Data}", JsonSerializer.Serialize(model));
         
-        await SendMasterTagCategoryEvent(User, "Create", masterTagCategory);
+        await _sender.SendCreateMasterTagCategoryMessageAsync(User, masterTagCategory);
         
         return CreatedAtAction(nameof(GetMasterTagCategory), new { uid = model.UId }, model);
     }
@@ -156,7 +159,8 @@ public class MasterTagCategoriesController : BaseController
         var model = Mapper.Map<MasterTagCategoryResponse>(masterTagCategory);
         Logger.LogInformation("Master tag category with uid {Uid} updated.{Data}", uid, JsonSerializer.Serialize(model));
         
-        await SendMasterTagCategoryEvent(User, "Update", masterTagCategory);      
+        await _sender.SendUpdateMasterTagCategoryMessageAsync(User, masterTagCategory);      
+        
         return Ok(model);
     }
     
@@ -181,24 +185,9 @@ public class MasterTagCategoriesController : BaseController
         
         Logger.LogInformation("Master tag category with uid {Uid} deleted", uid);
         
-        await SendMasterTagCategoryEvent(User, "Delete", dto);
+        await _sender.SendDeleteMasterTagCategoryMessageAsync(User, dto);  
+        
         return NoContent();
-    }
-
-    /// <summary>
-    /// Send a master tag category event to the event hub
-    /// </summary>
-    /// <param name="user">The user</param>
-    /// <param name="eventType">The event type</param>
-    /// <param name = "dto" > The dto.</param>
-    /// <returns></returns>
-    [ExcludeFromCodeCoverage]
-    private async Task SendMasterTagCategoryEvent(ClaimsPrincipal user, string eventType, MasterTagCategoryDto dto)
-    {
-        Logger.LogInformation("Sending master tag category event to event hub");
-        var command = new SendMasterTagCategoryEventCommand(user, Logger, eventType, dto);
-        await Mediator.Send(command);
-        Logger.LogInformation("Master tag category event sent to event hub");
     }
 
 }
