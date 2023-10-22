@@ -70,6 +70,22 @@ steps:
       packagesToPack: 'Shared/AH.Shared.Persistence/AH.Shared.Persistence.csproj'
       nobuild: true
       versioningScheme: 'off'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet build'
+    inputs:
+      command: 'build'
+      arguments: '--configuration $(buildConfiguration)'
+      projects: 'Shared/AH.Shared.Api/AH.Shared.Api.csproj'
+
+  - task: DotNetCoreCLI@2
+    displayName: "dotnet pack"
+    inputs:
+      command: 'pack'
+      arguments: '--configuration $(buildConfiguration)'
+      packagesToPack: 'Shared/AH.Shared.Api/AH.Shared.Api.csproj'
+      nobuild: true
+      versioningScheme: 'off'
       
   - task: DotNetCoreCLI@2
     displayName: 'dotnet build'
