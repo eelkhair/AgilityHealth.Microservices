@@ -62,7 +62,8 @@ public class ExceptionHandlerMiddleware
         }
     }
 
-    public static class ExceptionHandlerMiddlewareExtensions
+// ReSharper disable once UnusedType.Global
+public static class ExceptionHandlerMiddlewareExtensions
     {
         public static IApplicationBuilder UseCustomExceptionHandler(this IApplicationBuilder builder)
         {

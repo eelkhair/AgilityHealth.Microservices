@@ -98,8 +98,8 @@ public class DomainsController : BaseController
     /// <summary>
     /// Update a domain
     /// </summary>
-    /// <param name="uId">The uid of the domain to update</param>
-    /// `/// <param name="model">The domain to update</param>
+    /// <param name="uid"></param>
+    /// <param name="model">The domain to update</param>
     /// <response code="201">Successfully updated domain</response>
     /// <response code="400">Invalid request</response>
     /// <response code="404">Domain not found</response>

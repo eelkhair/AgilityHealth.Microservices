@@ -1,8 +1,4 @@
-﻿using System.Text.Json;
-using AH.Shared.Application.Dtos;
-using AH.Shared.Domain.Constants;
-using AutoMapper;
-using Dapr;
+﻿using AutoMapper;
 using MediatR;
 
 namespace AH.Metadata.Api.MessageListeners;
