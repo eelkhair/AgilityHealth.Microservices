@@ -1,6 +1,8 @@
-﻿using AH.Shared.Api.Dtos;
+﻿using System.Reflection;
+using AH.Shared.Api.Dtos;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace AH.Shared.Api.Swagger;
 
@@ -47,6 +49,12 @@ public static class SwaggerServices
                 }
             });
             setup.OperationFilter<SecurityRequirementsOperationFilter>();
+            
+            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            setup.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+            setup.ExampleFilters();
         });
+        
+        services.AddSwaggerExamplesFromAssemblies(Assembly.GetExecutingAssembly());
     } 
 }

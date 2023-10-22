@@ -17,6 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AH.Microservices.Metadata\Documentation\Sequence Diagram - Add Master Tag.puml" />
+    <Content Include="azure-pipelines.yml" />
     <Content Include="start-main.sh" />
     <Content Include="start-metadata.sh" />
   </ItemGroup>
