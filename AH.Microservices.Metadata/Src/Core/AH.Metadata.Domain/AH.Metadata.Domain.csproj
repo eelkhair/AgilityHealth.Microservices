@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\..\Shared\AH.Shared.Domain\AH.Shared.Domain.csproj" />
+      <PackageReference Include="AH.Shared.Domain" Version="1.0.0" />
     </ItemGroup>
 
 

@@ -70,6 +70,22 @@ steps:
       packagesToPack: 'Shared/AH.Shared.Persistence/AH.Shared.Persistence.csproj'
       nobuild: true
       versioningScheme: 'off'
+      
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet build'
+    inputs:
+      command: 'build'
+      arguments: '--configuration $(buildConfiguration)'
+      projects: 'AH.Microservices.Metadata/Src/Shared/AH.Metadata.Shared.V1/AH.Metadata.Shared.V1.csproj'
+
+  - task: DotNetCoreCLI@2
+    displayName: "dotnet pack"
+    inputs:
+      command: 'pack'
+      arguments: '--configuration $(buildConfiguration)'
+      packagesToPack: 'AH.Microservices.Metadata/Src/Shared/AH.Metadata.Shared.V1/AH.Metadata.Shared.V1.csproj'
+      nobuild: true
+      versioningScheme: 'off'
   
   - task: NuGetCommand@2
     displayName: 'nuget push'
