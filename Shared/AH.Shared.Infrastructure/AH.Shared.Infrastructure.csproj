@@ -4,17 +4,17 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>AH.Shared.Infrastructure</RootNamespace>
+        <PackageId>AH.Shared.Infrastructure</PackageId>
+        <Authors>Elkhair Elkhair</Authors>
+        <Version>1.0.0</Version>
+        <Description>Shared components for the infrastructure project</Description>
+        <IsPackable>true</IsPackable>
     </PropertyGroup>
-
-
     <ItemGroup>
       <PackageReference Include="Dapr.AspNetCore" Version="1.11.0" />
       <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
     </ItemGroup>
-
-
-
-
     <ItemGroup>
       <ProjectReference Include="..\AH.Shared.Application\AH.Shared.Application.csproj" />
     </ItemGroup>

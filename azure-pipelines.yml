@@ -38,6 +38,38 @@ steps:
       packagesToPack: 'Shared/AH.Shared.Application/AH.Shared.Application.csproj'
       nobuild: true
       versioningScheme: 'off'
+      
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet build'
+    inputs:
+      command: 'build'
+      arguments: '--configuration $(buildConfiguration)'
+      projects: 'Shared/AH.Shared.Infrastructure/AH.Shared.Infrastructure.csproj'
+
+  - task: DotNetCoreCLI@2
+    displayName: "dotnet pack"
+    inputs:
+      command: 'pack'
+      arguments: '--configuration $(buildConfiguration)'
+      packagesToPack: 'Shared/AH.Shared.Infrastructure/AH.Shared.Infrastructure.csproj'
+      nobuild: true
+      versioningScheme: 'off'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet build'
+    inputs:
+      command: 'build'
+      arguments: '--configuration $(buildConfiguration)'
+      projects: 'Shared/AH.Shared.Persistence/AH.Shared.Persistence.csproj'
+
+  - task: DotNetCoreCLI@2
+    displayName: "dotnet pack"
+    inputs:
+      command: 'pack'
+      arguments: '--configuration $(buildConfiguration)'
+      packagesToPack: 'Shared/AH.Shared.Persistence/AH.Shared.Persistence.csproj'
+      nobuild: true
+      versioningScheme: 'off'
   
   - task: NuGetCommand@2
     displayName: 'nuget push'
