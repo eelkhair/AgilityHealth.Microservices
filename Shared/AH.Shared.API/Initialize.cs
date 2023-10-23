@@ -1,4 +1,5 @@
 ﻿using AH.Shared.Api.Dtos;
+using AH.Shared.Api.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
@@ -33,5 +34,7 @@ public static class AppConfig
         app.UseCloudEvents();
         app.MapSubscribeHandler();
         app.MapControllers();
+        
+        app.UseMiddleware<ExceptionHandlerMiddleware>();
     }
 }

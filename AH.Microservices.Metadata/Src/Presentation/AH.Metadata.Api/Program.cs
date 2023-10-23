@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.Reflection;
 using AH.Metadata.Api;
-using AH.Metadata.Api.Configuration.Middleware;
 using AH.Metadata.Api.MessageSenders;
 using AH.Metadata.Api.MessageSenders.Interfaces;
 using AH.Metadata.Application;
@@ -17,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
 
-var swaggerConfig = new SwaggerDocSetup("AgilityHealth.Metadata.Api", PermissionDefinitions.GetPermissions(), xmlPath);
+var swaggerConfig = new SwaggerDocSetup("AgilityHealth Metadata WebApi", PermissionDefinitions.GetPermissions(), xmlPath);
 var auth0Config = new Auth0Configuration(
     builder.Configuration[$"Auth0:Domain"],
     builder.Configuration["Auth0:Audience"],
@@ -41,7 +40,7 @@ builder.Services.AddScoped<IMasterTagCategoriesMessageSender, MasterTagCategorie
 var app = builder.Build();
 app.Initialize(auth0Config);
 
-app.UseMiddleware<ExceptionHandlerMiddleware>();
+
 #if DEBUG
  Debugger.Launch();
 #endif

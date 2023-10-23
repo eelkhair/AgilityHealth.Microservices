@@ -32,4 +32,8 @@
     <ProjectReference Include="..\..\Infrastructure\AH.Metadata.Persistence\AH.Metadata.Persistence.csproj" />
     <ProjectReference Include="..\..\Shared\AH.Metadata.Shared.V1\AH.Metadata.Shared.V1.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Configuration\" />
+  </ItemGroup>
 </Project>

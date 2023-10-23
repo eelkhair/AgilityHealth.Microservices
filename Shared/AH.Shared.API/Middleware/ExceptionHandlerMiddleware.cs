@@ -1,8 +1,13 @@
 ﻿using System.Net;
 using System.Text.Json;
 using AH.Shared.Application.Exceptions;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
-namespace AH.Metadata.Api.Configuration.Middleware;
+namespace AH.Shared.Api.Middleware;
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 public class ExceptionHandlerMiddleware
