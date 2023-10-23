@@ -36,7 +36,15 @@ builder.Services.AddSingleton(mapper);
 builder.Services.AddApplication();
 builder.Services.AddPersistence(builder.Configuration);
 
+builder.Services.AddActors(options =>
+{
+    // Example :  options.Actors.RegisterActor<MetadataActor>();
+});
+
+
 builder.Services.AddScoped<IMasterTagCategoriesMessageSender, MasterTagCategoriesMessageSender>();
+
+
 
 var app = builder.Build();
 app.Initialize(auth0Config);
