@@ -1,35 +1,30 @@
 using System.Diagnostics;
 using System.Reflection;
-using AH.Company.Api.Configuration.Filters;
-using AH.Company.Api.Configuration.Middleware;
 using AH.Company.Api.Models;
 using AH.Company.Application;
 using AH.Company.Application.Dtos;
+using AH.Company.Domain.Constants;
 using AH.Company.Persistence;
-using AH.Shared.Infrastructure;
+using AH.Shared.Api;
+using AH.Shared.Api.Dtos;
 using AutoMapper;
-using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddMessageSender(builder.Configuration);
 
-builder.Services.AddApplication();
-builder.Services.AddControllers().AddDapr();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddPersistence(builder.Configuration);
+var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
 
-builder.Services.AddSwaggerGen(setup =>
-{
-    setup.DocumentFilter<LowercaseDocumentFilter>();
-    setup.DocumentFilter<JsonPatchDocumentFilter>();
-    setup.EnableAnnotations();
-    setup.ExampleFilters();
-    
-    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    setup.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
-});
-builder.Services.AddSwaggerExamplesFromAssemblies(Assembly.GetEntryAssembly());
+var swaggerConfig = new SwaggerDocSetup("AgilityHealth Company Api", PermissionDefinitions.GetPermissions(), xmlPath);
+var auth0Config = new Auth0Configuration(
+    builder.Configuration[$"Auth0:Domain"],
+    builder.Configuration["Auth0:Audience"],
+    builder.Configuration["Auth0:ClientId"],
+    builder.Configuration["Auth0:ClientSecret"]
+);
+
+builder.Services.Build(swaggerConfig,auth0Config);
+
 var mapper = new MapperConfiguration(c =>
 {
     c.AddProfile(new MappingProfile());
@@ -38,6 +33,9 @@ var mapper = new MapperConfiguration(c =>
 
 builder.Services.AddSingleton(mapper);
 
+builder.Services.AddApplication();
+builder.Services.AddPersistence(builder.Configuration);
+
 builder.Services.AddActors(options =>
 {
   // Example :  options.Actors.RegisterActor<MetadataActor>();
@@ -45,20 +43,9 @@ builder.Services.AddActors(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.Initialize(auth0Config);
 
-app.UseRouting();
-app.UseAuthorization();
-app.UseCloudEvents();
-app.MapSubscribeHandler();
-app.MapControllers();
-app.MapActorsHandlers();
-app.UseMiddleware<ExceptionHandlerMiddleware>();
+
 #if DEBUG
 Debugger.Launch();
 #endif

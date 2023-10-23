@@ -16,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
 
-var swaggerConfig = new SwaggerDocSetup("AgilityHealth Metadata WebApi", PermissionDefinitions.GetPermissions(), xmlPath);
+var swaggerConfig = new SwaggerDocSetup("AgilityHealth Metadata Api", PermissionDefinitions.GetPermissions(), xmlPath);
 var auth0Config = new Auth0Configuration(
     builder.Configuration[$"Auth0:Domain"],
     builder.Configuration["Auth0:Audience"],
@@ -30,6 +30,7 @@ var mapper = new MapperConfiguration(c =>
     c.AddProfile(new MappingProfile());
     c.AddProfile(new ApiMappingProfileV1());
 }).CreateMapper();
+
 builder.Services.AddSingleton(mapper);
 
 builder.Services.AddApplication();

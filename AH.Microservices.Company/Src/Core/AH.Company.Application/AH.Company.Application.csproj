@@ -12,6 +12,7 @@
 
 
     <ItemGroup>
+      <PackageReference Include="AH.Metadata.Shared.V1" Version="1.0.0" />
       <PackageReference Include="AH.Shared.Application" Version="1.0.0" />
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
     </ItemGroup>

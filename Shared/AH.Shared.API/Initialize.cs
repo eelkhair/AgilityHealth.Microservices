@@ -34,7 +34,7 @@ public static class AppConfig
         app.UseCloudEvents();
         app.MapSubscribeHandler();
         app.MapControllers();
-        
+        app.MapActorsHandlers();
         app.UseMiddleware<ExceptionHandlerMiddleware>();
     }
 }
