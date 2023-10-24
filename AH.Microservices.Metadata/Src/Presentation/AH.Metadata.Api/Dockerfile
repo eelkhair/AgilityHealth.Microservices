@@ -5,9 +5,11 @@ WORKDIR /app
 EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+
 WORKDIR /src
+COPY ["AH.Microservices.Metadata/Src/Presentation/AH.Metadata.Api/Nuget.Config", "."]
 COPY ["AH.Microservices.Metadata/Src/Presentation/AH.Metadata.Api/AH.Metadata.Api.csproj", "AH.Microservices.Metadata/Src/Presentation/AH.Metadata.Api/"]
-RUN dotnet restore "AH.Microservices.Metadata/Src/Presentation/AH.Metadata.Api/AH.Metadata.Api.csproj"
+RUN dotnet restore "AH.Microservices.Metadata/Src/Presentation/AH.Metadata.Api/AH.Metadata.Api.csproj" --configfile Nuget.Config
 COPY . .
 WORKDIR "/src/AH.Microservices.Metadata/Src/Presentation/AH.Metadata.Api"
 RUN dotnet build "AH.Metadata.Api.csproj" -c Release -o /app/build

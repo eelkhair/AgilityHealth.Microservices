@@ -9,6 +9,8 @@
     <DockerServiceName>ah.main.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="AH.Microservices.Company\Nuget.Config" />
+    <None Include="AH.Microservices.Metadata\Nuget.Config" />
     <None Include="docker-compose.override.yml">
       <DependentUpon>docker-compose.yml</DependentUpon>
     </None>
@@ -16,9 +18,7 @@
     <None Include=".dockerignore" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AH.Microservices.Metadata\Documentation\Sequence Diagram - Add Master Tag.puml" />
     <Content Include="azure-pipelines.yml" />
-    <Content Include="start-main.sh" />
     <Content Include="start-metadata.sh" />
   </ItemGroup>
 </Project>

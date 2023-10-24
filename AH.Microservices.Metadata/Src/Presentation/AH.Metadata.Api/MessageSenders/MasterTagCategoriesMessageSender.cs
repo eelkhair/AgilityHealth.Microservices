@@ -38,7 +38,7 @@ public class MasterTagCategoriesMessageSender : BaseMetadataMessageSender, IMast
     /// <returns></returns>
     public async Task SendCreateMasterTagCategoryMessageAsync(ClaimsPrincipal user,
         MasterTagCategoryDto masterTagCategory)
-        => await SendMessage(user, masterTagCategory, "CreateMasterTagCategory");
+        => await SendMessage(user, masterTagCategory, "MasterTagCategoryCreate");
     
     /// <summary>
     /// Send a message to update a master tag category
@@ -48,7 +48,7 @@ public class MasterTagCategoriesMessageSender : BaseMetadataMessageSender, IMast
     /// <returns></returns>
     public async Task SendUpdateMasterTagCategoryMessageAsync(ClaimsPrincipal user,
         MasterTagCategoryDto masterTagCategory)
-        => await SendMessage(user, masterTagCategory, "UpdateMasterTagCategory");
+        => await SendMessage(user, masterTagCategory, "MasterTagCategoryUpdate");
     
     /// <summary>
     /// Send a message to delete a master tag category
@@ -58,7 +58,7 @@ public class MasterTagCategoriesMessageSender : BaseMetadataMessageSender, IMast
     /// <returns></returns>
     public async Task SendDeleteMasterTagCategoryMessageAsync(ClaimsPrincipal user,
         MasterTagCategoryDto masterTagCategory)
-        => await SendMessage(user, masterTagCategory, "DeleteMasterTagCategory");
+        => await SendMessage(user, masterTagCategory, "MasterTagCategoryDelete");
     
 
     private async Task SendMessage(ClaimsPrincipal user, MasterTagCategoryDto masterTagCategory, string eventType)
@@ -70,7 +70,7 @@ public class MasterTagCategoriesMessageSender : BaseMetadataMessageSender, IMast
                      Domain = domain.Name, MasterTagCategory = Mapper.Map<MasterTagCategoryResponse>(masterTagCategory)
                  }))
         {
-            await MessageSender.SendEventAsync(PubSubNames.Redis, eventType, user.GetUserId(),
+            await MessageSender.SendEventAsync(PubSubNames.RabbitMq, eventType, user.GetUserId(),
                 JsonSerializer.Serialize(message));
         }
     }

@@ -5,9 +5,11 @@ WORKDIR /app
 EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+
 WORKDIR /src
+COPY ["AH.Microservices.Company/Src/Presentation/AH.Company.Api/Nuget.Config", "."]
 COPY ["AH.Microservices.Company/Src/Presentation/AH.Company.Api/AH.Company.Api.csproj", "AH.Microservices.Company/Src/Presentation/AH.Company.Api/"]
-RUN dotnet restore "AH.Microservices.Company/Src/Presentation/AH.Company.Api/AH.Company.Api.csproj"
+RUN dotnet restore "AH.Microservices.Company/Src/Presentation/AH.Company.Api/AH.Company.Api.csproj" --configfile Nuget.Config
 COPY . .
 WORKDIR "/src/AH.Microservices.Company/Src/Presentation/AH.Company.Api"
 RUN dotnet build "AH.Company.Api.csproj" -c Release -o /app/build

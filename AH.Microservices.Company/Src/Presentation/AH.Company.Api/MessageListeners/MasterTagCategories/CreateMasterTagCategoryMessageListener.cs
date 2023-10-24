@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using AH.Company.Application.Dtos;
 using AH.Metadata.Shared.V1.Events;
 using AH.Shared.Application.Dtos;
 using AH.Shared.Domain.Constants;
@@ -17,10 +16,11 @@ public class CreateMasterTagCategoryMessageListener : BaseMessageListener
     {
     }
     
-    [Topic(PubSubNames.Redis, "CreateMasterTagCategory")]
+    [Topic(PubSubNames.RabbitMq, "MasterTagCategoryCreate")]
     public async Task CreateMasterTagCategoryListener(EventDto message)
     {
-        var dto = JsonSerializer.Deserialize<MasterTagCategoryEventDto>(message.Data);
+       var dto = JsonSerializer.Deserialize<MasterTagCategoryEventDto>(message.Data);
+        Logger.LogInformation("Received message: {Dto}", message.Data);
     }
     
 }
