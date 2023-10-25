@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace AH.Company.Persistence;
 
@@ -31,12 +32,13 @@ public partial class CompanyMicroserviceDbContext : DbContext, ICompanyMicroServ
 {
     private readonly IConfiguration _configuration;
     private readonly IHttpContextAccessor _contextAccessor;
+    private readonly ILogger<CompanyMicroserviceDbContext> _logger;
 
-    public CompanyMicroserviceDbContext(IConfiguration configuration, IHttpContextAccessor contextAccessor)
+    public CompanyMicroserviceDbContext(IConfiguration configuration, IHttpContextAccessor contextAccessor, ILogger<CompanyMicroserviceDbContext> logger)
     {
         _configuration = configuration;
         _contextAccessor = contextAccessor;
-
+        _logger = logger;
     }
 
     public CompanyMicroserviceDbContext()
@@ -102,5 +104,18 @@ public partial class CompanyMicroserviceDbContext : DbContext, ICompanyMicroServ
             }
 
         return base.SaveChangesAsync();
+    }
+
+    public void SetConnectionString(string domain)
+    {
+        domain = domain.Replace("127.0.0.1", "localhost").Replace(":", "");
+        var connectionString = _configuration.GetConnectionString(domain);
+        _logger.LogInformation($"DbString:{connectionString}");
+        this.Database.SetConnectionString(connectionString);
+    }
+    
+    public string GetConnectionString()
+    {
+        return this.Database.GetConnectionString();
     }
 }

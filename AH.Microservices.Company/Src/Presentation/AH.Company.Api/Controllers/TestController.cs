@@ -1,4 +1,5 @@
-﻿using AH.Shared.Application.Interfaces;
+﻿using AH.Company.Application.Interfaces;
+using AH.Shared.Application.Interfaces;
 using AH.Shared.Domain.Constants;
 using AutoMapper;
 using MediatR;
@@ -8,21 +9,17 @@ namespace AH.Company.Api.Controllers;
 
 public class TestController : BaseController
 {
-    private readonly IConfiguration _configuration;
-    private readonly IMessageSender _sender;
+    private readonly ICompanyMicroServiceDbContext _context;
 
-
-    public TestController(IMapper mapper, ILogger<TestController> logger , IMediator mediator, IConfiguration configuration, IMessageSender sender) : base(mapper, logger, mediator)
+    public TestController(IMapper mapper, ILogger<TestController> logger , IMediator mediator, ICompanyMicroServiceDbContext context) : base(mapper, logger, mediator)
     {
-        _configuration = configuration;
-        _sender = sender;
-
+        _context = context;
     }
     [HttpGet]
     public async Task<IActionResult> Get()
     {
 
-        await _sender.SendEventAsync(PubSubNames.Redis, TopicNames.Metadata, "test", "test");
-        return Ok();
+        _context.SetConnectionString(Request.Headers.Host.ToString());
+        return Ok(_context.GetConnectionString());
     }
 }

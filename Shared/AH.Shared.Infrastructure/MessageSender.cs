@@ -20,7 +20,6 @@ public class MessageSender : IMessageSender
     
     public async Task SendEventAsync(string pubSubName, string topic, string userId, string message)
     { 
-      
         var messageInfo = new {pubSubName, topic, userId, message};
         try
         {

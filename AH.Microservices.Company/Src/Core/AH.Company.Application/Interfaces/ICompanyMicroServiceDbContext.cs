@@ -21,4 +21,6 @@ public interface ICompanyMicroServiceDbContext
     ChangeTracker? ChangeTracker { get; set; }
     Task<int> SaveChangesAsync(ClaimsPrincipal user);
 
+    void SetConnectionString(string dtoDomain);
+    string GetConnectionString();
 }
