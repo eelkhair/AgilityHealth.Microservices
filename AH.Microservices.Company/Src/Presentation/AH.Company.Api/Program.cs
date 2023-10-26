@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using System.Reflection;
-using AH.Company.Api.Models;
+using AH.Company.Api;
 using AH.Company.Application;
 using AH.Company.Application.Dtos;
 using AH.Company.Domain.Constants;
@@ -32,11 +32,11 @@ var mapper = new MapperConfiguration(c =>
 }).CreateMapper();
 
 builder.Services.AddSingleton(mapper);
-
+builder.Services.AddSingleton(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddPersistence(builder.Configuration);
 
-builder.Services.AddActors(options =>
+builder.Services.AddActors(_ =>
 {
   // Example :  options.Actors.RegisterActor<MetadataActor>();
 });

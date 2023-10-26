@@ -1,6 +1,7 @@
 ﻿using AH.Company.Application.Interfaces;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace AH.Company.Application.Commands;
 
@@ -10,9 +11,15 @@ public abstract class BaseCommandHandler
     {
         Context = context;
         Mapper = mapper;
-        Context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.TrackAll;
     }
-
     protected ICompanyMicroServiceDbContext Context { get; }
     protected IMapper Mapper { get; }
+    
+    protected void SetConnectionString(string domain, ILogger logger)
+    {
+        Context.SetConnectionString(domain);
+   //     Context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.TrackAll;
+        
+        logger.LogInformation("Connection string set to {ConnectionString}", Context.GetConnectionString());
+    }
 }

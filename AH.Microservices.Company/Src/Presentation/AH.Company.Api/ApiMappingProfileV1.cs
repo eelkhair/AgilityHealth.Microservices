@@ -1,6 +1,8 @@
-﻿using AutoMapper;
+﻿using AH.Company.Application.Dtos;
+using AH.Metadata.Shared.V1.Models.Responses.MasterTagCategories;
+using AutoMapper;
 
-namespace AH.Company.Api.Models;
+namespace AH.Company.Api;
 
 /// <summary>
 /// Mapping profile for API v1
@@ -12,5 +14,6 @@ public class ApiMappingProfileV1 : Profile
     /// </summary>
     public ApiMappingProfileV1()
     {
+        CreateMap<MasterTagCategoryResponse, MasterTagCategoryDto>();
     }
 }

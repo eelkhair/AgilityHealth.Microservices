@@ -10,7 +10,7 @@ public class MasterTag : BaseAuditableEntity
     public string Name { get; set; } = null!;
     public string ClassName { get; set; } = null!;
     public MasterTagCategory MasterTagCategory { get; set; } = null!;  
-    public int MetadataId { get; set; }
+    public Guid MetadataUId { get; set; }
     public ICollection<CompanySkillTag> CompanySkillTags { get; set; }
     public ICollection<CompanyStakeholderTag> CompanyStakeholderTags { get; set; }
     public ICollection<CompanyTeamTag> CompanyTeamTags { get; set; }

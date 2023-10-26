@@ -21,7 +21,7 @@
   <ItemGroup>
     <PackageReference Include="AH.Metadata.Shared.V1" Version="1.0.0" />
     <PackageReference Include="AH.Shared.Api" Version="1.0.6" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.12">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.13">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -32,11 +32,12 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\AH.Company.Infrastructure\AH.Company.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\AH.Company.Persistence\AH.Company.Persistence.csproj" />
+    <ProjectReference Include="..\..\Shared\AH.Company.Shared.V1\AH.Company.Shared.V1.csproj" />
   </ItemGroup>
 
 
   <ItemGroup>
-    <Folder Include="Configuration\" />
+    <Folder Include="MessageSenders\Interfaces\" />
   </ItemGroup>
 
 </Project>

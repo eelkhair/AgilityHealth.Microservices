@@ -26,7 +26,7 @@ public partial class CompanyMicroserviceDbContext
     public  DbSet<CompanyStakeholderTag> CompanyStakeholderTags { get; set; } = null!;
     public  DbSet<CompanyTeamMemberCategory> CompanyTeamMemberCategories { get; set; } = null!;
     public  DbSet<CompanyTeamMemberTag> CompanyTeamMemberTags { get; set; } = null!;
-    public new ChangeTracker? ChangeTracker { get; set; } 
+    public new ChangeTracker ChangeTracker { get; set; } 
 }
 public partial class CompanyMicroserviceDbContext : DbContext, ICompanyMicroServiceDbContext
 {
@@ -110,12 +110,12 @@ public partial class CompanyMicroserviceDbContext : DbContext, ICompanyMicroServ
     {
         domain = domain.Replace("127.0.0.1", "localhost").Replace(":", "");
         var connectionString = _configuration.GetConnectionString(domain);
-        _logger.LogInformation($"DbString:{connectionString}");
+
         this.Database.SetConnectionString(connectionString);
     }
     
-    public string GetConnectionString()
+    public string? GetConnectionString()
     {
-        return this.Database.GetConnectionString();
+        return Database.GetConnectionString();
     }
 }

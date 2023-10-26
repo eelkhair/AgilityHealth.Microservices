@@ -26,22 +26,16 @@ public abstract class BaseMessageListener : ControllerBase
         /// </summary>
         protected IMediator Mediator;
         /// <summary>
-        /// Context
-        /// </summary>
-        protected ICompanyMicroServiceDbContext Context;
-
-        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="mapper"></param>
         /// <param name="logger"></param>
         /// <param name="mediator"></param>
-        /// <param name="context"></param>
-        protected BaseMessageListener(IMapper mapper, ILogger logger, IMediator mediator, ICompanyMicroServiceDbContext context)
+        protected BaseMessageListener(IMapper mapper, ILogger logger, IMediator mediator)
         {
             Mapper = mapper;
             Logger = logger;
             Mediator = mediator;
-            Context = context;
+
         }
 }
