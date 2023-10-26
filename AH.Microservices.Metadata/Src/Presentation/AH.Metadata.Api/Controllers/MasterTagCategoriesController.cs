@@ -5,6 +5,7 @@ using AH.Metadata.Application.Dtos;
 using AH.Metadata.Application.Queries.MasterTagCategories;
 using AH.Metadata.Shared.V1.Models.Requests.Tags;
 using AH.Metadata.Shared.V1.Models.Responses.MasterTagCategories;
+using AH.Shared.Application.Interfaces;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -25,8 +26,9 @@ public class MasterTagCategoriesController : BaseController
     /// <param name="mapper">The mapper.</param>
     /// <param name="logger">The logger.</param>
     /// <param name="mediator">The mediator.</param>
-    /// <param name="sender"></param>
-    public MasterTagCategoriesController(IMapper mapper, ILogger logger, IMediator mediator, IMasterTagCategoriesMessageSender sender) : base(mapper, logger, mediator)
+    /// <param name="sender">The master tag category event sender.</param>
+    /// <param name="correlationId">The correlation id.</param>
+    public MasterTagCategoriesController(IMapper mapper, ILogger logger, IMediator mediator, IMasterTagCategoriesMessageSender sender, ICorrelationId correlationId) : base(mapper, logger, mediator, correlationId)
     {
         _sender = sender;
     }
@@ -116,7 +118,7 @@ public class MasterTagCategoriesController : BaseController
     {
         if(request == null) throw new ArgumentNullException(nameof(request));
         
-        Logger.LogInformation("Creating master tag category");
+        Logger.LogInformation("CorrelationId: {CorrelationId}Creating master tag category", CorrelationId.Get());
         var dto = Mapper.Map<MasterTagCategoryDto>(request);
         
         var command = new CreateMasterTagCategoryCommand(User, Logger, dto);

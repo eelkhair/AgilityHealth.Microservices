@@ -37,5 +37,6 @@ public static class AppConfig
         app.MapActorsHandlers();
         app.UseMiddleware<ExceptionHandlerMiddleware>();
         app.UseMiddleware<CorrelationIdMiddleware>();
+        app.UseMiddleware<LogHeaderMiddleware>();
     }
 }

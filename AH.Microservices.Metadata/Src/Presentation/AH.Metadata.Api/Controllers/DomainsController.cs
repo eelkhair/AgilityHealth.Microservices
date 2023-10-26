@@ -4,6 +4,7 @@ using AH.Metadata.Application.Dtos;
 using AH.Metadata.Application.Queries.Domains;
 using AH.Metadata.Shared.V1.Models.Requests.Domains;
 using AH.Metadata.Shared.V1.Models.Responses.Domains;
+using AH.Shared.Application.Interfaces;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,8 @@ public class DomainsController : BaseController
     /// <param name="mapper"></param>
     /// <param name="logger"></param>
     /// <param name="mediator"></param>
-    public DomainsController(IMapper mapper, ILogger<DomainsController> logger, IMediator mediator) : base(mapper, logger, mediator)
+    /// <param name="correlationId"></param>
+    public DomainsController(IMapper mapper, ILogger<DomainsController> logger, IMediator mediator, ICorrelationId correlationId) : base(mapper, logger, mediator, correlationId)
     {
 
     }

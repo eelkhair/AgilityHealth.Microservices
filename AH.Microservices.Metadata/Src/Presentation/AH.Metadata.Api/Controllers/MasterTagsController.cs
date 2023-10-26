@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using AH.Metadata.Application.Queries.MasterTags;
 using AH.Metadata.Shared.V1.Models.Responses.MasterTags;
+using AH.Shared.Application.Interfaces;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,8 @@ public class MasterTagsController : BaseController
     /// <param name="mapper">The mapper.</param>
     /// <param name="logger">The logger.</param>
     /// <param name="mediator">The mediator.</param>
-    public MasterTagsController(IMapper mapper, ILogger logger, IMediator mediator) : base(mapper, logger, mediator)
+    /// <param name="correlationId">The correlationId.</param>
+    public MasterTagsController(IMapper mapper, ILogger logger, IMediator mediator, ICorrelationId correlationId) : base(mapper, logger, mediator, correlationId)
     {
     }
     
