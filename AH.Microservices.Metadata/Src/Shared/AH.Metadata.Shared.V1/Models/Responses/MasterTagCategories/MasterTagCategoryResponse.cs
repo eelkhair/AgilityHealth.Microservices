@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents an MasterTagCategory.
 /// </summary>
-public class MasterTagCategoryResponse : BaseResponse
+public class MasterTagCategoryResponse : BaseAuditableResponse
 {
     /// <summary>
     /// MasterTagCategory Name

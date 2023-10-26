@@ -6,10 +6,8 @@ using AH.Shared.Domain.Constants;
 using AH.Shared.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace AH.Company.Persistence;
 
@@ -26,19 +24,18 @@ public partial class CompanyMicroserviceDbContext
     public  DbSet<CompanyStakeholderTag> CompanyStakeholderTags { get; set; } = null!;
     public  DbSet<CompanyTeamMemberCategory> CompanyTeamMemberCategories { get; set; } = null!;
     public  DbSet<CompanyTeamMemberTag> CompanyTeamMemberTags { get; set; } = null!;
-    public new ChangeTracker ChangeTracker { get; set; } 
+
 }
 public partial class CompanyMicroserviceDbContext : DbContext, ICompanyMicroServiceDbContext
 {
-    private readonly IConfiguration _configuration;
-    private readonly IHttpContextAccessor _contextAccessor;
-    private readonly ILogger<CompanyMicroserviceDbContext> _logger;
+    private readonly IConfiguration _configuration = null!;
+    private readonly IHttpContextAccessor _contextAccessor = null!;
 
-    public CompanyMicroserviceDbContext(IConfiguration configuration, IHttpContextAccessor contextAccessor, ILogger<CompanyMicroserviceDbContext> logger)
+
+    public CompanyMicroserviceDbContext(IConfiguration configuration, IHttpContextAccessor contextAccessor)
     {
         _configuration = configuration;
         _contextAccessor = contextAccessor;
-        _logger = logger;
     }
 
     public CompanyMicroserviceDbContext()
@@ -78,10 +75,11 @@ public partial class CompanyMicroserviceDbContext : DbContext, ICompanyMicroServ
         modelBuilder.SeedData();         
     }
 
-    public Task<int> SaveChangesAsync(ClaimsPrincipal user)
+    public Task<int> SaveChangesAsync(ClaimsPrincipal user, CancellationToken cancellationToken = default)
     {
         var now = DateTime.UtcNow;
 
+        // ReSharper disable once RedundantSuppressNullableWarningExpression
         foreach (var entry in ChangeTracker!.Entries<BaseAuditableEntity>())
             switch (entry.State)
             {
@@ -103,7 +101,7 @@ public partial class CompanyMicroserviceDbContext : DbContext, ICompanyMicroServ
                     break;
             }
 
-        return base.SaveChangesAsync();
+        return base.SaveChangesAsync(cancellationToken);
     }
 
     public void SetConnectionString(string domain)

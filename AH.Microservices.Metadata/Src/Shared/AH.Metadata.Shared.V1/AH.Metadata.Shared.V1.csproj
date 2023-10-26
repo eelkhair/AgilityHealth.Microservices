@@ -7,7 +7,7 @@
         <RootNamespace>AH.Metadata.Shared.V1</RootNamespace>
         <PackageId>AH.Metadata.Shared.V1</PackageId>
         <Authors>Elkhair Elkhair</Authors>
-        <Version>1.0.0</Version>
+        <Version>1.0.1</Version>
         <Description>Shared components for the metadata microservice</Description>
         <IsPackable>true</IsPackable>
     </PropertyGroup>

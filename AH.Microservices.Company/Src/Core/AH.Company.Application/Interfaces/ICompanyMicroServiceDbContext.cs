@@ -18,8 +18,8 @@ public interface ICompanyMicroServiceDbContext
     DbSet<CompanyStakeholderTag> CompanyStakeholderTags { get; set; }
     DbSet<CompanyTeamMemberCategory> CompanyTeamMemberCategories { get; set; }
     DbSet<CompanyTeamMemberTag> CompanyTeamMemberTags { get; set; }
-    ChangeTracker ChangeTracker { get; set; }
-    Task<int> SaveChangesAsync(ClaimsPrincipal user);
+    Task<int> SaveChangesAsync(ClaimsPrincipal user, CancellationToken cancellationToken = default);
     void SetConnectionString(string domain);
     string? GetConnectionString();
+    ChangeTracker ChangeTracker { get; }
 }
