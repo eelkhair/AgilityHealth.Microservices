@@ -2,6 +2,7 @@
 using AH.Shared.Api.Dapr;
 using AH.Shared.Api.Dtos;
 using AH.Shared.Api.Swagger;
+using AH.Shared.Application.Logging;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AH.Shared.Api; 
@@ -14,6 +15,7 @@ public static class Services
         services.RegisterSwagger(swagger, auth0Config);
         services.RegisterAuth0(auth0Config, swagger);
         services.RegisterDapr();
+        services.AddCorrelationIdService();
 
     }
 }
