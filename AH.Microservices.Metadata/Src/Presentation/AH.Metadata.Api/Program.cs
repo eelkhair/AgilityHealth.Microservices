@@ -30,27 +30,23 @@ var mapper = new MapperConfiguration(c =>
     c.AddProfile(new MappingProfile());
     c.AddProfile(new ApiMappingProfileV1());
 }).CreateMapper();
-
 builder.Services.AddSingleton(mapper);
 
 builder.Services.AddApplication();
 builder.Services.AddPersistence(builder.Configuration);
 
-builder.Services.AddActors(options =>
+builder.Services.AddActors(_ =>
 {
     // Example :  options.Actors.RegisterActor<MetadataActor>();
 });
 
-
 builder.Services.AddScoped<IMasterTagCategoriesMessageSender, MasterTagCategoriesMessageSender>();
-
-
 
 var app = builder.Build();
 app.Initialize(auth0Config);
 
-
 #if DEBUG
  Debugger.Launch();
 #endif
+
 app.Run();

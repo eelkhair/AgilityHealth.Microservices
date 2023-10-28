@@ -17,7 +17,7 @@
 
 
     <ItemGroup>
-      <PackageReference Include="AH.Shared.Persistence" Version="1.0.0" />
+      <PackageReference Include="AH.Shared.Persistence" Version="1.0.2" />
     </ItemGroup>
 
 </Project>

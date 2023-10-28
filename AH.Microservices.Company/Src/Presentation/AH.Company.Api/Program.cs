@@ -45,7 +45,6 @@ var app = builder.Build();
 
 app.Initialize(auth0Config);
 
-
 #if DEBUG
 Debugger.Launch();
 #endif

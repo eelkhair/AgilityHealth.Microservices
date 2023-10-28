@@ -16,7 +16,7 @@
 
 
     <ItemGroup>
-      <PackageReference Include="AH.Shared.Application" Version="1.0.1" />
+      <PackageReference Include="AH.Shared.Application" Version="1.0.2" />
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
 
 

@@ -12,6 +12,7 @@ public class MappingProfile:Profile
             .ForMember(x => x.CompanyTeamCategories, opt => opt.Ignore())
             .ForMember(x => x.CompanySkillCategories, opt => opt.Ignore())
             .ForMember(x => x.CompanyStakeholderCategories, opt => opt.Ignore())
-            .ForMember(x => x.CompanyTeamMemberCategories, opt => opt.Ignore());
+            .ForMember(x => x.CompanyTeamMemberCategories, opt => opt.Ignore())
+            .ReverseMap();
     }
 }

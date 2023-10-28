@@ -16,6 +16,6 @@ public static class Services
         services.RegisterAuth0(auth0Config, swagger);
         services.RegisterDapr();
         services.AddCorrelationIdService();
-        services.AddApplicationInsightsTelemetry();
+        services.AddApplicationInsightsTelemetry().AddCorrelationIdService();
     }
 }
