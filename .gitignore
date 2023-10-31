@@ -9,8 +9,8 @@
 /AH.Microservices.Metadata/Src/*/AH.Metadata.*/obj/*
 /AH.Microservices.Metadata/Src/*/AH.Metadata.*/bin/*
 /AH.Microservices.Metadata/obj/*
-/AH.Microservices.User/Src/*/AH.User.*/obj/*
-/AH.Microservices.User/Src/*/AH.User.*/bin/*
+/AH.Microservices.User/Src/*/AH.User.*/obj/
+/AH.Microservices.User/Src/*/AH.User.*/bin/Debug/
 /AH.Microservices.User/obj/*
 /Shared/AH.Shared.*/obj/*
 /Shared/AH.Shared.*/bin/*
