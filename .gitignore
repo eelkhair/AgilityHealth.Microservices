@@ -29,3 +29,4 @@ AH.Microservices.Metadata.sln*
 bin/Debug/
 .vs/
 .env
+/AH.Microservices.User/Src/Infrastructure/AH.User.Infrastructure/bin/*
