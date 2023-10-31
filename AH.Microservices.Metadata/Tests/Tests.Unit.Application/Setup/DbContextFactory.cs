@@ -1,4 +1,5 @@
-﻿using AH.Metadata.Persistence;
+﻿using AH.Metadata.Application.Interfaces;
+using AH.Metadata.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace Tests.Unit.Application.Setup;

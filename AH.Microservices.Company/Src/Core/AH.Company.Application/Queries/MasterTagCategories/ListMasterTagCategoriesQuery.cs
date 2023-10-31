@@ -20,7 +20,7 @@ public class ListMasterTagCategoriesQuery: BaseQuery<List<MasterTagCategoryDto>>
 public class ListMasterTagCategoriesQueryHandler : BaseQueryHandler,
     IRequestHandler<ListMasterTagCategoriesQuery, List<MasterTagCategoryDto>>
 {
-    public ListMasterTagCategoriesQueryHandler(ICompanyMicroServiceDbContext context, IMapper mapper, IHttpContextAccessor accessor) : base(context, mapper, accessor)
+    public ListMasterTagCategoriesQueryHandler(ICompanyMicroServiceDbContext context, IMapper mapper) : base(context, mapper)
     {
         
     }

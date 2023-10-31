@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>AH.User.Shared.V1</RootNamespace>
+        <PackageId>AH.User.Shared.V1</PackageId>
+        <Authors>Elkhair Elkhair</Authors>
+        <Version>1.0.0</Version>
+        <Description>Shared components for the user microservice</Description>
+        <IsPackable>true</IsPackable>
+    </PropertyGroup>
+
+</Project>

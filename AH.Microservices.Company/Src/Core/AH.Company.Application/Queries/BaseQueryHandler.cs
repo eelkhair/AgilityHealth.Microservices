@@ -7,12 +7,12 @@ namespace AH.Company.Application.Queries;
 
 public abstract class BaseQueryHandler
 {
-    protected BaseQueryHandler(ICompanyMicroServiceDbContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+    protected BaseQueryHandler(ICompanyMicroServiceDbContext context, IMapper mapper)
     {
         Context = context;
         Mapper = mapper;
         Context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-        Context.SetConnectionString(httpContextAccessor?.HttpContext?.Request.Headers.Host!);
+
     }
 
     protected ICompanyMicroServiceDbContext Context { get; }

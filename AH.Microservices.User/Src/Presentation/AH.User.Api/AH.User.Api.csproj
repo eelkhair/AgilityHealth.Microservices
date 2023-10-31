@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DocumentationFile>bin\Debug\AH.User.Api.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <DocumentationFile>bin\Release\AH.User.Api.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AH.Shared.Api" Version="1.0.8" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.13">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Infrastructure\AH.User.Infrastructure\AH.User.Infrastructure.csproj" />
+      <ProjectReference Include="..\..\Infrastructure\AH.User.Persistence\AH.User.Persistence.csproj" />
+      <ProjectReference Include="..\..\Shared\AH.User.Shared.V1\AH.User.Shared.V1.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="MessageSenders\Interfaces\" />
+    </ItemGroup>
+
+</Project>

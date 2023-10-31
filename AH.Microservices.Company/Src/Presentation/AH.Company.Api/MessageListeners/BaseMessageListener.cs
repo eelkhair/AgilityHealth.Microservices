@@ -1,5 +1,4 @@
-﻿using AH.Company.Application.Interfaces;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,15 +15,15 @@ public abstract class BaseMessageListener : ControllerBase
         /// <summary>
         /// Mapper
         /// </summary>
-        protected IMapper Mapper;
+        protected readonly IMapper Mapper;
         /// <summary>
         /// Logger
         /// </summary>
-        protected ILogger Logger;
+        protected readonly ILogger Logger;
         /// <summary>
         /// Mediator
         /// </summary>
-        protected IMediator Mediator;
+        protected readonly IMediator Mediator;
         /// <summary>
         /// Constructor
         /// </summary>

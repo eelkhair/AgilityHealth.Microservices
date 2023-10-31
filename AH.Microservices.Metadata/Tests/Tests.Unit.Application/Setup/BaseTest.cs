@@ -1,3 +1,4 @@
+using AH.Metadata.Application.Interfaces;
 using AH.Metadata.Persistence;
 using AutoMapper;
 

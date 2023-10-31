@@ -18,6 +18,8 @@
     <None Include=".dockerignore" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".gitignore" />
+    <Content Include="AH.Documentation\AgilityHealth.Microservices.argr" />
     <Content Include="azure-pipelines.yml" />
     <Content Include="start-metadata.sh" />
   </ItemGroup>

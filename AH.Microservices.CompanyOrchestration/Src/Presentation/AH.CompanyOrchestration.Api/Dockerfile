@@ -3,6 +3,11 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
+ARG Username="test"
+ARG Pat="user"
+
+RUN echo "username is $Username and pat is $Pat"
+
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["AH.Microservices.CompanyOrchestration/Src/Presentation/AH.CompanyOrchestration.Api/AH.CompanyOrchestration.Api.csproj", "AH.Microservices.CompanyOrchestration/Src/Presentation/AH.CompanyOrchestration.Api/"]

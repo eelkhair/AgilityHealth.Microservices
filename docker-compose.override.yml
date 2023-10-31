@@ -23,3 +23,10 @@ services:
       - "5024:80"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+  ah-user-api:
+       environment:
+         - ASPNETCORE_ENVIRONMENT=Development
+       ports:
+         - "5025:80"
+       volumes:
+         - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
