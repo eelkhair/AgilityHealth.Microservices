@@ -5,7 +5,7 @@ using AH.Shared.Api.Dtos;
 using AH.User.Api;
 using AH.User.Application;
 using AH.User.Application.Dtos;
-using AH.Users.Domain.Constants;
+using AH.User.Domain.Constants;
 using AH.User.Persistence;
 using AutoMapper;
 
