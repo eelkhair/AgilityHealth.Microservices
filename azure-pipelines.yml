@@ -156,14 +156,14 @@ steps:
     inputs:
       command: 'build'
       arguments: '--configuration $(buildConfiguration)'
-      projects: 'Integrations/Src/AH.Integration.Auth0.ServiceAgent/AH.Integration.Auth0.ServiceAgent.Rest.csproj'
+      projects: 'Integrations/Src/AH.Integration.Auth0.ServiceAgent.Rest/AH.Integration.Auth0.ServiceAgent.Rest.csproj'
 
   - task: DotNetCoreCLI@2
     displayName: "dotnet pack"
     inputs:
       command: 'pack'
       arguments: '--configuration $(buildConfiguration)'
-      packagesToPack: 'Integrations/Src/AH.Integration.Auth0.ServiceAgent/AH.Integration.Auth0.ServiceAgent.Rest.csproj'
+      packagesToPack: 'Integrations/Src/AH.Integration.Auth0.ServiceAgent.Rest/AH.Integration.Auth0.ServiceAgent.Rest.csproj'
       nobuild: true
       versioningScheme: 'off'
   
