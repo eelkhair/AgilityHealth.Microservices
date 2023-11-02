@@ -2,7 +2,7 @@
 
 public class BaseDto
 {
-//   public int Id { get; set; }
+    public int Id { get; set; }
     public Guid UId { get; set; }
     
     public DateTime CreatedAt { get; set; }
