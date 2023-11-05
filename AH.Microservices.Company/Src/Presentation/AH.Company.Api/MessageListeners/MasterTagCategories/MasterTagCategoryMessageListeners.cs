@@ -14,7 +14,7 @@ namespace AH.Company.Api.MessageListeners.MasterTagCategories;
 /// <summary>
 /// Listener for MasterTagCategoryCreate event
 /// </summary>
-public class CreateMasterTagCategoryMessageListener : BaseMessageListener
+public class MasterTagCategoryMessageListeners : BaseMessageListener
 {
     /// <summary>
     /// Constructor
@@ -22,7 +22,7 @@ public class CreateMasterTagCategoryMessageListener : BaseMessageListener
     /// <param name="mapper"></param>
     /// <param name="logger"></param>
     /// <param name="mediator"></param>
-    public CreateMasterTagCategoryMessageListener(IMapper mapper, ILogger logger, IMediator mediator) : base(mapper, logger, mediator)
+    public MasterTagCategoryMessageListeners(IMapper mapper, ILogger logger, IMediator mediator) : base(mapper, logger, mediator)
     {
     }
 

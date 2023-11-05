@@ -7,6 +7,7 @@ using AH.Shared.Application.Commands;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace AH.Metadata.Application.Commands.MasterTags;
@@ -29,10 +30,28 @@ public class CreateMasterTagCommandHandler : BaseCommandHandler, IRequestHandler
 
     public async Task<MasterTagDto> Handle(CreateMasterTagCommand request, CancellationToken cancellationToken)
     {
+        // Get Needed data from the database
+        var category = await Context.MasterTagCategories.FirstAsync(x => x.UId == request.MasterTag.MasterTagCategory.UId, cancellationToken);
+        
         var entity = Mapper.Map<MasterTag>(request.MasterTag);
+        entity.MasterTagCategoryId = category.Id;
+        entity.MasterTagCategory = null!;
+        
+        MasterTag? parentMasterTag = null;
+        if (request.MasterTag.ParentMasterTag != null)
+        {
+            parentMasterTag = await Context.MasterTags.FirstAsync(x => x.UId == request.MasterTag.ParentMasterTag.UId, cancellationToken);
+        }
+        entity.ParentMasterTagId = parentMasterTag?.Id;
         await Context.MasterTags.AddAsync(entity, cancellationToken);
         await Context.SaveChangesAsync(request.User, cancellationToken);
-        return Mapper.Map<MasterTagDto>(entity);
+        
+        var output = Mapper.Map<MasterTagDto>(entity);
+        
+        if (entity.ParentMasterTagId == null) return output;
+        output.ParentMasterTag = Mapper.Map<MasterTagDto>(parentMasterTag);
+        
+        return output;
     }
 }
 
@@ -46,8 +65,6 @@ public class CreateMasterTagCommandValidator : AbstractValidator<CreateMasterTag
             .WithMessage(ValidationMessages.MasterTagNameMaxLength);
         RuleFor(x => x.MasterTag.ClassName).NotEmpty()
             .WithMessage(ValidationMessages.MasterTagClassNameRequired);
-        RuleFor(x => x.MasterTag.MasterTagCategoryId).NotEmpty()
-            .WithMessage(ValidationMessages.MasterTagCategoryRequired);
         RuleFor(x=>x.MasterTag.MasterTagCategory.UId).NotEmpty()
             .WithMessage(ValidationMessages.MasterTagCategoryRequired);
         RuleFor(x => x.MasterTag.MasterTagCategory.UId).Must(categoryUId =>

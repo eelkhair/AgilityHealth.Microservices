@@ -23,7 +23,7 @@ public class MasterTagCategoryRequest
     /// </summary>
     [Required]
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public MasterTagCategoryClassNames ClassName { get; set; }
+    public MasterTagCategoryClassName ClassName { get; set; }
     /// <summary>
     /// MasterTagCategory Type
     /// </summary>
@@ -54,7 +54,7 @@ public enum MasterTagCategoryTypes
 /// </summary>
 [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
 [SuppressMessage("ReSharper", "UnusedMember.Global")]
-public enum MasterTagCategoryClassNames
+public enum MasterTagCategoryClassName
 {
     /// <summary>
     ///  Team

@@ -5,31 +5,22 @@ services:
     image: ${DOCKER_REGISTRY-}ahcompanyapi
     build:
       context: .
-      dockerfile: AH.Microservices.Company/Src/Presentation/AH.Company.Api/Dockerfile
-    ports:
-      - "5002:80"
-      - "5003:80"    
+      dockerfile: AH.Microservices.Company/Src/Presentation/AH.Company.Api/Dockerfile 
   ah-company-orchestration-api:
     image: ${DOCKER_REGISTRY-}ahcompanyorchestrationapi
     build:
       context: .
       dockerfile: AH.Microservices.CompanyOrchestration/Src/Presentation/AH.CompanyOrchestration.Api/Dockerfile
-    ports:
-      - "5004:80"  
   ah-user-api:
     image: ${DOCKER_REGISTRY-}ahuserapi
     build:
       context: .
-      dockerfile: AH.Microservices.User/Src/Presentation/AH.User.Api/Dockerfile
-    ports:
-      - "5005:80"    
+      dockerfile: AH.Microservices.User/Src/Presentation/AH.User.Api/Dockerfile  
   ah-metadata-api:
     image: ${DOCKER_REGISTRY-}ahmetadataapi
     build:
       context: .
       dockerfile: AH.Microservices.Metadata/Src/Presentation/AH.Metadata.Api/Dockerfile
-    ports:
-      - "5001:80"
     env_file: ".env"    
   ah-company-api-dapr:
     image: "daprio/daprd:edge"
@@ -69,7 +60,6 @@ services:
       "./daprd",
       "--app-id", "ah-metadata-api",
       "--app-port", "80",
-      "--dapr-http-port", "3500",
       "--placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
       "--resources-path", "./Components"
     ]
@@ -86,7 +76,6 @@ services:
       "./daprd",
       "--app-id", "ah-user-api",
       "--app-port", "80",
-      "--dapr-http-port", "3500",
       "--placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
       "--resources-path", "./Components"
     ]
@@ -96,6 +85,7 @@ services:
       - ah-user-api
       - placement
     network_mode: "service:ah-user-api"
+    
   placement:
     image: "daprio/dapr"
     command: ["./placement", "--port", "50006"]

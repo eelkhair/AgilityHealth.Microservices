@@ -12,9 +12,21 @@ namespace AH.Metadata.Api.Controllers;
 [Route("/v1/[controller]")]
 public abstract class BaseController : ControllerBase
 {
+    /// <summary>
+    /// Mapper for mapping objects
+    /// </summary>
     protected readonly IMapper Mapper;
+    /// <summary>
+    /// Logger for logging
+    /// </summary>
     protected readonly ILogger Logger;
+    /// <summary>
+    /// Mediator for sending commands and queries
+    /// </summary>
     protected readonly IMediator Mediator;
+    /// <summary>
+    /// CorrelationId for tracking requests across services
+    /// </summary>
     protected readonly ICorrelationId CorrelationId;
 
     /// <summary>
@@ -23,6 +35,7 @@ public abstract class BaseController : ControllerBase
     /// <param name="mapper"></param>
     /// <param name="logger"></param>
     /// <param name="mediator"></param>
+    /// <param name="correlationId"></param>
     protected BaseController(IMapper mapper, ILogger logger, IMediator mediator, ICorrelationId correlationId)
     {
         Mapper = mapper;

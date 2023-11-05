@@ -40,4 +40,10 @@
     <Folder Include="MessageSenders\Interfaces\" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Compile Remove="MessageListeners\MasterTagCategories\DeleteMasterTagCategoryMessageListener.cs" />
+    <Compile Remove="MessageListeners\MasterTagCategories\UpdateMasterTagCategoryMessageListener.cs" />
+  </ItemGroup>
+
 </Project>

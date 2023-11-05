@@ -2,6 +2,7 @@
 using AH.Metadata.Application.Dtos;
 using AH.Metadata.Application.Interfaces;
 using AH.Metadata.Domain.Constants;
+using AH.Metadata.Domain.Entities;
 using AH.Shared.Application.Commands;
 using AutoMapper;
 using FluentValidation;
@@ -29,10 +30,32 @@ public class UpdateMasterTagCommandHandler : BaseCommandHandler, IRequestHandler
 
     public async Task<MasterTagDto> Handle(UpdateMasterTagCommand request, CancellationToken cancellationToken)
     {
-        var entity = await Context.MasterTags.FirstOrDefaultAsync(x=> x.UId ==request.MasterTag.UId, cancellationToken: cancellationToken);
+        var entity = await Context.MasterTags.FirstAsync(x => x.UId == request.MasterTag.UId,
+            cancellationToken: cancellationToken);
         Mapper.Map(request.MasterTag, entity);
+
+        var category =
+            await Context.MasterTagCategories.FirstAsync(x => x.UId == request.MasterTag.MasterTagCategory.UId,
+                cancellationToken);
+        entity.MasterTagCategoryId = category.Id;
+
+        MasterTag? parentMasterTag = null;
+        if (request.MasterTag.ParentMasterTag != null)
+        {
+            parentMasterTag = await Context.MasterTags.FirstAsync(x => x.UId == request.MasterTag.ParentMasterTag.UId,
+                cancellationToken);
+            entity.ParentMasterTagId = parentMasterTag.Id;
+        }
+
         await Context.SaveChangesAsync(request.User, cancellationToken);
-        return Mapper.Map<MasterTagDto>(entity);
+
+        var output = Mapper.Map<MasterTagDto>(entity);
+
+        if (entity.ParentMasterTagId == null) return output;
+        output.ParentMasterTag = Mapper.Map<MasterTagDto>(parentMasterTag);
+
+        return output;
+
     }
 }
 
@@ -46,8 +69,6 @@ public class UpdateMasterTagCommandValidator : AbstractValidator<UpdateMasterTag
             .WithMessage(ValidationMessages.MasterTagNameMaxLength);
         RuleFor(x => x.MasterTag.ClassName).NotEmpty()
             .WithMessage(ValidationMessages.MasterTagClassNameRequired);
-        RuleFor(x => x.MasterTag.MasterTagCategoryId).NotEmpty()
-            .WithMessage(ValidationMessages.MasterTagCategoryRequired);
         RuleFor(x=>x.MasterTag.MasterTagCategory.UId).NotEmpty()
             .WithMessage(ValidationMessages.MasterTagCategoryRequired);
         RuleFor(x=>x.MasterTag.UId).Must(x=>context.MasterTags.Any(y=>y.UId == x))

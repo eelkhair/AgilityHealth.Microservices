@@ -37,9 +37,9 @@ public struct ValidationMessages
     public const string MasterTagNameRequired = "Name cannot be empty";
     public const string MasterTagNameMaxLength = "Name cannot exceed 250 characters";
     public const string MasterTagClassNameRequired = "ClassName cannot be empty";
-    public const string MasterTagCategoryRequired = "MasterTagCategory cannot be empty";
-    public const string MasterTagCategoryNotFound = "MasterTagCategory doesn't exist";
-    public const string MasterTagParentMasterTagNotFound = "ParentMasterTag doesn't exist";
+    public const string MasterTagCategoryRequired = "MasterTagCategoryUId cannot be empty";
+    public const string MasterTagCategoryNotFound = "MasterTagCategoryUId doesn't exist";
+    public const string MasterTagParentMasterTagNotFound = "ParentMasterTagUId doesn't exist";
     public const string MasterTagUIdDoesNotExist = "UId doesn't exist"; 
     public const string MasterTagUIdNotEmpty = "UId cannot be empty";
     #endregion

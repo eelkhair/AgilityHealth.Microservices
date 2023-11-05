@@ -5,28 +5,28 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "5022:80"
-      - "5023:80"
+      - "5002:80"
+      - "5003:80"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro'
   ah-metadata-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "5021:80"
+      - "5001:80"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
   ah-company-orchestration-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "5024:80"
+      - "5004:80"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
   ah-user-api:
-       environment:
-         - ASPNETCORE_ENVIRONMENT=Development
-       ports:
-         - "5025:80"
-       volumes:
-         - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+     environment:
+       - ASPNETCORE_ENVIRONMENT=Development
+     ports:
+       - "5005:80"
+     volumes:
+       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
