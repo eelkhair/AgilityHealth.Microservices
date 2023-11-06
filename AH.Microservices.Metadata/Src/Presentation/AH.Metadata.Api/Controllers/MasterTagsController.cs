@@ -120,7 +120,7 @@ public class MasterTagsController : BaseController
         var model = Mapper.Map<MasterTagWithCategoryAndParentTagResponse>(masterTag);
         Logger.LogInformation("Master tag with name {Name} created.{Data}", request.Name, JsonSerializer.Serialize(model));
 
-        await _sender.SendCreateMasterTagMessageAsync(User, masterTag);
+        await _sender.SendCreateMasterTagMessageAsync(User, model);
         return CreatedAtAction(nameof(GetMasterTag), new {masterTagUId = masterTag.UId}, model);
     }
     
@@ -148,7 +148,7 @@ public class MasterTagsController : BaseController
         var model = Mapper.Map<MasterTagWithCategoryAndParentTagResponse>(masterTag);
         Logger.LogInformation("Master tag with UId {UId} updated.{Data}", masterTagUId, JsonSerializer.Serialize(model));
         
-        await _sender.SendUpdateMasterTagMessageAsync(User, masterTag);
+        await _sender.SendUpdateMasterTagMessageAsync(User, model);
         return Ok(model);
     }
     
@@ -171,7 +171,7 @@ public class MasterTagsController : BaseController
         
         Logger.LogInformation("Master tag with UId {UId} deleted. ", masterTagUId);
         
-        await _sender.SendDeleteMasterTagMessageAsync(User, masterTag);
+        await _sender.SendDeleteMasterTagMessageAsync(User, Mapper.Map<MasterTagWithCategoryAndParentTagResponse>(masterTag));
         return NoContent();
     }
 }

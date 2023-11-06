@@ -14,5 +14,13 @@ public class MappingProfile:Profile
             .ForMember(x => x.CompanyStakeholderCategories, opt => opt.Ignore())
             .ForMember(x => x.CompanyTeamMemberCategories, opt => opt.Ignore())
             .ReverseMap();
+        
+        CreateMap<MasterTagDto, MasterTag>()
+            .ForMember(x => x.MasterTagCategory, opt => opt.Ignore())
+            .ForMember(x => x.CompanyTeamTags, opt => opt.Ignore())
+            .ForMember(x => x.CompanySkillTags, opt => opt.Ignore())
+            .ForMember(x => x.CompanyStakeholderTags, opt => opt.Ignore())
+            .ForMember(x => x.CompanyTeamMemberTags, opt => opt.Ignore())
+            .ReverseMap();
     }
 }

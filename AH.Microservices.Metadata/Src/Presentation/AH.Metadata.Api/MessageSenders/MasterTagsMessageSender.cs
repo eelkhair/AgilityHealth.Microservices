@@ -1,10 +1,8 @@
 ﻿using System.Security.Claims;
 using System.Text.Json;
 using AH.Metadata.Api.MessageSenders.Interfaces;
-using AH.Metadata.Application.Dtos;
 using AH.Metadata.Application.Queries.Domains;
 using AH.Metadata.Shared.V1.Events;
-using AH.Metadata.Shared.V1.Models.Responses.MasterTagCategories;
 using AH.Metadata.Shared.V1.Models.Responses.MasterTags;
 using AH.Shared.Application.Extensions;
 using AH.Shared.Application.Interfaces;
@@ -38,7 +36,7 @@ public class MasterTagsMessageSender : BaseMetadataMessageSender, IMasterTagsMes
     /// <param name="masterTag">The master tag to create</param>
     /// <returns></returns>
     public async Task SendCreateMasterTagMessageAsync(ClaimsPrincipal user,
-        MasterTagDto masterTag)
+        MasterTagWithCategoryAndParentTagResponse masterTag)
         => await SendMessage(user, masterTag, "MasterTagCreate");
     
     /// <summary>
@@ -48,7 +46,7 @@ public class MasterTagsMessageSender : BaseMetadataMessageSender, IMasterTagsMes
     /// <param name="masterTag">The master tag to update</param>
     /// <returns></returns>
     public async Task SendUpdateMasterTagMessageAsync(ClaimsPrincipal user,
-        MasterTagDto masterTag)
+        MasterTagWithCategoryAndParentTagResponse masterTag)
         => await SendMessage(user, masterTag, "MasterTagUpdate");
     
     /// <summary>
@@ -58,17 +56,17 @@ public class MasterTagsMessageSender : BaseMetadataMessageSender, IMasterTagsMes
     /// <param name="masterTag">The master tag</param>
     /// <returns></returns>
     public async Task SendDeleteMasterTagMessageAsync(ClaimsPrincipal user,
-        MasterTagDto masterTag)
+        MasterTagWithCategoryAndParentTagResponse masterTag)
         => await SendMessage(user, masterTag, "MasterTagDelete");
     
 
-    private async Task SendMessage(ClaimsPrincipal user, MasterTagDto masterTag, string eventType)
+    private async Task SendMessage(ClaimsPrincipal user, MasterTagWithCategoryAndParentTagResponse masterTag, string eventType)
     {
         var domains = await Mediator.Send(new ListDomainsQuery(user, Logger));
 
         foreach (var message in domains.Select(domain => new MasterTagEventDto
                  {
-                     Domain = domain.Name, MasterTag = Mapper.Map<MasterTagResponse>(masterTag)
+                     Domain = domain.Name, MasterTag = masterTag
                  }))
         {
             await MessageSender.SendEventAsync(PubSubNames.RabbitMq, eventType, user.GetUserId(),
