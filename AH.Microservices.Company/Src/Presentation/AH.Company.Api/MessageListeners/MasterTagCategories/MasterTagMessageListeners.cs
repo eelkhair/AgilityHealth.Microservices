@@ -14,7 +14,7 @@ namespace AH.Company.Api.MessageListeners.MasterTagCategories;
 /// <summary>
 /// Listeners for MasterTag events
 /// </summary>
-public class MasterTagCategoryMessageListeners : BaseMessageListener
+public class MasterTagMessageListeners : BaseMessageListener
 {
     /// <summary>
     /// Constructor
@@ -22,17 +22,17 @@ public class MasterTagCategoryMessageListeners : BaseMessageListener
     /// <param name="mapper"></param>
     /// <param name="logger"></param>
     /// <param name="mediator"></param>
-    public MasterTagCategoryMessageListeners(IMapper mapper, ILogger logger, IMediator mediator) : base(mapper, logger, mediator)
+    public MasterTagMessageListeners(IMapper mapper, ILogger logger, IMediator mediator) : base(mapper, logger, mediator)
     {
     }
 
     /// <summary>
-    /// Listener for MasterTagCategoryCreate event
+    /// Listener for MasterTagCreate event
     /// </summary>
     /// <param name="message"></param>
-    [Topic(PubSubNames.RabbitMq, "MasterTagCategoryCreate")]
-    [Route("CreateMasterTagCategoryListener")]
-    public async Task CreateMasterTagCategoryListener(EventDto message)
+    [Topic(PubSubNames.RabbitMq, "MasterTagCreate")]
+    [Route("CreateMasterTagListener")]
+    public async Task CreateMasterTagListener(EventDto message)
     {
         var model = JsonSerializer.Deserialize<MasterTagCategoryEventDto>(message.Data);
         

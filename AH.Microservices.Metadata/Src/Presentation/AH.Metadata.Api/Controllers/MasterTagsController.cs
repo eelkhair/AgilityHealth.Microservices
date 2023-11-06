@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using AH.Metadata.Api.MessageSenders.Interfaces;
 using AH.Metadata.Application.Commands.MasterTags;
 using AH.Metadata.Application.Dtos;
 using AH.Metadata.Application.Queries.MasterTags;
@@ -16,6 +17,8 @@ namespace AH.Metadata.Api.Controllers;
 /// </summary>
 public class MasterTagsController : BaseController
 {
+    private readonly IMasterTagsMessageSender _sender;
+    
     /// <summary>
     /// Constructor for MasterTagsController.
     /// </summary>
@@ -23,8 +26,10 @@ public class MasterTagsController : BaseController
     /// <param name="logger">The logger.</param>
     /// <param name="mediator">The mediator.</param>
     /// <param name="correlationId">The correlationId.</param>
-    public MasterTagsController(IMapper mapper, ILogger logger, IMediator mediator, ICorrelationId correlationId) : base(mapper, logger, mediator, correlationId)
+    /// <param name="sender">The master tag event sender.</param>
+    public MasterTagsController(IMapper mapper, ILogger logger, IMediator mediator, ICorrelationId correlationId, IMasterTagsMessageSender sender) : base(mapper, logger, mediator, correlationId)
     {
+        _sender = sender;
     }
     
     /// <summary>
@@ -114,7 +119,8 @@ public class MasterTagsController : BaseController
         
         var model = Mapper.Map<MasterTagWithCategoryAndParentTagResponse>(masterTag);
         Logger.LogInformation("Master tag with name {Name} created.{Data}", request.Name, JsonSerializer.Serialize(model));
-        
+
+        await _sender.SendCreateMasterTagMessageAsync(User, masterTag);
         return CreatedAtAction(nameof(GetMasterTag), new {masterTagUId = masterTag.UId}, model);
     }
     
@@ -142,6 +148,7 @@ public class MasterTagsController : BaseController
         var model = Mapper.Map<MasterTagWithCategoryAndParentTagResponse>(masterTag);
         Logger.LogInformation("Master tag with UId {UId} updated.{Data}", masterTagUId, JsonSerializer.Serialize(model));
         
+        await _sender.SendUpdateMasterTagMessageAsync(User, masterTag);
         return Ok(model);
     }
     
@@ -164,6 +171,7 @@ public class MasterTagsController : BaseController
         
         Logger.LogInformation("Master tag with UId {UId} deleted. ", masterTagUId);
         
+        await _sender.SendDeleteMasterTagMessageAsync(User, masterTag);
         return NoContent();
     }
 }

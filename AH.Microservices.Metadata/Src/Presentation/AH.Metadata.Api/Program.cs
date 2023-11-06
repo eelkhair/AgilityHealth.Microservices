@@ -41,6 +41,7 @@ builder.Services.AddActors(_ =>
 });
 
 builder.Services.AddScoped<IMasterTagCategoriesMessageSender, MasterTagCategoriesMessageSender>();
+builder.Services.AddScoped<IMasterTagsMessageSender, MasterTagsMessageSender>();
 
 var app = builder.Build();
 app.Initialize(auth0Config);
