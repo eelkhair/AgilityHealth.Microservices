@@ -17,4 +17,5 @@ public interface IMetadataDbContext
     DbSet<SurveyType> SurveyTypes { get; }
     ChangeTracker ChangeTracker { get;  }
     Task<int> SaveChangesAsync(ClaimsPrincipal user, CancellationToken cancellationToken);
+    void Update(object entity);
 }

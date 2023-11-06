@@ -23,7 +23,7 @@ public class MasterTagCategoryConfiguration : IEntityTypeConfiguration<MasterTag
         builder.HasMany(e => e.MasterTags)
             .WithOne(x => x.MasterTagCategory)
             .HasForeignKey(x => x.MasterTagCategoryId)
-            .OnDelete(DeleteBehavior.ClientSetNull); 
+            .OnDelete(DeleteBehavior.Cascade); 
         builder.HasIndex(x=>x.UId, "IX_Metadata_MasterTagCategoryUId");
     }
 }

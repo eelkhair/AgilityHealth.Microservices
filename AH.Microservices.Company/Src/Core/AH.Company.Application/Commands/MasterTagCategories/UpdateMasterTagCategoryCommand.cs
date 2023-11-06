@@ -34,8 +34,10 @@ public class UpdateMasterTagCategoryCommandHandler : BaseCommandHandler,
         SetConnectionString(request.Domain, request.Logger);
         
         var entity = await Context.MasterTagCategories.FirstAsync(x=> x.UId == request.MasterTagCategory.UId, cancellationToken);
-        Mapper.Map(request.MasterTagCategory, entity);
-        if (entity.Type == "All") entity.Type = string.Empty;
+        entity.ClassName = request.MasterTagCategory.ClassName;
+        entity.Name = request.MasterTagCategory.Name;
+        entity.Type = request.MasterTagCategory.Type == "All" ?string.Empty: request.MasterTagCategory.Type;
+        Context.Update(entity);
         await Context.SaveChangesAsync(request.User, cancellationToken);
         return Unit.Value;
     }

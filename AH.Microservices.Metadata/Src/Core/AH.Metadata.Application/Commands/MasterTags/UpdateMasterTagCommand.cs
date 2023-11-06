@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using System.Xml;
 using AH.Metadata.Application.Dtos;
 using AH.Metadata.Application.Interfaces;
 using AH.Metadata.Domain.Constants;
@@ -29,29 +30,34 @@ public class UpdateMasterTagCommandHandler : BaseCommandHandler, IRequestHandler
     }
 
     public async Task<MasterTagDto> Handle(UpdateMasterTagCommand request, CancellationToken cancellationToken)
-    {
-        var entity = await Context.MasterTags.FirstAsync(x => x.UId == request.MasterTag.UId,
-            cancellationToken: cancellationToken);
-        Mapper.Map(request.MasterTag, entity);
-
+    { 
         var category =
-            await Context.MasterTagCategories.FirstAsync(x => x.UId == request.MasterTag.MasterTagCategory.UId,
-                cancellationToken);
-        entity.MasterTagCategoryId = category.Id;
-
+             await Context.MasterTagCategories.FirstAsync(x => x.UId == request.MasterTag.MasterTagCategory.UId,
+                 cancellationToken);
+        
         MasterTag? parentMasterTag = null;
         if (request.MasterTag.ParentMasterTag != null)
         {
-            parentMasterTag = await Context.MasterTags.FirstAsync(x => x.UId == request.MasterTag.ParentMasterTag.UId,
+             parentMasterTag = await Context.MasterTags.FirstAsync(x => x.UId == request.MasterTag.ParentMasterTag.UId,
                 cancellationToken);
-            entity.ParentMasterTagId = parentMasterTag.Id;
+            
         }
-
+        
+        var entity = await Context.MasterTags.FirstAsync(x => x.UId == request.MasterTag.UId,
+            cancellationToken: cancellationToken);
+   
+        entity.Name = request.MasterTag.Name;
+        entity.ClassName = request.MasterTag.ClassName;
+        entity.MasterTagCategoryId = category.Id;
+        entity.MasterTagCategory = null!;
+        entity.ParentMasterTagId = parentMasterTag?.Id ?? 0;
+        
+        Context.Update(entity);
         await Context.SaveChangesAsync(request.User, cancellationToken);
 
         var output = Mapper.Map<MasterTagDto>(entity);
-
-        if (entity.ParentMasterTagId == null) return output;
+        output.MasterTagCategory = Mapper.Map<MasterTagCategoryDto>(category);
+        if (entity.ParentMasterTagId is null or 0) return output;
         output.ParentMasterTag = Mapper.Map<MasterTagDto>(parentMasterTag);
 
         return output;

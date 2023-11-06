@@ -22,4 +22,5 @@ public interface ICompanyMicroServiceDbContext
     void SetConnectionString(string domain);
     string? GetConnectionString();
     ChangeTracker ChangeTracker { get; }
+    EntityEntry Update(object entity);
 }

@@ -77,4 +77,9 @@ public partial class MetadataDbContext : DbContext, IMetadataDbContext
         return base.SaveChangesAsync(cancellationToken);
     }
 
+    public void Update(object entity)
+    {
+        this.Entry(entity).State = EntityState.Modified;
+        base.Update(entity);
+    }
 }
