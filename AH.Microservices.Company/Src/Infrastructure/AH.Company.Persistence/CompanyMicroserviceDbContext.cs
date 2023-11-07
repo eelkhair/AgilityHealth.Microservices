@@ -57,7 +57,7 @@ public partial class CompanyMicroserviceDbContext : DbContext, ICompanyMicroServ
         if (optionsBuilder.IsConfigured) return;
         var connection =  _contextAccessor.HttpContext?.Request.Headers["Host"].ToString();
         connection = connection != null
-            ? connection.Replace(":", "")
+            ? connection.Replace("ahcompany.", "").Replace(":","")
             : _configuration.GetConnectionString("DefaultConnection");
             
             

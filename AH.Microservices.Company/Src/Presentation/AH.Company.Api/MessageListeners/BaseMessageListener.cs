@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Security.Claims;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,5 +37,19 @@ public abstract class BaseMessageListener : ControllerBase
             Logger = logger;
             Mediator = mediator;
 
+        }
+
+        /// <summary>
+        /// Create a user object for the current user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        protected static ClaimsPrincipal CreateUser(string userId)
+        {
+            var claims = new List<Claim> () { 
+                new Claim (ClaimTypes.NameIdentifier, userId), 
+            }; 
+            var identity = new ClaimsIdentity (claims, "TestAuthType"); 
+            return new ClaimsPrincipal (identity);
         }
 }

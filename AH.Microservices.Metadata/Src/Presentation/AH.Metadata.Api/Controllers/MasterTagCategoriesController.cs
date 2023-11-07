@@ -8,6 +8,7 @@ using AH.Metadata.Shared.V1.Models.Responses.MasterTagCategories;
 using AH.Shared.Application.Interfaces;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AH.Metadata.Api.Controllers;
@@ -112,6 +113,7 @@ public class MasterTagCategoriesController : BaseController
     /// <response code="500">Internal Server Error</response>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"></exception>
+    [Authorize]
     [ProducesResponseType(typeof(MasterTagCategoryResponse), StatusCodes.Status201Created)]
     [HttpPost]
     public async Task<IActionResult> CreateMasterTagCategory([FromQuery] MasterTagCategoryRequest request)

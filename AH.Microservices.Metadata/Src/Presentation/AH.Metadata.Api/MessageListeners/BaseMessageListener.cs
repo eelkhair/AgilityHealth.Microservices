@@ -15,14 +15,17 @@ public abstract class BaseMessageListener : ControllerBase
         /// <summary>
         /// Mapper
         /// </summary>
+        // ReSharper disable once NotAccessedField.Global
         protected IMapper Mapper;
         /// <summary>
         /// Logger
         /// </summary>
+        // ReSharper disable once NotAccessedField.Global
         protected ILogger Logger;
         /// <summary>
         /// Mediator
         /// </summary>
+        // ReSharper disable once NotAccessedField.Global
         protected IMediator Mediator;
         
         /// <summary>

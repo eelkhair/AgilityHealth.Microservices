@@ -22,7 +22,7 @@ public class MasterTagMessageListeners : BaseMessageListener
     /// <param name="mapper"></param>
     /// <param name="logger"></param>
     /// <param name="mediator"></param>
-    public MasterTagMessageListeners(IMapper mapper, ILogger logger, IMediator mediator) : base(mapper, logger, mediator)
+    public MasterTagMessageListeners(IMapper mapper, ILogger<MasterTagMessageListeners> logger, IMediator mediator) : base(mapper, logger, mediator)
     {
     }
 
@@ -50,7 +50,7 @@ public class MasterTagMessageListeners : BaseMessageListener
         }
             
         Logger.LogInformation("Received message: {@Model}", model);
-        var command = new CreateMasterTagCommand(User, Logger, dto, model.Domain);
+        var command = new CreateMasterTagCommand(CreateUser(message.UserId), Logger, dto, model.Domain);
         await Mediator.Send(command);
     }
         
@@ -78,7 +78,7 @@ public class MasterTagMessageListeners : BaseMessageListener
         }
             
         Logger.LogInformation("Received message: {@Model}", model);
-        var command = new UpdateMasterTagCommand(User, Logger, dto, model.Domain);
+        var command = new UpdateMasterTagCommand(CreateUser(message.UserId), Logger, dto, model.Domain);
         await Mediator.Send(command);
     }
         
@@ -106,7 +106,7 @@ public class MasterTagMessageListeners : BaseMessageListener
         }
             
         Logger.LogInformation("Received message: {@Model}", model);
-        var command = new DeleteMasterTagCommand(User, Logger, dto, model.Domain);
+        var command = new DeleteMasterTagCommand(CreateUser(message.UserId), Logger, dto, model.Domain);
         await Mediator.Send(command);
     }
 }

@@ -22,7 +22,7 @@ public class MasterTagCategoryMessageListeners : BaseMessageListener
     /// <param name="mapper"></param>
     /// <param name="logger"></param>
     /// <param name="mediator"></param>
-    public MasterTagCategoryMessageListeners(IMapper mapper, ILogger logger, IMediator mediator) : base(mapper, logger, mediator)
+    public MasterTagCategoryMessageListeners(IMapper mapper, ILogger<MasterTagCategoryMessageListeners> logger, IMediator mediator) : base(mapper, logger, mediator)
     {
     }
 
@@ -50,7 +50,7 @@ public class MasterTagCategoryMessageListeners : BaseMessageListener
         }
             
         Logger.LogInformation("Received message: {@Model}", model);
-        var command = new CreateMasterTagCategoryCommand(User, Logger, dto, model.Domain);
+        var command = new CreateMasterTagCategoryCommand(CreateUser(message.UserId), Logger, dto, model.Domain);
         await Mediator.Send(command);
     }
         
@@ -78,7 +78,7 @@ public class MasterTagCategoryMessageListeners : BaseMessageListener
         }
             
         Logger.LogInformation("Received message: {@Model}", model);
-        var command = new UpdateMasterTagCategoryCommand(User, Logger, dto, model.Domain);
+        var command = new UpdateMasterTagCategoryCommand(CreateUser(message.UserId), Logger, dto, model.Domain);
         await Mediator.Send(command);
     }
         
@@ -106,7 +106,7 @@ public class MasterTagCategoryMessageListeners : BaseMessageListener
         }
             
         Logger.LogInformation("Received message: {@Model}", model);
-        var command = new DeleteMasterTagCategoryCommand(User, Logger, dto, model.Domain);
+        var command = new DeleteMasterTagCategoryCommand(CreateUser(message.UserId), Logger, dto, model.Domain);
         await Mediator.Send(command);
     }
 }

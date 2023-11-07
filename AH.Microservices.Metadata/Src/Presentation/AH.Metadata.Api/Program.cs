@@ -18,7 +18,7 @@ var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
 
 var swaggerConfig = new SwaggerDocSetup("AgilityHealth Metadata Api", PermissionDefinitions.GetPermissions(), xmlPath);
 var auth0Config = new Auth0Configuration(
-    builder.Configuration[$"Auth0:Domain"],
+    builder.Configuration["Auth0:Domain"],
     builder.Configuration["Auth0:Audience"],
     builder.Configuration["Auth0:ClientId"],
     builder.Configuration["Auth0:ClientSecret"]
