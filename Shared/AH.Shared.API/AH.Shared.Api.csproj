@@ -7,7 +7,7 @@
         <RootNamespace>AH.Shared.Api</RootNamespace>
         <PackageId>AH.Shared.Api</PackageId>
         <Authors>Elkhair Elkhair</Authors>
-        <Version>1.0.8</Version>
+        <Version>1.0.9</Version>
         <Description>Shared components for the Api Projects. Includes Swagger, Auth, and Dapr</Description>
         <IsPackable>true</IsPackable>
     </PropertyGroup>
