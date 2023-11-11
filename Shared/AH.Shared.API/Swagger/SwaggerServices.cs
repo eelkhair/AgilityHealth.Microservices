@@ -11,9 +11,7 @@ public static class SwaggerServices
 {
     public static void RegisterSwagger(this IServiceCollection services, SwaggerDocSetup doc, Auth0Configuration auth0Configuration)
     {
-        var context = services.BuildServiceProvider().GetRequiredService<IHttpContextAccessor>();
-        
-        var basePath = context.HttpContext?.Request.Headers["Host"].ToString();
+      
         
         services.AddEndpointsApiExplorer();
         var domain = auth0Configuration.Domain;
@@ -24,7 +22,6 @@ public static class SwaggerServices
             {
                 Title = doc.AppName,
                 Version = "v1",
-                Description = "Host: " + basePath
             });
 
             setup.DocumentFilter<LowercaseDocumentFilter>();
