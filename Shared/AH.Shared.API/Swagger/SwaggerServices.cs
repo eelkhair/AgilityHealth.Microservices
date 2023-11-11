@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using AH.Shared.Api.Dtos;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -10,6 +11,10 @@ public static class SwaggerServices
 {
     public static void RegisterSwagger(this IServiceCollection services, SwaggerDocSetup doc, Auth0Configuration auth0Configuration)
     {
+        var context = services.BuildServiceProvider().GetRequiredService<IHttpContextAccessor>();
+        
+        var basePath = context.HttpContext?.Request.Headers["Host"].ToString();
+        
         services.AddEndpointsApiExplorer();
         var domain = auth0Configuration.Domain;
         var audience = auth0Configuration.Audience;
@@ -18,7 +23,8 @@ public static class SwaggerServices
             setup.SwaggerDoc("v1", new OpenApiInfo
             {
                 Title = doc.AppName,
-                Version = "v1"
+                Version = "v1",
+                Description = "Host: " + basePath
             });
 
             setup.DocumentFilter<LowercaseDocumentFilter>();

@@ -15,6 +15,8 @@ builder.Services.AddHttpContextAccessor();
 var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
 
+
+
 var swaggerConfig = new SwaggerDocSetup("AgilityHealth Company Api", PermissionDefinitions.GetPermissions(), xmlPath);
 var auth0Config = new Auth0Configuration(
     builder.Configuration[$"Auth0:Domain"],
