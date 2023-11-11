@@ -16,13 +16,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Content Include="..\..\..\..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="AH.Shared.Api" Version="1.0.10" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.13">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -31,6 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\..\Shared\AH.Shared.API\AH.Shared.Api.csproj" />
       <ProjectReference Include="..\..\Infrastructure\AH.User.Infrastructure\AH.User.Infrastructure.csproj" />
       <ProjectReference Include="..\..\Infrastructure\AH.User.Persistence\AH.User.Persistence.csproj" />
       <ProjectReference Include="..\..\Shared\AH.User.Shared.V1\AH.User.Shared.V1.csproj" />
@@ -38,6 +32,12 @@
 
     <ItemGroup>
       <Folder Include="MessageSenders\Interfaces\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
     </ItemGroup>
 
 </Project>

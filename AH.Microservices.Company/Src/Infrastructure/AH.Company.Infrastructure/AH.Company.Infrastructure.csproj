@@ -7,11 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\..\Shared\AH.Shared.Infrastructure\AH.Shared.Infrastructure.csproj" />
       <ProjectReference Include="..\..\Core\AH.Company.Application\AH.Company.Application.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="AH.Shared.Infrastructure" Version="1.0.1" />
     </ItemGroup>
 
 </Project>

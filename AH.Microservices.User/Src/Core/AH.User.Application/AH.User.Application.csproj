@@ -7,11 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="AH.Shared.Application" Version="1.0.3" />
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\..\Shared\AH.Shared.Application\AH.Shared.Application.csproj" />
       <ProjectReference Include="..\AH.User.Domain\AH.User.Domain.csproj" />
     </ItemGroup>
 

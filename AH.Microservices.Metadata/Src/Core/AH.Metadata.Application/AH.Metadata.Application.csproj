@@ -8,6 +8,7 @@
 
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\..\Shared\AH.Shared.Application\AH.Shared.Application.csproj" />
       <ProjectReference Include="..\AH.Metadata.Domain\AH.Metadata.Domain.csproj" />
     </ItemGroup>
 
@@ -16,7 +17,6 @@
 
 
     <ItemGroup>
-      <PackageReference Include="AH.Shared.Application" Version="1.0.3" />
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
 
 

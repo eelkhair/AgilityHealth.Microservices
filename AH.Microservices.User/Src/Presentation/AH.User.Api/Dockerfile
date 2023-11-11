@@ -5,17 +5,26 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["AH.Microservices.Company/Src/Presentation/AH.Company.Api/Nuget.Config", "."]
-COPY ["AH.Microservices.User/Src/Presentation/AH.Users.Api/AH.Users.Api.csproj", "AH.Microservices.User/Src/Presentation/AH.Users.Api/"]
-RUN dotnet restore "AH.Microservices.User/Src/Presentation/AH.Users.Api/AH.Users.Api.csproj"
+COPY ["AH.Microservices.User/Src/Presentation/AH.User.Api/AH.User.Api.csproj", "AH.Microservices.User/Src/Presentation/AH.User.Api/"]
+COPY ["Shared/AH.Shared.Domain/AH.Shared.Domain.csproj", "Shared/AH.Shared.Domain/"]
+COPY ["Shared/AH.Shared.Application/AH.Shared.Application.csproj", "Shared/AH.Shared.Application/"]
+COPY ["Shared/AH.Shared.API/AH.Shared.Api.csproj", "Shared/AH.Shared.API/"]
+COPY ["Shared/AH.Shared.Infrastructure/AH.Shared.Infrastructure.csproj", "Shared/AH.Shared.Infrastructure/"]
+COPY ["Shared/AH.Shared.Persistence/AH.Shared.Persistence.csproj", "Shared/AH.Shared.Persistence/"]
+COPY ["AH.Microservices.User/Src/Infrastructure/AH.User.Infrastructure/AH.User.Infrastructure.csproj", "AH.Microservices.User/Src/Infrastructure/AH.User.Infrastructure/"]
+COPY ["AH.Microservices.User/Src/Core/AH.User.Application/AH.User.Application.csproj", "AH.Microservices.User/Src/Core/AH.User.Application/"]
+COPY ["AH.Microservices.User/Src/Core/AH.User.Domain/AH.User.Domain.csproj", "AH.Microservices.User/Src/Core/AH.User.Domain/"]
+COPY ["AH.Microservices.User/Src/Infrastructure/AH.User.Persistence/AH.User.Persistence.csproj", "AH.Microservices.User/Src/Infrastructure/AH.User.Persistence/"]
+COPY ["AH.Microservices.User/Src/Shared/AH.User.Shared.V1/AH.User.Shared.V1.csproj", "AH.Microservices.User/Src/Shared/AH.User.Shared.V1/"]
+RUN dotnet restore "AH.Microservices.User/Src/Presentation/AH.User.Api/AH.User.Api.csproj"
 COPY . .
-WORKDIR "/src/AH.Microservices.User/Src/Presentation/AH.Users.Api"
-RUN dotnet build "AH.Users.Api.csproj" -c Release -o /app/build
+WORKDIR "/src/AH.Microservices.User/Src/Presentation/AH.User.Api"
+RUN dotnet build "AH.User.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "AH.Users.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "AH.User.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "AH.Users.Api.dll"]
+ENTRYPOINT ["dotnet", "AH.User.Api.dll"]
