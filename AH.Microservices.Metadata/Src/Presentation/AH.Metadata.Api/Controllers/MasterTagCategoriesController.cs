@@ -1,11 +1,12 @@
-﻿using System.Text.Json;
+﻿using System.Diagnostics;
+using System.Text.Json;
 using AH.Metadata.Api.MessageSenders.Interfaces;
 using AH.Metadata.Application.Commands.MasterTagCategories;
 using AH.Metadata.Application.Dtos;
 using AH.Metadata.Application.Queries.MasterTagCategories;
+using AH.Metadata.Domain.Constants;
 using AH.Metadata.Shared.V1.Models.Requests.Tags;
 using AH.Metadata.Shared.V1.Models.Responses.MasterTagCategories;
-using AH.Shared.Application.Interfaces;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -20,6 +21,7 @@ public class MasterTagCategoriesController : BaseController
 {
     
     private readonly IMasterTagCategoriesMessageSender _sender;
+    private readonly ActivitySource _activitySource;
 
     /// <summary>
     /// Constructor for MasterTagCategoriesController.
@@ -28,10 +30,11 @@ public class MasterTagCategoriesController : BaseController
     /// <param name="logger">The logger.</param>
     /// <param name="mediator">The mediator.</param>
     /// <param name="sender">The master tag category event sender.</param>
-    /// <param name="correlationId">The correlation id.</param>
-    public MasterTagCategoriesController(IMapper mapper, ILogger logger, IMediator mediator, IMasterTagCategoriesMessageSender sender, ICorrelationId correlationId) : base(mapper, logger, mediator, correlationId)
+
+    public MasterTagCategoriesController(IMapper mapper, ILogger logger, IMediator mediator, IMasterTagCategoriesMessageSender sender, ActivitySource activitySource) : base(mapper, logger, mediator)
     {
         _sender = sender;
+        _activitySource = activitySource;
     }
     
     /// <summary>
@@ -118,9 +121,11 @@ public class MasterTagCategoriesController : BaseController
     [HttpPost]
     public async Task<IActionResult> CreateMasterTagCategory([FromQuery] MasterTagCategoryRequest request)
     {
+
+        var activity = _activitySource.StartActivity(Activities.CreateMasterTagCategory, ActivityKind.Producer);
+        activity?.SetTag("MasterTagCategoryRequest", JsonSerializer.Serialize(request));
         if(request == null) throw new ArgumentNullException(nameof(request));
         
-        Logger.LogInformation("CorrelationId: {CorrelationId}Creating master tag category", CorrelationId.Get());
         var dto = Mapper.Map<MasterTagCategoryDto>(request);
         
         var command = new CreateMasterTagCategoryCommand(User, Logger, dto);
@@ -130,7 +135,7 @@ public class MasterTagCategoriesController : BaseController
         Logger.LogInformation("Master tag category created.{Data}", JsonSerializer.Serialize(model));
         
         await _sender.SendCreateMasterTagCategoryMessageAsync(User, masterTagCategory);
-        
+        activity?.Stop();
         return CreatedAtAction(nameof(GetMasterTagCategory), new { uid = model.UId }, model);
     }
 

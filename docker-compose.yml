@@ -24,10 +24,12 @@ services:
       "--app-id", "ah-company-api",
       "--app-port", "80",
       "--placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
-      "--components-path", "./Components"      
+      "--components-path", "./Components",
+      "-config", "./Config/config.yaml"
     ]
     volumes:
       - "./Components/:/Components" # Mount our components folder for the runtime to use. The mounted location must match the --resources-path argument.
+      - "./Config/:/Config"
     depends_on:
       - ah-company-api
       - placement
@@ -40,10 +42,12 @@ services:
       "--app-id", "ah-metadata-api",
       "--app-port", "80",
       "--placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
-      "--resources-path", "./Components"
+      "--components-path", "./Components",
+      "-config", "./Config/config.yaml"
     ]
     volumes:
       - "./Components/:/Components" # Mount our components folder for the runtime to use. The mounted location must match the --resources-path argument.
+      - "./Config/:/Config"
     depends_on:
       - ah-metadata-api
       - placement
@@ -56,10 +60,12 @@ services:
       "--app-id", "ah-user-api",
       "--app-port", "80",
       "--placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
-      "--resources-path", "./Components"
+      "--components-path", "./Components",
+      "-config", "./Config/config.yaml"
     ]
     volumes:
       - "./Components/:/Components" # Mount our components folder for the runtime to use. The mounted location must match the --resources-path argument.
+      - "./Config/:/Config"
     depends_on:
       - ah-user-api
       - placement
@@ -70,5 +76,4 @@ services:
     command: ["./placement", "--port", "50006"]
     ports:
       - "50006:50006"
-  
-  
+ 

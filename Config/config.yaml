@@ -6,4 +6,5 @@ spec:
   tracing:
     samplingRate: "1"
     zipkin:
-      endpointAddress: http://localhost:9411/api/v2/spans
+      endpointAddress: http://192.168.1.160:9411/api/v2/spans
+

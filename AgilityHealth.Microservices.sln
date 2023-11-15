@@ -84,6 +84,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AH.Metadata.Shared.V1", "AH.Microservices.Metadata\Src\Shared\AH.Metadata.Shared.V1\AH.Metadata.Shared.V1.csproj", "{036781F9-DAAA-4773-ADF4-4E462C1B6486}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{3D0F4610-21B9-403A-83FB-B25DC8E05AB0}"
+	ProjectSection(SolutionItems) = preProject
+		Config\config.yaml = Config\config.yaml
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AH.Shared.Api", "Shared\AH.Shared.API\AH.Shared.Api.csproj", "{4C00D0BE-4128-42A2-9E0B-47101B501220}"
 EndProject

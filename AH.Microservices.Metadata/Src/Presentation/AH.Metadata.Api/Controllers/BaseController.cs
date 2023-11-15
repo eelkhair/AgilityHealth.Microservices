@@ -1,5 +1,4 @@
-﻿using AH.Shared.Application.Interfaces;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,10 +23,6 @@ public abstract class BaseController : ControllerBase
     /// Mediator for sending commands and queries
     /// </summary>
     protected readonly IMediator Mediator;
-    /// <summary>
-    /// CorrelationId for tracking requests across services
-    /// </summary>
-    protected readonly ICorrelationId CorrelationId;
 
     /// <summary>
     /// Constructor for base controller
@@ -35,12 +30,11 @@ public abstract class BaseController : ControllerBase
     /// <param name="mapper"></param>
     /// <param name="logger"></param>
     /// <param name="mediator"></param>
-    /// <param name="correlationId"></param>
-    protected BaseController(IMapper mapper, ILogger logger, IMediator mediator, ICorrelationId correlationId)
+
+    protected BaseController(IMapper mapper, ILogger logger, IMediator mediator)
     {
         Mapper = mapper;
         Logger = logger;
         Mediator = mediator;
-        CorrelationId = correlationId;
     }
 }

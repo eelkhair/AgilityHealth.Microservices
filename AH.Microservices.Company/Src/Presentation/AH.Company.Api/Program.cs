@@ -17,7 +17,7 @@ var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
 
 
 
-var swaggerConfig = new SwaggerDocSetup("AgilityHealth Company Api", PermissionDefinitions.GetPermissions(), xmlPath);
+var swaggerConfig = new SwaggerDocSetup("AgilityHealth Company Api", "ah-company", PermissionDefinitions.GetPermissions(), xmlPath);
 var auth0Config = new Auth0Configuration(
     builder.Configuration[$"Auth0:Domain"],
     builder.Configuration["Auth0:Audience"],
@@ -25,7 +25,7 @@ var auth0Config = new Auth0Configuration(
     builder.Configuration["Auth0:ClientSecret"]
 );
 
-builder.Services.Build(swaggerConfig,auth0Config);
+builder.Services.Build(swaggerConfig,auth0Config, Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? string.Empty, builder.Configuration,builder.Host);
 
 var mapper = new MapperConfiguration(c =>
 {
@@ -43,9 +43,11 @@ builder.Services.AddActors(_ =>
   // Example :  options.Actors.RegisterActor<MetadataActor>();
 });
 
+builder.SetupTracing("ah-company");
 var app = builder.Build();
 
 app.Initialize(auth0Config);
+
 
 #if DEBUG
 Debugger.Launch();

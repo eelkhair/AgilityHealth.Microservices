@@ -1,7 +1,6 @@
 ﻿using AH.Metadata.Application.Commands.Lists;
 using AH.Metadata.Application.Queries.Lists;
 using AH.Metadata.Shared.V1.Models.Responses.Lists;
-using AH.Shared.Application.Interfaces;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -19,8 +18,7 @@ public class ListsController : BaseController
     /// <param name="mapper">The mapper.</param>
     /// <param name="logger">The logger.</param>
     /// <param name="mediator">The mediator.</param>
-    /// <param name="correlationId">The correlationId. </param>
-    public ListsController(IMapper mapper, ILogger logger, IMediator mediator, ICorrelationId correlationId) : base(mapper, logger, mediator,  correlationId)
+    public ListsController(IMapper mapper, ILogger logger, IMediator mediator) : base(mapper, logger, mediator)
     {
     }
 

@@ -4,7 +4,6 @@ using AH.Metadata.Application.Dtos;
 using AH.Metadata.Application.Queries.Companies;
 using AH.Metadata.Shared.V1.Models.Requests.Companies;
 using AH.Metadata.Shared.V1.Models.Responses.Companies;
-using AH.Shared.Application.Interfaces;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -22,8 +21,7 @@ public class CompaniesController : BaseController
     /// <param name="mapper"></param>
     /// <param name="logger"></param>
     /// <param name="mediator"></param>
-    /// <param name="correlationId"></param>
-    public CompaniesController(IMapper mapper, ILogger<CompaniesController> logger, IMediator mediator, ICorrelationId correlationId) : base(mapper, logger, mediator, correlationId)
+    public CompaniesController(IMapper mapper, ILogger<CompaniesController> logger, IMediator mediator) : base(mapper, logger, mediator)
     {
     }
     

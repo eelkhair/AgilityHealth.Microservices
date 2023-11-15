@@ -34,3 +34,4 @@ bin/Debug/
 /Integrations/bin/*
 /integrations/Src/AH.Integration.*/bin/*
 /integrations/Src/AH.Integration.*/obj/*
+.cache/*

@@ -1,4 +1,5 @@
-﻿using AH.Shared.Api.Dtos;
+﻿using System.Diagnostics;
+using AH.Shared.Api.Dtos;
 using AH.Shared.Api.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -36,7 +37,19 @@ public static class AppConfig
         app.MapControllers();
         app.MapActorsHandlers();
         app.UseMiddleware<ExceptionHandlerMiddleware>();
-        app.UseMiddleware<CorrelationIdMiddleware>();
         app.UseMiddleware<LogHeaderMiddleware>();
+        
+        app.Use(async (context, next) =>
+        {
+            // Get the current span and its traceid
+            var span = Activity.Current;
+            var traceId = span?.TraceId.ToString();
+
+            // Add the traceid to the response headers
+            context.Response.Headers.Add("trace-id", traceId);
+
+            // Call the next middleware in the pipeline
+            await next();
+        });
     }
 }
