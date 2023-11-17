@@ -21,8 +21,8 @@
       "workingDirectory": "$(ProjectDir)",
       "launchBrowser": true,
       "applicationUrl": "http://localhost:5005",
-      "executablePath": "dapr.exe",
-      "commandLineArgs": "run --app-id ah-user --resources-path ../../../../Components/ --app-port 5005 --dapr-http-port 50005 dotnet run"
+      "executablePath": "dapr",
+      "commandLineArgs": "run --app-id ah-user --resources-path ../../../../Components/ --app-port 5005 --dapr-http-port 50004 dotnet run"
     }
   },
   "$schema": "https://json.schemastore.org/launchsettings.json"

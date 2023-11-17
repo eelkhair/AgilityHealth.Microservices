@@ -16,7 +16,6 @@ services:
     build:
       context: .
       dockerfile: AH.Microservices.Metadata/Src/Presentation/AH.Metadata.Api/Dockerfile
-    env_file: ".env"    
   ah-company-api-dapr:
     image: "daprio/daprd:edge"
     command: [

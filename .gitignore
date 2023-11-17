@@ -32,6 +32,6 @@ bin/Debug/
 /AH.Microservices.User/Src/Infrastructure/AH.User.Infrastructure/bin/*
 /Integrations/obj/*
 /Integrations/bin/*
-/integrations/Src/AH.Integration.*/bin/*
-/integrations/Src/AH.Integration.*/obj/*
+/Integrations/Src/AH.Integration.*/bin/*
+/Integrations/Src/AH.Integration.*/obj/*
 .cache/*

@@ -30,11 +30,11 @@ public class MasterTagCategoriesController : BaseController
     /// <param name="logger">The logger.</param>
     /// <param name="mediator">The mediator.</param>
     /// <param name="sender">The master tag category event sender.</param>
-
+    /// <param name="activitySource"></param>
     public MasterTagCategoriesController(IMapper mapper, ILogger logger, IMediator mediator, IMasterTagCategoriesMessageSender sender, ActivitySource activitySource) : base(mapper, logger, mediator)
     {
         _sender = sender;
-        _activitySource = activitySource;
+        _activitySource = activitySource ?? throw new ArgumentNullException(nameof(activitySource));
     }
     
     /// <summary>
@@ -99,8 +99,7 @@ public class MasterTagCategoriesController : BaseController
         Logger.LogInformation("Getting master tag category with uid {Uid}", uid);
         var query = new GetMasterTagCategoryQuery(User, Logger, uid);
         var masterTagCategory = await Mediator.Send(query);
-        if(masterTagCategory == null) return NotFound();
-        
+       
         var model = Mapper.Map<MasterTagCategoryWithTagsResponse>(masterTagCategory);
         Logger.LogInformation("Master tag category with uid {Uid} found.{Data}", uid, JsonSerializer.Serialize(model));
         
@@ -163,8 +162,7 @@ public class MasterTagCategoriesController : BaseController
         
         var command = new UpdateMasterTagCategoryCommand(User, Logger, dto);
         var masterTagCategory = await Mediator.Send(command);
-        if(masterTagCategory == null) return NotFound();
-        
+
         var model = Mapper.Map<MasterTagCategoryResponse>(masterTagCategory);
         Logger.LogInformation("Master tag category with uid {Uid} updated.{Data}", uid, JsonSerializer.Serialize(model));
         

@@ -45,8 +45,8 @@ public static class Services
             .Enrich.WithExceptionDetails()
             .Enrich.WithOpenTelemetryTraceId()
             .Enrich.WithOpenTelemetrySpanId()
-            .WriteTo.Debug()
-            .WriteTo.Console()
+   //         .WriteTo.Debug()
+  //          .WriteTo.Console()
             .WriteTo.Elasticsearch(ConfigureElasticSink(configuration, environment))
             .Enrich.WithProperty("Environment", environment)
             .ReadFrom.Configuration(configuration)
@@ -79,12 +79,12 @@ public static class Services
                 .AddSqlClientInstrumentation()
                 .AddHttpClientInstrumentation()
                 .AddEntityFrameworkCoreInstrumentation()
-                .AddZipkinExporter()
-                .AddConsoleExporter())
+                .AddZipkinExporter())
+              //  .AddConsoleExporter()
             .WithMetrics(metrics => metrics
                 .AddAspNetCoreInstrumentation()
                 .AddHttpClientInstrumentation()
-                .AddConsoleExporter()
+      //          .AddConsoleExporter()
             );
     }
 }
