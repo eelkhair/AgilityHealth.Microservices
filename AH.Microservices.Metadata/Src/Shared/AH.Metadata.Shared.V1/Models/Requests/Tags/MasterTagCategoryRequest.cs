@@ -59,17 +59,17 @@ public enum MasterTagCategoryClassName
     /// <summary>
     ///  Team
     /// </summary>
-    MasterTeamCategory,
+    MasterTeamCategory = 1,
     /// <summary>
     /// Team Member
     /// </summary>
-    MasterTeamMemberCategory,
+    MasterTeamMemberCategory = 2,
     /// <summary>
     /// Stakeholders
     /// </summary>
-    MasterStakeholderCategory,
+    MasterStakeholderCategory = 3,
     /// <summary>
     /// Skills
     /// </summary>
-    MasterSkillsCategory
+    MasterSkillsCategory = 4
 }
