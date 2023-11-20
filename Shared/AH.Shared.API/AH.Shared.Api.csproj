@@ -16,6 +16,8 @@
         <PackageReference Include="Dynatrace.OpenTelemetry" Version="1.277.1" />
         <PackageReference Include="Dynatrace.OpenTelemetry.Exporter.Metrics" Version="1.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.12" />
+        <PackageReference Include="OpenTelemetry.Exporter.Jaeger" Version="1.6.0-rc.1" />
+        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.7.0-alpha.1" />
         <PackageReference Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.0.0-beta.8" />
         <PackageReference Include="Serilog.Enrichers.OpenTelemetry" Version="1.0.1" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />

@@ -1,11 +1,10 @@
 ﻿using System.Diagnostics;
+using System.Net;
 using System.Reflection;
 using AH.Shared.Api.Authorization;
 using AH.Shared.Api.Dapr;
 using AH.Shared.Api.Dtos;
 using AH.Shared.Api.Swagger;
-using Dynatrace.OpenTelemetry;
-using Dynatrace.OpenTelemetry.Exporter.Metrics;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -79,6 +78,10 @@ public static class Services
                 .AddSqlClientInstrumentation()
                 .AddHttpClientInstrumentation()
                 .AddEntityFrameworkCoreInstrumentation()
+                .AddOtlpExporter(x=>
+                {
+                    x.Endpoint = new Uri("http://192.168.1.160:4317");
+                })
                 .AddZipkinExporter())
               //  .AddConsoleExporter()
             .WithMetrics(metrics => metrics

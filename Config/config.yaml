@@ -7,4 +7,7 @@ spec:
     samplingRate: "1"
     zipkin:
       endpointAddress: http://192.168.1.160:9411/api/v2/spans
-
+    otel:
+      endpointAddress: "192.168.1.160:4317"
+      isSecure: false
+      protocol: grpc 
