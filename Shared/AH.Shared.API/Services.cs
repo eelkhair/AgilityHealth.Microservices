@@ -32,6 +32,18 @@ public static class Services
         services.RegisterDapr();
         services.AddApplicationInsightsTelemetry();
         services.AddSingleton(new ActivitySource(swagger.AppTag));
+        
+        services.AddCors(options =>
+        {
+            options.AddPolicy( "_myAllowSpecificOrigins",
+                policy =>
+                {
+                    policy.WithOrigins("https://localhost:7033")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+        });
+
         host.UseSerilog();
     }
     

@@ -1,20 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <RootNamespace>AH.Integration.Auth0.ServiceAgent</RootNamespace>
-        <PackageId>AH.Integration.Auth0.ServiceAgent</PackageId>
-        <Authors>Elkhair Elkhair</Authors>
-        <Version>1.0.0</Version>
-        <Description>Definition of the auth0 integration</Description>
-        <IsPackable>true</IsPackable>
-    </PropertyGroup>
-
-    <ItemGroup>
-      <PackageReference Include="IdentityModel" Version="6.2.0" />
-      <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    </ItemGroup>
-
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>AH.Integration.Auth0.ServiceAgent</RootNamespace>
+    <PackageId>AH.Integration.Auth0.ServiceAgent</PackageId>
+    <Authors>Elkhair Elkhair</Authors>
+    <Version>1.0.0</Version>
+    <Description>Definition of the auth0 integration</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="IdentityModel" Version="6.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
 </Project>

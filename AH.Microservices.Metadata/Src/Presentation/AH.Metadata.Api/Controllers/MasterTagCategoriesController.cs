@@ -46,6 +46,7 @@ public class MasterTagCategoriesController : BaseController
     /// <returns></returns>
     [ProducesResponseType(typeof(List<MasterTagCategoryResponse>), StatusCodes.Status200OK)]
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetMasterTagCategories()
     {
         Logger.LogInformation("Getting all master tag categories");

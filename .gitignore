@@ -35,3 +35,7 @@ bin/Debug/
 /Integrations/Src/AH.Integration.*/bin/*
 /Integrations/Src/AH.Integration.*/obj/*
 .cache/*
+AgilityHealth.Microservices.sln*
+AgilityHealth.Web/AgilityHealth.Web.csproj.user
+AgilityHealth.Web/obj/*
+AgilityHealth.Web/bin/*

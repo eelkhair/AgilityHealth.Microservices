@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
@@ -9,24 +8,12 @@
     <DockerfileContext>..\..\..\..</DockerfileContext>
     <DockerComposeProjectPath>..\..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
-
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DocumentationFile>bin\Debug\AH.Company.Api.xml</DocumentationFile>
   </PropertyGroup>
-
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DocumentationFile>bin\Release\AH.Company.Api.xml</DocumentationFile>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.13">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
-  </ItemGroup>
-
-
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\AH.Microservices.Metadata\Src\Shared\AH.Metadata.Shared.V1\AH.Metadata.Shared.V1.csproj" />
     <ProjectReference Include="..\..\..\..\Shared\AH.Shared.API\AH.Shared.Api.csproj" />
@@ -34,23 +21,19 @@
     <ProjectReference Include="..\..\Infrastructure\AH.Company.Persistence\AH.Company.Persistence.csproj" />
     <ProjectReference Include="..\..\Shared\AH.Company.Shared.V1\AH.Company.Shared.V1.csproj" />
   </ItemGroup>
-
-
   <ItemGroup>
     <Folder Include="MessageSenders\Interfaces\" />
   </ItemGroup>
-
-
   <ItemGroup>
     <Compile Remove="MessageListeners\MasterTagCategories\DeleteMasterTagCategoryMessageListener.cs" />
     <Compile Remove="MessageListeners\MasterTagCategories\UpdateMasterTagCategoryMessageListener.cs" />
   </ItemGroup>
-
-
   <ItemGroup>
     <Content Include="..\..\..\..\.dockerignore">
       <Link>.dockerignore</Link>
     </Content>
   </ItemGroup>
-
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0" />
+  </ItemGroup>
 </Project>

@@ -51,5 +51,6 @@ public static class AppConfig
             // Call the next middleware in the pipeline
             await next();
         });
+        app.UseCors("_myAllowSpecificOrigins");
     }
 }

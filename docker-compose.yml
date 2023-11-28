@@ -16,6 +16,13 @@ services:
     build:
       context: .
       dockerfile: AH.Microservices.Metadata/Src/Presentation/AH.Metadata.Api/Dockerfile
+  agilityhealth-web:
+    image: ${DOCKER_REGISTRY-}agilityhealthweb
+    build:
+      context: .
+      dockerfile: AgilityHealth.Web\Dockerfile
+
+
   ah-company-api-dapr:
     image: "daprio/daprd:edge"
     command: [
@@ -69,6 +76,24 @@ services:
       - ah-user-api
       - placement
     network_mode: "service:ah-user-api"
+
+  agilityhealth-web-dapr:
+    image: "daprio/daprd:edge"
+    command: [
+      "./daprd",
+      "--app-id", "agilityhealth-web",
+      "--app-port", "80",
+      "--placement-host-address", "placement:50010", # Dapr's placement service can be reach via the docker DNS entry
+      "--components-path", "./Components",
+      "-config", "./Config/config.yaml"
+    ]
+    volumes:
+      - "./Components/:/Components" # Mount our components folder for the runtime to use. The mounted location must match the --resources-path argument.
+      - "./Config/:/Config"
+    depends_on:
+      - agilityhealth-web
+      - placement
+    network_mode: "service:agilityhealth-web"
     
   placement:
     image: "daprio/dapr"
@@ -76,3 +101,5 @@ services:
     ports:
       - "50006:50006"
  
+
+

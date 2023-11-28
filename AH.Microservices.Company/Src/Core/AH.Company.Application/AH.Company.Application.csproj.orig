@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+<<<<<<< Updated upstream
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\Shared\AH.Shared.Application\AH.Shared.Application.csproj" />
+      <ProjectReference Include="..\AH.Company.Domain\AH.Company.Domain.csproj" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
+    </ItemGroup>
+
+</Project>
+=======
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Shared\AH.Shared.Application\AH.Shared.Application.csproj" />
+    <ProjectReference Include="..\AH.Company.Domain\AH.Company.Domain.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
+  </ItemGroup>
+</Project>
+>>>>>>> Stashed changes

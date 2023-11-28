@@ -25,3 +25,13 @@ services:
        - "5005:80"
  #    volumes:
  #      - ${Home}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+  agilityhealth-web:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+    ports:
+      - "5010:8080"
+     
+  #  volumes:
+    #  - ${APPDATA}/Microsoft/UserSecrets:C:\Users\ContainerUser\AppData\Roaming\Microsoft\UserSecrets:ro
+   #   - ${APPDATA}/ASP.NET/Https:C:\Users\ContainerUser\AppData\Roaming\ASP.NET\Https:ro

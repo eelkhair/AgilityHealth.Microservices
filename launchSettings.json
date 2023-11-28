@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "agilityhealth.web": "StartDebugging",
+        "ah-company-api": "StartDebugging",
+        "ah-metadata-api": "StartDebugging",
+        "ah-user-api": "StartDebugging"
+      }
+    }
+  }
+}
