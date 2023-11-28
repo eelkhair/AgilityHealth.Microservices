@@ -4,6 +4,7 @@ using AH.Shared.Api.Dtos;
 using AH.Shared.Application.Exceptions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 
@@ -42,9 +43,9 @@ public static class AuthorizationServices
                 },
                 OnTokenValidated = context =>
                 {
-                    var accessToken = (JwtSecurityToken) context.SecurityToken;
+                    var accessToken = (JsonWebToken) context.SecurityToken;
                     var client = context.HttpContext.RequestServices.GetService<IHttpClientFactory>()!.CreateClient();
-                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken.RawData);
+                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken.EncodedToken);
                     foreach (var item in accessToken.Claims.Where(y =>
                                  y.Type == ClaimTypes.Role && y.Issuer == domain))
                     {

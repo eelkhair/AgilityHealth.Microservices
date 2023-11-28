@@ -1,14 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <RootNamespace>AH.Shared.Domain</RootNamespace>
-        <PackageId>AH.Shared.Domain</PackageId>
-        <Authors>Elkhair Elkhair</Authors>
-        <Version>1.0.0</Version>
-        <Description>Shared components for the domain project</Description>
-        <IsPackable>true</IsPackable>        
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>AH.Shared.Domain</RootNamespace>
+    <PackageId>AH.Shared.Domain</PackageId>
+    <Authors>Elkhair Elkhair</Authors>
+    <Version>1.0.0</Version>
+    <Description>Shared components for the domain project</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
 </Project>
