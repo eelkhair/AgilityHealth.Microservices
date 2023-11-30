@@ -38,7 +38,7 @@ public static class Services
             options.AddPolicy( "_myAllowSpecificOrigins",
                 policy =>
                 {
-                    policy.WithOrigins("https://localhost:7033")
+                    policy.WithOrigins("http://localhost:5010")
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });
@@ -49,8 +49,6 @@ public static class Services
     
     static void ConfigureLogging(string environment, IConfiguration configuration)
     {
-        
-
         Log.Logger = new LoggerConfiguration()
             .Enrich.FromLogContext()
             .Enrich.WithExceptionDetails()
@@ -89,13 +87,11 @@ public static class Services
                 .AddAspNetCoreInstrumentation()
                 .AddSqlClientInstrumentation()
                 .AddHttpClientInstrumentation()
-                .AddEntityFrameworkCoreInstrumentation()
                 .AddOtlpExporter(x=>
                 {
                     x.Endpoint = new Uri("http://192.168.1.160:4317");
                 })
                 .AddZipkinExporter())
-              //  .AddConsoleExporter()
             .WithMetrics(metrics => metrics
                 .AddAspNetCoreInstrumentation()
                 .AddHttpClientInstrumentation()

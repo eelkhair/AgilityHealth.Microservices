@@ -6,7 +6,7 @@ WORKDIR /app
 EXPOSE 8080
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
+ARG BUILD_CONFIGURATION=Debug
 WORKDIR /src
 COPY ["AH.Microservices.Company/Src/Presentation/AH.Company.Api/Nuget.Config", "AH.Microservices.Company/Src/Presentation/AH.Company.Api/"]
 COPY ["AH.Microservices.Company/Src/Presentation/AH.Company.Api/AH.Company.Api.csproj", "AH.Microservices.Company/Src/Presentation/AH.Company.Api/"]
