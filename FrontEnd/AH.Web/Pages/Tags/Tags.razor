@@ -1,0 +1,110 @@
+﻿@page "/tags"
+
+@using AH.Metadata.Shared.V1.Models.Responses.MasterTagCategories
+@using AH.Web.Services.Interfaces
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Web
+@using Telerik.Blazor
+@using Telerik.Blazor.Components
+@using Telerik.SvgIcons
+@inject IMasterTagCategoryService MasterTagCategoryService  
+@attribute [Authorize]
+<PageTitle>Tags</PageTitle>
+<h1>Tags</h1>
+
+<TelerikTabStrip Width="1200px">
+    <TabStripTab Title="Teams">
+        <TelerikRootComponent>
+        <div style="display:inline-block; width: 49%">
+            <TelerikGrid Data="@masterTeamCategories"
+                         EditMode="@GridEditMode.Popup"
+                         FilterMode="@GridFilterMode.FilterMenu"
+                         Pageable="true"
+                         Sortable="true"
+                         OnRowClick="@(async args => { await CategoryClicked(args); })">
+                <GridToolBarTemplate>
+                    <GridCommandButton Command="Add">Add Category</GridCommandButton>
+                </GridToolBarTemplate>
+                <GridColumns>
+                    <GridColumn Field="@nameof(MasterTagCategoryResponse.Name)" Title="Name"/>
+                    <GridColumn Field="@nameof(MasterTagCategoryResponse.Type)" Title="Type"/>
+                    <GridCommandColumn>
+                        <GridCommandButton Command="Edit" Icon="@SvgIcon.Pencil">Edit</GridCommandButton>
+                        <GridCommandButton Command="Delete" Icon="@SvgIcon.Trash">Delete</GridCommandButton>
+                    </GridCommandColumn>
+                </GridColumns>
+            </TelerikGrid>
+        </div>
+        </TelerikRootComponent>
+        <div style="display:inline-block; width: 49%; margin-left: 10px;">
+            <TelerikGrid Data="@masterTeamCategories"
+                         EditMode="@GridEditMode.Popup"
+                         FilterMode="@GridFilterMode.FilterMenu"
+                         Pageable="true"
+                         Sortable="true"
+                         OnRowClick="@(async args => { await CategoryClicked(args); })">
+                <GridToolBarTemplate>
+                    <GridCommandButton Command="Add">Add Category</GridCommandButton>
+                </GridToolBarTemplate>
+                <GridColumns>
+                    <GridColumn Field="@nameof(MasterTagCategoryResponse.Name)" Title="Name"/>
+                    <GridColumn Field="@nameof(MasterTagCategoryResponse.Type)" Title="Type"/>
+                    <GridCommandColumn>
+                        <GridCommandButton Command="Edit" Icon="@SvgIcon.Pencil">Edit</GridCommandButton>
+                        <GridCommandButton Command="Delete" Icon="@SvgIcon.Trash">Delete</GridCommandButton>
+                    </GridCommandColumn>
+                </GridColumns>
+            </TelerikGrid>
+        </div>
+        
+
+    </TabStripTab>
+    <TabStripTab Title="Team Members">
+        <TelerikGrid Data="@masterTeamMemberCategories"
+                             Pageable="true"
+                             Sortable="true"
+                             Width="49%"
+                             FilterMode="@GridFilterMode.FilterMenu">
+            <GridColumns>
+                <GridColumn Field=@nameof(MasterTagCategoryResponse.Name) Title="Name"/>
+                <GridColumn Field=@nameof(MasterTagCategoryResponse.Type) Title="Type"/>
+                <GridCommandColumn>
+                    
+                </GridCommandColumn>
+            </GridColumns>
+        </TelerikGrid>
+    </TabStripTab>
+    <TabStripTab Title="Stakeholders">
+
+    </TabStripTab>
+    <TabStripTab Title="Skills">
+
+    </TabStripTab>
+
+</TelerikTabStrip>
+
+
+@code {
+
+    private List<MasterTagCategoryResponse> categories = new();
+    private List<MasterTagCategoryResponse> masterTeamCategories = new();
+    private List<MasterTagCategoryResponse> masterTeamMemberCategories = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            categories = await MasterTagCategoryService.GetMasterTagCategories();
+            masterTeamCategories = categories.Where(x => x.ClassName == "MasterTeamCategory").ToList();
+            masterTeamMemberCategories = categories.Where(x => x.ClassName == "MasterTeamMemberCategory").ToList();
+            StateHasChanged();
+        }
+    }
+
+    private Task CategoryClicked(GridRowClickEventArgs args)
+    {
+        var category = (MasterTagCategoryResponse) args.Item;
+        Console.WriteLine(category.Name + " clicked");
+        return Task.CompletedTask;
+    }
+}
