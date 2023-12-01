@@ -6,7 +6,7 @@
     <RootNamespace>AH.Shared.Application</RootNamespace>
     <PackageId>AH.Shared.Application</PackageId>
     <Authors>Elkhair Elkhair</Authors>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <Description>Shared components for the application project</Description>
     <IsPackable>true</IsPackable>
   </PropertyGroup>

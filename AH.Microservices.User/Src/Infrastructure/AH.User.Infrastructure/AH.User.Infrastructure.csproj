@@ -5,7 +5,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Shared\AH.Shared.Infrastructure\AH.Shared.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Core\AH.User.Application\AH.User.Application.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AH.Shared.Infrastructure" Version="1.0.2" />
   </ItemGroup>
 </Project>

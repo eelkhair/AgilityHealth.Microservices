@@ -5,10 +5,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Shared\AH.Shared.Persistence\AH.Shared.Persistence.csproj" />
     <ProjectReference Include="..\..\Core\AH.Metadata.Application\AH.Metadata.Application.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Migrations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AH.Shared.Persistence" Version="1.0.3" />
   </ItemGroup>
 </Project>

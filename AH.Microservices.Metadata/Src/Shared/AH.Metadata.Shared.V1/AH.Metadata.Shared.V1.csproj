@@ -1,18 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <RootNamespace>AH.Metadata.Shared.V1</RootNamespace>
-        <PackageId>AH.Metadata.Shared.V1</PackageId>
-        <Authors>Elkhair Elkhair</Authors>
-        <Version>1.0.3</Version>
-        <Description>Shared components for the metadata microservice</Description>
-        <IsPackable>true</IsPackable>
-    </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <DocumentationFile>bin\Debug\AH.Metadata.Shared.V1.xml</DocumentationFile>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>AH.Metadata.Shared.V1</RootNamespace>
+    <PackageId>AH.Metadata.Shared.V1</PackageId>
+    <Authors>Elkhair Elkhair</Authors>
+    <Version>1.0.4</Version>
+    <Description>Shared components for the metadata microservice</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DocumentationFile>bin\Debug\AH.Metadata.Shared.V1.xml</DocumentationFile>
+  </PropertyGroup>
 </Project>

@@ -116,7 +116,7 @@ app.MapGet("account/logout", async context =>
 });
 
 #if DEBUG
-    Debugger.Launch();
+ //   Debugger.Launch();
 #endif
 
 app.Run();

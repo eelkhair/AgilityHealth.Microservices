@@ -6,7 +6,7 @@
     <RootNamespace>AH.Shared.Domain</RootNamespace>
     <PackageId>AH.Shared.Domain</PackageId>
     <Authors>Elkhair Elkhair</Authors>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Description>Shared components for the domain project</Description>
     <IsPackable>true</IsPackable>
   </PropertyGroup>

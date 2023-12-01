@@ -15,7 +15,6 @@
     <DocumentationFile>bin\Release\AH.Metadata.Api.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Shared\AH.Shared.API\AH.Shared.Api.csproj" />
     <ProjectReference Include="..\..\Infrastructure\AH.Metadata.Infrastructure\AH.Metadata.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\AH.Metadata.Persistence\AH.Metadata.Persistence.csproj" />
     <ProjectReference Include="..\..\Shared\AH.Metadata.Shared.V1\AH.Metadata.Shared.V1.csproj" />
@@ -26,6 +25,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AH.Shared.Api" Version="1.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="[1.19.6-Preview.1, 1.19.6]" />
   </ItemGroup>

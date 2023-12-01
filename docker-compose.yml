@@ -71,8 +71,7 @@ services:
       - placement
     network_mode: "service:ah-user-api"
 
-  
-    
+ 
   placement:
     image: "daprio/dapr"
     command: ["./placement", "--port", "50006"]
@@ -80,4 +79,7 @@ services:
       - "50006:50006"
  
 
+
+
+ 
 

@@ -7,4 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\AH.Metadata.Application\AH.Metadata.Application.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AH.Shared.Infrastructure" Version="1.0.2" />
+  </ItemGroup>
 </Project>
