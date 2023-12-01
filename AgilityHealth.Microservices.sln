@@ -144,6 +144,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{55
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AH.Web", "FrontEnd\AH.Web\AH.Web.csproj", "{464538AF-9738-412D-8AB6-CBA11CC04EF3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4A11AD14-51D7-4DE9-92AA-BED7EABF5409}"
+	ProjectSection(SolutionItems) = preProject
+		Solution Items\nugetpush.sh = Solution Items\nugetpush.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Company", "Company", "{D8F81E35-C41E-46FD-B6BB-D90D74DAF8D2}"
+	ProjectSection(SolutionItems) = preProject
+		Solution Items\Company\Dapr Company.sh = Solution Items\Company\Dapr Company.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Metadata", "Metadata", "{EE402946-195E-45AE-B9BB-31C812DCC7F0}"
+	ProjectSection(SolutionItems) = preProject
+		Solution Items\Metadata\Metadata\Add Migration.sh = Solution Items\Metadata\Metadata\Add Migration.sh
+		Solution Items\Metadata\Metadata\Dapr metadata.sh = Solution Items\Metadata\Metadata\Dapr metadata.sh
+		Solution Items\Metadata\Metadata\Swagger.sh = Solution Items\Metadata\Metadata\Swagger.sh
+		Solution Items\Metadata\Metadata\Update Database.sh = Solution Items\Metadata\Metadata\Update Database.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{684B8523-0E15-4450-9765-31FA139E00DD}"
+	ProjectSection(SolutionItems) = preProject
+		Solution Items\Tools\Dapr tools.sh = Solution Items\Tools\Dapr tools.sh
+		Solution Items\Tools\daprdashboard.sh = Solution Items\Tools\daprdashboard.sh
+		Solution Items\Tools\Swagger.sh = Solution Items\Tools\Swagger.sh
+		Solution Items\Tools\Swagger-hosted.sh = Solution Items\Tools\Swagger-hosted.sh
+		Solution Items\Company\grafana-actor-dashboard.json = Solution Items\Company\grafana-actor-dashboard.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -345,6 +372,9 @@ Global
 		{F7A6EF79-9245-48B3-B105-A969BC2BC3B6} = {41F7D394-B9CD-4FFD-9DA3-483366B87324}
 		{200A43A9-18B1-4048-8715-2355FB713CCA} = {41F7D394-B9CD-4FFD-9DA3-483366B87324}
 		{464538AF-9738-412D-8AB6-CBA11CC04EF3} = {55277A4E-2B89-45DA-AD57-84A6CF12C5EF}
+		{D8F81E35-C41E-46FD-B6BB-D90D74DAF8D2} = {4A11AD14-51D7-4DE9-92AA-BED7EABF5409}
+		{EE402946-195E-45AE-B9BB-31C812DCC7F0} = {4A11AD14-51D7-4DE9-92AA-BED7EABF5409}
+		{684B8523-0E15-4450-9765-31FA139E00DD} = {4A11AD14-51D7-4DE9-92AA-BED7EABF5409}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ADA7513C-1144-4397-870D-DF008958C056}
