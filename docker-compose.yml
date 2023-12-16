@@ -2,10 +2,16 @@ version: '3.4'
 
 services:
   ah-company-api:
-    image: ${DOCKER_REGISTRY-}ahcompanyapi
-    build:
-      context: .
-      dockerfile: AH.Microservices.Company/Src/Presentation/AH.Company.Api/Dockerfile 
+      image: ${DOCKER_REGISTRY-}ahcompanyapi
+      build:
+        context: .
+        dockerfile: AH.Microservices.Company/Src/Presentation/AH.Company.Api/Dockerfile
+  ah-web:
+     image: ${DOCKER_REGISTRY-}ahweb
+     build:
+       context: .
+       dockerfile: FrontEnd/AH.Web/Dockerfile
+  
   ah-user-api:
     image: ${DOCKER_REGISTRY-}ahuserapi
     build:
@@ -16,7 +22,7 @@ services:
     build:
       context: .
       dockerfile: AH.Microservices.Metadata/Src/Presentation/AH.Metadata.Api/Dockerfile
-
+  
   ah-company-api-dapr:
     image: "daprio/daprd:edge"
     command: [
@@ -33,8 +39,9 @@ services:
     depends_on:
       - ah-company-api
       - placement
-    network_mode: "service:ah-company-api"  
-            
+    network_mode: "service:ah-company-api"
+    
+      
   ah-metadata-api-dapr:
     image: "daprio/daprd:edge"
     command: [
@@ -71,13 +78,26 @@ services:
       - placement
     network_mode: "service:ah-user-api"
 
- 
+  ah-web-dapr:
+    image: "daprio/daprd:edge"
+    command: [
+      "./daprd",
+      "--app-id", "ah-web",
+      "--app-port", "8080",
+      "--placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
+    ]
+    depends_on:
+      - ah-web
+      - placement
+    network_mode: "service:ah-web"
+  
+  
   placement:
     image: "daprio/dapr"
     command: ["./placement", "--port", "50006"]
     ports:
       - "50006:50006"
- 
+
 
 
 

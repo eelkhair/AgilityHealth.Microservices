@@ -11,6 +11,9 @@ using AH.Web.Services;
 using AH.Web.Services.Interfaces;
 using Dapr.Client;
 using AH.Web.Dtos;
+using AH.Web.Settings;
+using Microsoft.AspNetCore.HttpOverrides;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,8 +22,13 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddSingleton<TokenProvider>();
+builder.ConfigureLogging();
+
+
 builder.Services.AddSingleton<IMasterTagCategoryService, MasterTagCategoryService>(
-    p=> new MasterTagCategoryService(DaprClient.CreateInvokeHttpClient("ah-metadata"), p.GetRequiredService<TokenProvider>()));
+    p=> new MasterTagCategoryService(
+        DaprClient.CreateInvokeHttpClient("ah-metadata-api"), p.GetRequiredService<TokenProvider>(), 
+        Log.ForContext<MasterTagCategoryService>()));
 
 
 builder.Services.AddTelerikBlazor();
@@ -35,6 +43,7 @@ builder.Services.AddAuthentication(options => {
       options.ClientId = builder.Configuration["Auth0:ClientId"];
       options.ClientSecret = builder.Configuration["Auth0:ClientSecret"];
       options.SaveTokens = true;
+    
       options.ResponseType = OpenIdConnectResponseType.Code;
       options.CallbackPath = new PathString("/callback");
       options.ProtocolValidator.RequireNonce = false;
@@ -67,6 +76,7 @@ builder.Services.AddAuthentication(options => {
           },
           OnRedirectToIdentityProvider = context =>
           {
+              Console.WriteLine($"RedirectUri: {context.ProtocolMessage.RedirectUri}");
               context.ProtocolMessage.SetParameter("audience", builder.Configuration["Auth0:Audience"]);
               return Task.FromResult(0);
           }
@@ -116,7 +126,8 @@ app.MapGet("account/logout", async context =>
 });
 
 #if DEBUG
- //   Debugger.Launch();
+    Debugger.Launch();
 #endif
-
+app.UseHttpsRedirection();
 app.Run();
+

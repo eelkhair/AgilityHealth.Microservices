@@ -20,6 +20,7 @@
     <ProjectReference Include="..\..\Shared\AH.Metadata.Shared.V1\AH.Metadata.Shared.V1.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Content Remove="Nuget.Config" />
     <Content Include="..\..\..\..\.dockerignore">
       <Link>.dockerignore</Link>
     </Content>

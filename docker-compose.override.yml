@@ -18,16 +18,22 @@ services:
     #  - ${Home}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
  
   ah-user-api:
-     environment:
-       - ASPNETCORE_ENVIRONMENT=Development
-     ports:
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+    ports:
        - "5004:8080"
-       - "5005:8080"
- #    volumes:
- #      - ${Home}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
- 
- 
+       - "5005:8080"  
+       
+       
   
-    # volumes:
-    #   - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-    #   - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+  ah-web:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+#      - ASPNETCORE_URLS=https://+:8081;http://+:8080
+#      - ASPNETCORE_Kestrel__Certificates__Default__Password=Pass321$
+#      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/AH.Web.pfx
+    ports:  
+      - "5010:8080"
+#    volumes:
+#      - ~/.aspnet/https:/https:ro
+   

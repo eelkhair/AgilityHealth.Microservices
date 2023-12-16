@@ -23,8 +23,6 @@ public static class Services
     public static void Build(this IServiceCollection services, SwaggerDocSetup swagger, Auth0Configuration auth0Config,
         string environment, IConfiguration configuration, ConfigureHostBuilder host)
     {
-        // var path = Directory.GetParent(Directory.GetCurrentDirectory()) + "\\Shared\\appsettings.shared.json";
-        // configuration.AddJsonFile(path, true, true);
         
         ConfigureLogging(environment, configuration);
         services.RegisterSwagger(swagger, auth0Config);
@@ -54,8 +52,6 @@ public static class Services
             .Enrich.WithExceptionDetails()
             .Enrich.WithOpenTelemetryTraceId()
             .Enrich.WithOpenTelemetrySpanId()
-   //         .WriteTo.Debug()
-  //          .WriteTo.Console()
             .WriteTo.Elasticsearch(ConfigureElasticSink(configuration, environment))
             .Enrich.WithProperty("Environment", environment)
             .ReadFrom.Configuration(configuration)

@@ -38,7 +38,6 @@ public static class AppConfig
         app.MapControllers();
         app.MapActorsHandlers();
         app.UseMiddleware<ExceptionHandlerMiddleware>();
-        app.UseMiddleware<LogHeaderMiddleware>();
         app.Use(async (context, next) =>
         {
             // Get the current span and its traceid
@@ -46,7 +45,7 @@ public static class AppConfig
             var traceId = span?.TraceId.ToString();
 
             // Add the traceid to the response headers
-            context.Response.Headers.Add("trace-id", traceId);
+            context.Response.Headers.Append("trace-id", traceId);
 
             // Call the next middleware in the pipeline
             await next();
