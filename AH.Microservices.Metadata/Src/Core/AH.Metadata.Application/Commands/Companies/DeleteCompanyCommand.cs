@@ -1,7 +1,6 @@
 ﻿using System.Security.Claims;
 using AH.Metadata.Application.Interfaces;
 using AH.Metadata.Domain.Constants;
-using AH.Shared.Application.Commands;
 using AutoMapper;
 using FluentValidation;
 using MediatR;

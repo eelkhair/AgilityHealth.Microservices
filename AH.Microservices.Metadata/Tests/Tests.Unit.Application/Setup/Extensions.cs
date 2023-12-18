@@ -1,7 +1,6 @@
-﻿using AH.Shared.Application.Dtos;
-using AH.Shared.Domain.Constants;
-using AH.Shared.Domain.Entities;
-
+﻿using AH.Metadata.Application.Dtos;
+using AH.Metadata.Domain.Constants;
+using AH.Metadata.Domain.Entities;
 namespace Tests.Unit.Application.Setup;
 
 public static class Extensions

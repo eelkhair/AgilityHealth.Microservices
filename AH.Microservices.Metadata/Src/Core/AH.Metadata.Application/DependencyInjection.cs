@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
+using AH.Metadata.Application.Behaviors;
 using AH.Metadata.Application.Interfaces;
-using AH.Shared.Application.Behaviors;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;

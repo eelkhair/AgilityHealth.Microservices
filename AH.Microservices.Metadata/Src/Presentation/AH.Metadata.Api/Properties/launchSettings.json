@@ -22,7 +22,7 @@
       "launchBrowser": true,
       "applicationUrl": "http://localhost:5001",
       "executablePath": "dapr",
-      "commandLineArgs": "run --app-id ah-metadata-api --resources-path ../../../../Components/ --app-port 5001 --dapr-http-port 50001 dotnet run"
+      "commandLineArgs": "run --app-id ah-metadata-api --resources-path ../../../../Components/ --app-port 5001 --dapr-http-port 50012 dotnet run"
     }
   },
   "$schema": "https://json.schemastore.org/launchsettings.json"

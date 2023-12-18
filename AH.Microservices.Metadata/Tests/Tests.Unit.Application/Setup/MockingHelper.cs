@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using AH.Shared.Domain.Constants;
+using AH.Metadata.Domain.Constants;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 

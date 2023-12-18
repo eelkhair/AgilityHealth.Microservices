@@ -37,9 +37,6 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Extensions" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\AH.Shared.Infrastructure\AH.Shared.Infrastructure.csproj" />
     <ProjectReference Include="..\AH.Shared.Persistence\AH.Shared.Persistence.csproj" />
   </ItemGroup>

@@ -1,9 +1,8 @@
 ﻿using System.Security.Claims;
+using AH.Metadata.Application.Extensions;
 using AH.Metadata.Application.Interfaces;
+using AH.Metadata.Domain.Constants;
 using AH.Metadata.Domain.Entities;
-using AH.Shared.Application.Extensions;
-using AH.Shared.Domain.Constants;
-using AH.Shared.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AH.Metadata.Persistence;

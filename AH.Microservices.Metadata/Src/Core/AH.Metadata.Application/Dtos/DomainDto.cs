@@ -1,6 +1,4 @@
-﻿using AH.Shared.Application.Dtos;
-
-namespace AH.Metadata.Application.Dtos;
+﻿namespace AH.Metadata.Application.Dtos;
 
 public class DomainDto : BaseDto
 {

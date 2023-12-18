@@ -1,7 +1,6 @@
 ﻿using System.Security.Claims;
 using AH.Metadata.Application.Dtos;
 using AH.Metadata.Application.Interfaces;
-using AH.Shared.Application.Queries;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
