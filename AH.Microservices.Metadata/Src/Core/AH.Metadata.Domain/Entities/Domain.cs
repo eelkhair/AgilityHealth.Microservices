@@ -1,6 +1,4 @@
-﻿using AH.Shared.Domain.Entities;
-
-namespace AH.Metadata.Domain.Entities;
+﻿namespace AH.Metadata.Domain.Entities;
 
 public class Domain : BaseAuditableEntity
 {

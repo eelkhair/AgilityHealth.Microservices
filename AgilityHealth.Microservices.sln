@@ -147,6 +147,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4A11AD14-51D7-4DE9-92AA-BED7EABF5409}"
 	ProjectSection(SolutionItems) = preProject
 		Solution Items\nugetpush.sh = Solution Items\nugetpush.sh
+		envoy.yaml = envoy.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Company", "Company", "{D8F81E35-C41E-46FD-B6BB-D90D74DAF8D2}"

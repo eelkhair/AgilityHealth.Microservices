@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using AH.Shared.Application.Interfaces;
+using AH.Metadata.Application.Interfaces;
 using AutoMapper;
 using MediatR;
 

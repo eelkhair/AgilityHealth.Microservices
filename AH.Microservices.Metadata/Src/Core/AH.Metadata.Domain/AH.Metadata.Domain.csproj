@@ -4,7 +4,4 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="AH.Shared.Domain" Version="1.0.1" />
-  </ItemGroup>
 </Project>

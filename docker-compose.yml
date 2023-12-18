@@ -6,6 +6,7 @@ services:
       build:
         context: .
         dockerfile: AH.Microservices.Company/Src/Presentation/AH.Company.Api/Dockerfile
+        
   ah-web:
      image: ${DOCKER_REGISTRY-}ahweb
      build:
@@ -31,7 +32,8 @@ services:
       "--app-port", "8080",
       "--placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
       "--components-path", "./Components",
-      "-config", "./Config/config.yaml"
+      "-config", "./Config/config.yaml",
+      "--dapr-http-port", "50002",
     ]
     volumes:
       - "./Components/:/Components" # Mount our components folder for the runtime to use. The mounted location must match the --resources-path argument.
@@ -39,8 +41,7 @@ services:
     depends_on:
       - ah-company-api
       - placement
-    network_mode: "service:ah-company-api"
-    
+    network_mode: "service:ah-company-api"    
       
   ah-metadata-api-dapr:
     image: "daprio/daprd:edge"
@@ -48,6 +49,7 @@ services:
       "./daprd",
       "--app-id", "ah-metadata-api",
       "--app-port", "8080",
+      "--dapr-http-port", "50012",
       "--placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
       "--components-path", "./Components",
       "-config", "./Config/config.yaml"
@@ -68,6 +70,7 @@ services:
       "--app-port", "8080",
       "--placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
       "--components-path", "./Components",
+      "--dapr-http-port", "50005",
       "-config", "./Config/config.yaml"
     ]
     volumes:
@@ -84,13 +87,13 @@ services:
       "./daprd",
       "--app-id", "ah-web",
       "--app-port", "8080",
+      "--dapr-http-port", "50010",
       "--placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
     ]
     depends_on:
       - ah-web
       - placement
-    network_mode: "service:ah-web"
-  
+    network_mode: "service:ah-web"  
   
   placement:
     image: "daprio/dapr"

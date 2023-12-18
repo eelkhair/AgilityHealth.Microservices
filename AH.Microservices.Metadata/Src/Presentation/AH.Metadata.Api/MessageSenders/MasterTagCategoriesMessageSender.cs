@@ -2,12 +2,12 @@
 using System.Text.Json;
 using AH.Metadata.Api.MessageSenders.Interfaces;
 using AH.Metadata.Application.Dtos;
+using AH.Metadata.Application.Extensions;
+using AH.Metadata.Application.Interfaces;
 using AH.Metadata.Application.Queries.Domains;
+using AH.Metadata.Domain.Constants;
 using AH.Metadata.Shared.V1.Events;
 using AH.Metadata.Shared.V1.Models.Responses.MasterTagCategories;
-using AH.Shared.Application.Extensions;
-using AH.Shared.Application.Interfaces;
-using AH.Shared.Domain.Constants;
 using AutoMapper;
 using MediatR;
 

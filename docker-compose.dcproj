@@ -9,8 +9,6 @@
     <DockerServiceName>ah.main.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="AH.Microservices.Company\Nuget.Config" />
-    <None Include="AH.Microservices.Metadata\Nuget.Config" />
     <None Include="docker-compose.override.yml">
       <DependentUpon>docker-compose.yml</DependentUpon>
     </None>
@@ -19,8 +17,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
-    <Content Include="AH.Documentation\AgilityHealth.Microservices.argr" />
     <Content Include="azure-pipelines.yml" />
-    <Content Include="start-metadata.sh" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AH.Microservices.Company\" />
+    <Folder Include="AH.Microservices.Metadata\" />
   </ItemGroup>
 </Project>
