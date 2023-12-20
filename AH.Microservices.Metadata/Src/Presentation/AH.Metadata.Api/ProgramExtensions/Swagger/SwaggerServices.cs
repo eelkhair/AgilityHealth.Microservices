@@ -3,6 +3,7 @@ using AH.Metadata.Api.ProgramExtensions.Dtos;
 using AH.Metadata.Domain.Constants;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using Serilog.Enrichers.OpenTelemetry;
 
 namespace AH.Metadata.Api.ProgramExtensions.Swagger;
 

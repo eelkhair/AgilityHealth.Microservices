@@ -2,7 +2,7 @@
 
 public static class IgnoredProperties
 {
-    public static List<string> CreateUser()
+    public static List<string>? CreateUser()
     {
         return new List<string>
         {
@@ -11,7 +11,7 @@ public static class IgnoredProperties
         };
     }
 
-    public static List<string> UpdateUser()
+    public static List<string>? UpdateUser()
     {
         return new List<string>
         {
@@ -19,7 +19,7 @@ public static class IgnoredProperties
         };
     }
 
-    public static List<string> CreateOrganization()
+    public static List<string>? CreateOrganization()
     {
         return new List<string>
         {
@@ -27,7 +27,7 @@ public static class IgnoredProperties
         };
     }
 
-    public static List<string> InviteMemberToOrganization()
+    public static List<string>? InviteMemberToOrganization()
     {
         return new List<string>
         {
@@ -35,7 +35,7 @@ public static class IgnoredProperties
         };
     }
 
-    public static List<string> SendUserVerificationEmail(bool ignoreClientId)
+    public static List<string>? SendUserVerificationEmail(bool ignoreClientId)
     {
         if (ignoreClientId) return new List<string>
         {

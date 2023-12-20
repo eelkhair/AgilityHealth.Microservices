@@ -12,7 +12,6 @@ using AH.Web.Services.Interfaces;
 using Dapr.Client;
 using AH.Web.Dtos;
 using AH.Web.Settings;
-using Microsoft.AspNetCore.HttpOverrides;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,13 +21,14 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddSingleton<TokenProvider>();
+builder.Services.AddTransient<JsConsole>();
 builder.ConfigureLogging();
 
 
-builder.Services.AddSingleton<IMasterTagCategoryService, MasterTagCategoryService>(
+builder.Services.AddTransient<IMasterTagCategoryService, MasterTagCategoryService>(
     p=> new MasterTagCategoryService(
         DaprClient.CreateInvokeHttpClient("ah-metadata-api"), p.GetRequiredService<TokenProvider>(), 
-        Log.ForContext<MasterTagCategoryService>()));
+        Log.ForContext<MasterTagCategoryService>(), p.GetRequiredService<JsConsole>()));
 
 
 builder.Services.AddTelerikBlazor();

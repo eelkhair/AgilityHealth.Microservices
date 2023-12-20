@@ -1,7 +1,12 @@
 ﻿using System.Diagnostics;
 using AH.Metadata.Api.ProgramExtensions.Authorization;
 using AH.Metadata.Api.ProgramExtensions.Dapr;
+using AH.Metadata.Api.ProgramExtensions.LoggingAndTracing;
 using AH.Metadata.Api.ProgramExtensions.Swagger;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+
 
 namespace AH.Metadata.Api.ProgramExtensions; 
 
@@ -19,19 +24,20 @@ public static class Services
     public static void ConfigureServices(this WebApplicationBuilder builder, string appName, string appTag)
     {
         builder.RegisterSwagger(appName, appTag);
-        builder.RegisterAuth0(appName, appTag);
+        builder.RegisterAuth0();
         builder.Services.RegisterDapr();
-        builder.Services.AddApplicationInsightsTelemetry();
-        builder.Services.AddSingleton(new ActivitySource(appTag));
+    
         builder.Services.AddCors(options =>
         {
-            options.AddPolicy( "_myAllowSpecificOrigins",
+            options.AddPolicy("_myAllowSpecificOrigins",
                 policy =>
                 {
                     policy.WithOrigins("http://localhost:5010")
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });
-        });
+        });   
+        
+        builder.ConfigureLoggingAndTracing(appTag);
     }
 }

@@ -8,14 +8,13 @@ using AH.Metadata.Application.Dtos;
 using AH.Metadata.Persistence;
 using AutoMapper;
 
-var builder = WebApplication.CreateBuilder(args);
-
 
 const string appName = "AgilityHealth Metadata Api";
-const string appTag = "ah-metadata";
+const string appTag = "ah-metadata-api";
 
-
+var builder = WebApplication.CreateBuilder(args);
 builder.ConfigureServices(appName, appTag);
+
 var mapper = new MapperConfiguration(c =>
 {
     c.AddProfile(new MappingProfile());

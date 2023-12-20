@@ -32,8 +32,7 @@ services:
       "--app-port", "8080",
       "--placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
       "--components-path", "./Components",
-      "-config", "./Config/config.yaml",
-      "--dapr-http-port", "50002",
+      "-config", "./Config/config.yaml"
     ]
     volumes:
       - "./Components/:/Components" # Mount our components folder for the runtime to use. The mounted location must match the --resources-path argument.
@@ -48,11 +47,10 @@ services:
     command: [
       "./daprd",
       "--app-id", "ah-metadata-api",
-      "--app-port", "8080",
-      "--dapr-http-port", "50012",
       "--placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
       "--components-path", "./Components",
-      "-config", "./Config/config.yaml"
+      "-config", "./Config/config.yaml",
+      "--app-port", "8080"
     ]
     volumes:
       - "./Components/:/Components" # Mount our components folder for the runtime to use. The mounted location must match the --resources-path argument.
@@ -70,7 +68,6 @@ services:
       "--app-port", "8080",
       "--placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
       "--components-path", "./Components",
-      "--dapr-http-port", "50005",
       "-config", "./Config/config.yaml"
     ]
     volumes:
@@ -87,14 +84,16 @@ services:
       "./daprd",
       "--app-id", "ah-web",
       "--app-port", "8080",
-      "--dapr-http-port", "50010",
       "--placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
     ]
     depends_on:
       - ah-web
       - placement
-    network_mode: "service:ah-web"  
-  
+    network_mode: "service:ah-web"
+    
+  seq:
+    image: datalust/seq:latest
+
   placement:
     image: "daprio/dapr"
     command: ["./placement", "--port", "50006"]

@@ -4,10 +4,10 @@
   &lt;Assembly Path="C:\Users\elkha\RiderProjects\AgilityHealthMicroServices\AgilityHealth.Microservices\Shared\AH.Shared.Dapr\bin\Debug\net7.0\AH.Shared.Dapr.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\elkha\.nuget\packages\ah.shared.domain\1.0.0\lib\net7.0\AH.Shared.Domain.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
-	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\elkha\AppData\Local\JetBrains\Rider2023.2\resharper-host\temp\Rider\vAny\CoverageData\_AH.Microservices.Metadata.560607706\Snapshot\snapshot.utdcvr</s:String>
 	
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ee34887b_002D744c_002D4f13_002Da109_002D69a7dd272a07/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;Tests&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;Project Location="C:\Users\elkha\RiderProjects\AgilityHealthMicroServices\AgilityHealth.Microservices\AH.Microservices.Metadata" Presentation="&amp;lt;Tests&amp;gt;" /&gt;&#xD;
+	
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ee34887b_002D744c_002D4f13_002Da109_002D69a7dd272a07/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;Tests&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Project Location="C:\Users\elkha\RiderProjects\AgilityHealthMicroServices\AgilityHealth.Microservices\AH.Microservices.Metadata" Presentation="&amp;lt;Tests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String>
 	
 	

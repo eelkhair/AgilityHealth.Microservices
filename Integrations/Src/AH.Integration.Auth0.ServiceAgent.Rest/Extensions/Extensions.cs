@@ -5,7 +5,7 @@ namespace AH.Integration.Auth0.ServiceAgent.Rest.Extensions;
 
 public static class SerializationExtensions
 {
-    public static JsonSerializerSettings GetIgnoreSerializerSettings<TDto>(IEnumerable<string> propertiesToIgnore)
+    public static JsonSerializerSettings GetIgnoreSerializerSettings<TDto>(IEnumerable<string>? propertiesToIgnore)
     {
         var jsonResolver = new PropertyRenameAndIgnoreSerializerContractResolver();
 
@@ -35,7 +35,7 @@ public static class SerializationExtensions
         return serializerSettings;
     }
 
-    public static TDto Mask<TDto>(TDto dto, IEnumerable<string> properties)
+    public static TDto Mask<TDto>(TDto dto, IEnumerable<string>? properties)
     {
         var serialized = JsonConvert.SerializeObject(dto, GetIgnoreSerializerSettings<TDto>(properties));
         return JsonConvert.DeserializeObject<TDto>(serialized);

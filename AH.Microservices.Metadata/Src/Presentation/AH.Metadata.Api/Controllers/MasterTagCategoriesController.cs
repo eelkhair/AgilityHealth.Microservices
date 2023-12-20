@@ -11,6 +11,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static AH.Metadata.Domain.Constants.Activities;
 
 namespace AH.Metadata.Api.Controllers;
 
@@ -31,7 +32,7 @@ public class MasterTagCategoriesController : BaseController
     /// <param name="mediator">The mediator.</param>
     /// <param name="sender">The master tag category event sender.</param>
     /// <param name="activitySource"></param>
-    public MasterTagCategoriesController(IMapper mapper, ILogger logger, IMediator mediator, IMasterTagCategoriesMessageSender sender, ActivitySource activitySource) : base(mapper, logger, mediator)
+    public MasterTagCategoriesController(IMapper mapper, ILogger<MasterTagCategoriesController> logger, IMediator mediator, IMasterTagCategoriesMessageSender sender, ActivitySource activitySource) : base(mapper, logger, mediator)
     {
         _sender = sender;
         _activitySource = activitySource ?? throw new ArgumentNullException(nameof(activitySource));

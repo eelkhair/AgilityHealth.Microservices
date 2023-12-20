@@ -12,7 +12,7 @@ namespace AH.Metadata.Api.ProgramExtensions.Authorization;
 internal static class AuthorizationServices
 {
 
-    public static void RegisterAuth0(this WebApplicationBuilder builder, string appName, string appTag)
+    public static void RegisterAuth0(this WebApplicationBuilder builder)
     {
         var auth0Config = new Auth0Configuration(
             builder.Configuration["Auth0:Domain"],

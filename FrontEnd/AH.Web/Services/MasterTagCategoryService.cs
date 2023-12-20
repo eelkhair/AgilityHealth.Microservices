@@ -6,7 +6,7 @@ using AH.Web.Services.Interfaces;
 
 
 namespace AH.Web.Services;
-public class MasterTagCategoryService(HttpClient httpClient, TokenProvider tokenProvider, Serilog.ILogger logger) : IMasterTagCategoryService
+public class MasterTagCategoryService(HttpClient httpClient, TokenProvider tokenProvider, Serilog.ILogger logger, JsConsole console) : IMasterTagCategoryService
 {
     public async Task<List<MasterTagCategoryResponse>> GetMasterTagCategories()
     {
@@ -16,8 +16,8 @@ public class MasterTagCategoryService(HttpClient httpClient, TokenProvider token
         var response = await httpClient.GetAsync("v1/mastertagcategories");
         
         logger.Information(@"{Method} {RequestUri} {StatusCode}", response.RequestMessage?.Method, response.RequestMessage?.RequestUri, response.StatusCode);
-        var responseString = await response.Content.ReadAsStringAsync();
         
+        await console.LogAsync(response.Headers.ToString());
         logger.Information("Response Headers: {Header}", response.Headers.ToString());
         return await response.Content.ReadFromJsonAsync<List<MasterTagCategoryResponse>>() ?? new List<MasterTagCategoryResponse>();
     }
@@ -28,7 +28,7 @@ public class MasterTagCategoryService(HttpClient httpClient, TokenProvider token
         var request = new HttpRequestMessage(HttpMethod.Put, $"v1/mastertagcategories/{category.UId}?Name={category.Name}&ClassName={category.ClassName}&Type={category.Type}");
         request.Headers.Add("Accept", "text/plain");
         var response = await httpClient.SendAsync(request);
-        Console.WriteLine(await response.Content.ReadAsStringAsync());
+        await console.LogAsync(response.Headers.ToString());
         logger.Information("Response Headers: {Header}", response.Headers.ToString());
         response.EnsureSuccessStatusCode();
         
@@ -40,7 +40,7 @@ public class MasterTagCategoryService(HttpClient httpClient, TokenProvider token
         var request = new HttpRequestMessage(HttpMethod.Post, $"v1/mastertagcategories?Name={category.Name}&ClassName={category.ClassName}&Type={category.Type}");
         request.Headers.Add("Accept", "text/plain");
         var response = await httpClient.SendAsync(request);
-        Console.WriteLine(await response.Content.ReadAsStringAsync());
+        await console.LogAsync(response.Headers.ToString());
         logger.Information("Response Headers: {Header}", response.Headers.ToString());
         response.EnsureSuccessStatusCode();
         if (response.StatusCode == HttpStatusCode.BadRequest)

@@ -24,7 +24,4 @@
   <ItemGroup>
     <ProjectReference Include="..\AH.Shared.Domain\AH.Shared.Domain.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Logging\" />
-  </ItemGroup>
 </Project>

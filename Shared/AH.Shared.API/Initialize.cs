@@ -4,7 +4,7 @@ using AH.Shared.Api.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
-using OpenTelemetry.Exporter;
+
 
 namespace AH.Shared.Api;
 public static class AppConfig

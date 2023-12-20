@@ -38,14 +38,14 @@ public sealed class WebApiClientSingleton : IWebApiClient
             
         while (true)
         {
-                
-            if (DateTimeOffset.UtcNow.ToUnixTimeSeconds() > Convert.ToDouble(reset.First()) + 1)
+            
+            if (reset != null && DateTimeOffset.UtcNow.ToUnixTimeSeconds() > Convert.ToDouble(reset.First()) + 1)
             {
                 return await GetAsync<TDto>(requestUri,  bearerToken, cancellationToken);
             }
         }
     }
-    public async Task<ApiResponse<TDto>> PostAsync<TDto>(string requestUri, TDto requestDto, List<string> propertiesToIgnore,  string bearerToken, CancellationToken cancellationToken)
+    public async Task<ApiResponse<TDto>> PostAsync<TDto>(string requestUri, TDto requestDto, List<string>? propertiesToIgnore,  string bearerToken, CancellationToken cancellationToken)
     {
         _httpClient.SetBearerToken(bearerToken);
 
@@ -69,7 +69,7 @@ public sealed class WebApiClientSingleton : IWebApiClient
 
     }
         
-    public async Task<ApiResponse<TDto>> PatchAsync<TDto>(string requestUri, TDto requestDto,  List<string> propertiesToIgnore,  string bearerToken, CancellationToken cancellationToken)
+    public async Task<ApiResponse<TDto>> PatchAsync<TDto>(string requestUri, TDto requestDto,  List<string>? propertiesToIgnore,  string bearerToken, CancellationToken cancellationToken)
     {
         _httpClient.SetBearerToken(bearerToken);
             
@@ -91,7 +91,7 @@ public sealed class WebApiClientSingleton : IWebApiClient
         }
     }
 
-    public async Task<bool> DeleteAsync<TDto>(string requestUri, TDto body, List<string> propertiesToIgnore, string bearerToken, CancellationToken cancellationToken)
+    public async Task<bool> DeleteAsync<TDto>(string requestUri, TDto body, List<string>? propertiesToIgnore, string bearerToken, CancellationToken cancellationToken)
     {
         _httpClient.SetBearerToken(bearerToken);
         StringContent content = null;
@@ -173,7 +173,7 @@ public sealed class WebApiClientSingleton : IWebApiClient
         }
     }
 
-    private static StringContent GetJsonStringContent<TDto>(TDto dto, IEnumerable<string> propertiesToIgnore)
+    private static StringContent GetJsonStringContent<TDto>(TDto dto, IEnumerable<string>? propertiesToIgnore)
     {
         var serializerSettings = Extensions.SerializationExtensions.GetIgnoreSerializerSettings<TDto>(propertiesToIgnore);
 

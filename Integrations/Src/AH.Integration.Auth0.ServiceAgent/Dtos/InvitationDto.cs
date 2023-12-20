@@ -15,44 +15,44 @@ public class Inviter
         
 }
 
-public class InvitationDto
+public class InvitationDto(
+    string id,
+    Invitee invitee,
+    string clientId,
+    string connectionId,
+    List<string> roles,
+    string role)
 {
-    public InvitationDto()
-    {
-        SendInvitationEmail = true;
-        Inviter = new Inviter {Name = "Fusion Marketplace"};
-        TtlSec = 2592000;
-        UserMetadata = new Dictionary<string, object>();
-        AppMetadata = new AppMetadata();
-    }
     [JsonProperty("id")]
-    public string Id { get; set; }
+    public string Id { get; set; } = id;
+
     [JsonProperty("inviter")]
-    public Inviter Inviter { get; set; }
+    public Inviter Inviter { get; set; } = new() {Name = "Fusion Marketplace"};
 
     [JsonProperty("invitee")]
-    public Invitee Invitee { get; set; }
+    public Invitee Invitee { get; set; } = invitee;
 
     [JsonProperty("client_id")]
-    public string ClientId { get; set; }
+    public string ClientId { get; set; } = clientId;
 
     [JsonProperty("connection_id")]
-    public string ConnectionId { get; set; }
+    public string ConnectionId { get; set; } = connectionId;
 
     [JsonProperty("app_metadata")]
-    public AppMetadata AppMetadata { get; set; }
+    public AppMetadata AppMetadata { get; set; } = new();
 
     [JsonProperty("user_metadata")]
-    public Dictionary<string, object> UserMetadata { get; set; }
+    public Dictionary<string, object> UserMetadata { get; set; } = new();
 
     [JsonProperty("ttl_sec")]
-    public int TtlSec { get; set; }
+    public int TtlSec { get; set; } = 2592000;
 
     [JsonProperty("roles")]
-    public List<string> Roles { get; set; }
+    public List<string> Roles { get; set; } = roles;
 
     [JsonProperty("send_invitation_email")]
-    public bool SendInvitationEmail { get; set; }
+    public bool SendInvitationEmail { get; set; } = true;
+
     [JsonIgnore]
-    public string Role { get; set; }
+    public string Role { get; set; } = role;
 }
