@@ -1,0 +1,25 @@
+﻿@page "/counter"
+@rendermode InteractiveWebAssembly
+@inject IJSRuntime runtime
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    private int currentCount = 0;
+
+    private async void IncrementCount()
+    {
+        currentCount++;
+        using var client = new HttpClient
+            {
+                BaseAddress = new Uri("http://localhost:5001/")
+            };
+            var request = await client.GetAsync("v1/domains");
+            await runtime.InvokeVoidAsync("console.log", request.Content.ReadAsStringAsync());
+    }
+}

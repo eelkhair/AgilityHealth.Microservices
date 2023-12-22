@@ -11,7 +11,7 @@ services:
      image: ${DOCKER_REGISTRY-}ahweb
      build:
        context: .
-       dockerfile: FrontEnd/AH.Web/Dockerfile
+       dockerfile: FrontEnd/AH.Web/AH.Web/Dockerfile
   
   ah-user-api:
     image: ${DOCKER_REGISTRY-}ahuserapi
@@ -109,4 +109,7 @@ services:
 
 
  
+
+
+
 
