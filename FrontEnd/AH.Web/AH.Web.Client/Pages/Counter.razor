@@ -20,6 +20,6 @@
                 BaseAddress = new Uri("http://localhost:5001/")
             };
             var request = await client.GetAsync("v1/domains");
-            await runtime.InvokeVoidAsync("console.log", request.Content.ReadAsStringAsync());
+            await runtime.InvokeVoidAsync("console.log", await request.Content.ReadAsStringAsync());
     }
 }
