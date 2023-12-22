@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 using AH.Metadata.Api.ProgramExtensions.Middleware;
+using HealthChecks;
+using HealthChecks.UI.Client;
 
 namespace AH.Metadata.Api.ProgramExtensions;
 
@@ -47,5 +49,7 @@ internal static class AppConfig
             await next();
         });
         app.UseCors("_myAllowSpecificOrigins");
+        app.MapCustomHealthChecks("/healthzEndpoint", "/liveness", UIResponseWriter.WriteHealthCheckUIResponse);
+
     }
 }

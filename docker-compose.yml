@@ -99,7 +99,12 @@ services:
     command: ["./placement", "--port", "50006"]
     ports:
       - "50006:50006"
-
+      
+  web-status:
+    image: ${DOCKER_REGISTRY-}ahwebstatus
+    build:
+      context: .
+      dockerfile: HealthChecks/WebStatus/Dockerfile
 
 
 

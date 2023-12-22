@@ -15,6 +15,7 @@
     <DocumentationFile>bin\Release\AH.Metadata.Api.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\HealthChecks\HealthChecks\HealthChecks.csproj" />
     <ProjectReference Include="..\..\Infrastructure\AH.Metadata.Infrastructure\AH.Metadata.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\AH.Metadata.Persistence\AH.Metadata.Persistence.csproj" />
     <ProjectReference Include="..\..\Shared\AH.Metadata.Shared.V1\AH.Metadata.Shared.V1.csproj" />
@@ -26,6 +27,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.0" />
+    <PackageReference Include="Dapr.AspNetCore" Version="1.12.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="[1.19.6-Preview.1, 1.19.6]" />
     <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.7.0" />
@@ -37,6 +40,9 @@
     <PackageReference Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.0.0-beta.8" />
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
     <PackageReference Include="Serilog.Enrichers.OpenTelemetry" Version="1.0.1" />
+    <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
+    <PackageReference Include="Serilog.Exceptions.EntityFrameworkCore" Version="8.4.0" />
+    <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
     <PackageReference Include="Serilog.Sinks.Seq" Version="6.0.0" />
  
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />

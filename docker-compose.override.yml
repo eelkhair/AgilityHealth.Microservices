@@ -30,4 +30,11 @@ services:
       - ACCEPT_EULA=Y
     ports:
       - "5340:80"
-   
+  
+  web-status:
+    environment:
+      - HealthChecksUI__HealthChecks__0__Name=AH Metadata API
+      - HealthChecksUI__HealthChecks__0__Uri=http://ah-metadata-api:8080/healthzEndpoint
+    
+    ports:
+      - "5107:8080"

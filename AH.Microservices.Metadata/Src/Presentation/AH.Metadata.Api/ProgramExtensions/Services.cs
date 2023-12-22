@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using AH.Metadata.Api.ProgramExtensions.Authorization;
 using AH.Metadata.Api.ProgramExtensions.Dapr;
+using AH.Metadata.Api.ProgramExtensions.HealthChecks;
 using AH.Metadata.Api.ProgramExtensions.LoggingAndTracing;
 using AH.Metadata.Api.ProgramExtensions.Swagger;
 using OpenTelemetry.Metrics;
@@ -25,6 +26,7 @@ public static class Services
     {
         builder.RegisterSwagger(appName, appTag);
         builder.RegisterAuth0();
+        builder.AddCustomHealthChecks();
         builder.Services.RegisterDapr();
     
         builder.Services.AddCors(options =>
