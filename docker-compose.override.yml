@@ -24,7 +24,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:  
-      - "5010:8080"
+      - "5010:80"
   seq:
     environment:
       - ACCEPT_EULA=Y

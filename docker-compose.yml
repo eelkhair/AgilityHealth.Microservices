@@ -8,10 +8,10 @@ services:
         dockerfile: AH.Microservices.Company/Src/Presentation/AH.Company.Api/Dockerfile
         
   ah-web:
-     image: ${DOCKER_REGISTRY-}ahweb
-     build:
-       context: .
-       dockerfile: FrontEnd/AH.Web/Dockerfile
+    image: ah.web.server
+    build:
+      context: .
+      dockerfile: FrontEnd/AH.Web/Server/Dockerfile
   
   ah-user-api:
     image: ${DOCKER_REGISTRY-}ahuserapi
@@ -110,3 +110,5 @@ services:
 
  
 
+
+  

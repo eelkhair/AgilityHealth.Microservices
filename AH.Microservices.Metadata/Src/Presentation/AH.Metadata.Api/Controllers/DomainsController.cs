@@ -7,6 +7,7 @@ using AH.Metadata.Shared.V1.Models.Responses.Domains;
 
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AH.Metadata.Api.Controllers;
@@ -14,6 +15,7 @@ namespace AH.Metadata.Api.Controllers;
 /// <summary>
 /// Domains Controller
 /// </summary>
+[Authorize]
 public class DomainsController : BaseController
 {
     /// <summary>

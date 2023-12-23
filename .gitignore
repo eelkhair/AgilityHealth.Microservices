@@ -38,8 +38,8 @@ bin/Debug/
 AgilityHealth.Microservices.sln*
 FrontEnd/obj/*
 FrontEnd/bin/*
-FrontEnd/AH.Web/obj/*
-FrontEnd/AH.Web/bin/*
+FrontEnd/AH.Web/*/obj/*
+FrontEnd/AH.Web/*/bin/*
 AH.Microservices.User/Src/Shared/AH.User.Shared.V1/bin/*
 HealthChecks/HealthChecks/obj/*
 HealthChecks/HealthChecks/bin/
