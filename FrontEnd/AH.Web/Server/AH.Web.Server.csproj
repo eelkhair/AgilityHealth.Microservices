@@ -25,5 +25,11 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="registration\cli-wrapper.deps.json" />
+      <_ContentIncludedByDefault Remove="registration\cli-wrapper.runtimeconfig.json" />
+      <_ContentIncludedByDefault Remove="registration\config.json" />
+    </ItemGroup>
+
 
 </Project>

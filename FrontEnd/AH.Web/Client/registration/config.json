@@ -1,9 +1,0 @@
-﻿{
-  "AppName": "AH.Web",
-  "AppDescription": "Blazor WebAssembly application created and registered via Auth0 Templates for .NET",
-  "AppType": "spa",
-  "Callbacks": "http://localhost:5010/authentication/login-callback",
-  "LogoutUrls": "http://localhost:5010",
-  "AppSettingsFiles": ["./Client//wwwroot/appsettings.json", "./Server/appsettings.json"],
-  "Verbose": false
-}
