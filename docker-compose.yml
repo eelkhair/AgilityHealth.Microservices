@@ -84,8 +84,13 @@ services:
       "./daprd",
       "--app-id", "ah-web",
       "--app-port", "8080",
+      "--components-path", "./Components",
+      "-config", "./Config/config.yaml",
       "--placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
     ]
+    volumes:
+      - "./Components/:/Components" # Mount our components folder for the runtime to use. The mounted location must match the --resources-path argument.
+      - "./Config/:/Config"
     depends_on:
       - ah-web
       - placement
