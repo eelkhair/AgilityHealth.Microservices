@@ -1,0 +1,10 @@
+@using AH.Metadata.Shared.V1.Models.Responses.MasterTagCategories
+<h3>MasterTagGrid</h3>
+@if (Category != null)
+{
+    @Category.ClassName @Category.UId
+}
+
+@code {
+    [Parameter] public MasterTagCategoryResponse? Category { get; set; }
+}

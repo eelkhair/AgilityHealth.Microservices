@@ -1,7 +1,143 @@
+@using AH.Metadata.Shared.V1.Models.Responses.MasterTagCategories
+@using System.Text.Json
+@using System.Text
+@using System.Net
+@inject HttpClient Http
+<TelerikGrid Data="@_gridCategories"
+             EditMode="@GridEditMode.Popup"
+             FilterMode="@GridFilterMode.FilterMenu"
+             EnableLoaderContainer="@ShowLoading"
+             Sortable="true"
+             Height="600px"
+             OnUpdate="@UpdateHandler"
+             OnAdd="@AddHandler"
+             OnEdit="@EditHandler"
+             OnCreate="@CreateHandler"
+             OnDelete="@DeleteHandler"
+             SelectionMode="@GridSelectionMode.Single"
+             ConfirmDelete="true"
+             OnRowClick="@(async args => { await CategoryClicked(args); })">
+    <GridToolBarTemplate>
+        <GridCommandButton Command="Add">Add Category</GridCommandButton>
+    </GridToolBarTemplate>
+    <GridColumns>
+        <GridColumn Field="@nameof(MasterTagCategoryResponse.Name)" Title="Name"/>
+        <GridColumn Field="@nameof(MasterTagCategoryResponse.Type)" Title="Type">
+            <EditorTemplate>
+                @{
+                    _selectedCategory = (MasterTagCategoryResponse) context;
+                    <TelerikDropDownList Data="@_types"
+                                         @bind-Value="@_selectedCategory.Type"
+                    >
+                        <DropDownListSettings>
+                            <DropDownListPopupSettings Height="auto" />
+                        </DropDownListSettings>
+                    </TelerikDropDownList>
+                }
+            </EditorTemplate>
+            <Template>
+                @((context as MasterTagCategoryResponse)?.Type == string.Empty ? "All" : (context as MasterTagCategoryResponse)?.Type)
+            </Template>
+        </GridColumn>
+        <GridColumn Field="@nameof(MasterTagCategoryResponse.ClassName)" Visible="false"/>
+        <GridCommandColumn>
+            <GridCommandButton Command="Edit" Icon="@SvgIcon.Pencil">Edit</GridCommandButton>
+            <GridCommandButton Command="Delete" Icon="@SvgIcon.Trash">Delete</GridCommandButton>
+        </GridCommandColumn>
+    </GridColumns>
+</TelerikGrid>
 
-<h3>MasterTagCategoryGrid</h3>
-@ClassName
 @code {
     [Parameter]
-    public string ClassName { get; set; }
+    public string? ClassName { get; set; }
+    [Parameter]
+    public EventCallback<MasterTagCategoryResponse> OnRowClick { get; set; }
+    [Inject]
+    private  IJSRuntime Javascript { get; set; } = null!;
+
+    private List<MasterTagCategoryResponse> _categories = new();
+    private List<MasterTagCategoryResponse> _gridCategories = new();
+    private MasterTagCategoryResponse _selectedCategory = new();
+    private List<string> _types = new () { "All", "Individual", "Team", "MultiTeam", "Enterprise" };//.Select(x=> new CategoryTyp
+    bool ShowLoading { get; set; } = true;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        _selectedCategory.Type= "All";  
+        var response = await Http.GetAsync("masterTagCategories");
+        _categories = await response.Content.ReadFromJsonAsync<List<MasterTagCategoryResponse>>() ?? new List<MasterTagCategoryResponse>();
+        await RefreshGrid();
+    }
+
+    private async Task RefreshGrid()
+    {
+        _gridCategories = _categories.Where(x => x.ClassName == ClassName).ToList();
+        await Javascript.InvokeVoidAsync("console.log", $"Number Of Categories - {ClassName} - " + _gridCategories.Count);
+        
+        StateHasChanged();
+    }
+    
+    private async Task CreateHandler(GridCommandEventArgs args)
+    {
+        var category = (MasterTagCategoryResponse) args.Item;
+        category.ClassName = ClassName;
+        var stringContent = new StringContent(JsonSerializer.Serialize(category), Encoding.UTF8, "application/json");
+        
+        var response= await Http.PostAsync("masterTagCategories", stringContent);
+        var createdCategory = await response.Content.ReadFromJsonAsync<MasterTagCategoryResponse>();
+        await Javascript.InvokeVoidAsync("console.log", createdCategory);
+        _categories.Add(createdCategory!);
+        await RefreshGrid();
+    }
+    
+    private async Task UpdateHandler(GridCommandEventArgs args)
+    {
+        var category = (MasterTagCategoryResponse) args.Item;
+        var stringContent = new StringContent(JsonSerializer.Serialize(category), Encoding.UTF8, "application/json");
+        var response = await Http.PutAsync("masterTagCategories", stringContent);
+        var updatedCategory = await response.Content.ReadFromJsonAsync<MasterTagCategoryResponse>() ?? new MasterTagCategoryResponse();
+        await Javascript.InvokeVoidAsync("console.log", updatedCategory);
+
+        if (_categories.Exists(y => y.UId == updatedCategory.UId))
+        {
+            _categories.First(x => x.UId == updatedCategory.UId).Name = updatedCategory.Name;
+            _categories.First(x => x.UId == updatedCategory.UId).Type = updatedCategory.Type;
+        }
+        await RefreshGrid();
+    }
+    
+    private async  Task DeleteHandler(GridCommandEventArgs arg)
+    {
+         var category = (MasterTagCategoryResponse) arg.Item;
+         var response = await Http.DeleteAsync($"mastertagcategories/{category.UId}");
+         if (response.StatusCode == HttpStatusCode.NoContent)
+         {
+             _categories.Remove(_categories.First(x=>x.UId==category.UId));
+             await RefreshGrid();
+         }
+    }
+    
+    private async Task CategoryClicked(GridRowClickEventArgs args)
+    {
+        var category = (MasterTagCategoryResponse) args.Item;      
+        await OnRowClick.InvokeAsync(category);
+        
+        
+    }
+
+    private void AddHandler(GridCommandEventArgs arg)
+    {
+        var category = (MasterTagCategoryResponse) arg.Item;
+        category.Type = "All";
+    }
+
+    private void EditHandler(GridCommandEventArgs arg)
+    {
+        var category = (MasterTagCategoryResponse) arg.Item;
+       
+        if (category.Type == string.Empty)
+        {
+            category.Type = "All";
+        }
+    }
 }

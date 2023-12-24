@@ -17,7 +17,7 @@ var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
 
 
 
-var swaggerConfig = new SwaggerDocSetup("AgilityHealth Company Api", "ah-company", PermissionDefinitions.GetPermissions(), xmlPath);
+var swaggerConfig = new SwaggerDocSetup("AgilityHealth Company Api", "ah-company-api", PermissionDefinitions.GetPermissions(), xmlPath);
 var auth0Config = new Auth0Configuration(
     builder.Configuration[$"Auth0:Domain"],
     builder.Configuration["Auth0:Audience"],
@@ -43,7 +43,7 @@ builder.Services.AddActors(_ =>
   // Example :  options.Actors.RegisterActor<MetadataActor>();
 });
 
-builder.SetupTracing("ah-company");
+builder.SetupTracing("ah-company-api");
 var app = builder.Build();
 
 app.Initialize(auth0Config);

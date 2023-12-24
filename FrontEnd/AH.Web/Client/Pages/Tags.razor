@@ -1,18 +1,88 @@
 @page "/Tags"
 @using AH.Web.Client.Components.Tags
-<h3>Tags</h3>
+@using AH.Metadata.Shared.V1.Models.Responses.MasterTagCategories
+@attribute [Authorize]
+<h3>Tags - @ClassName</h3>
 
-<TelerikTabStrip Width="1200px">
+<TelerikTabStrip Width="1200px" ActiveTabIndexChanged="@TabChangedHandler">
     <TabStripTab Title="Teams">
-        <MasterTagCategoryGrid ClassName = "MasterTeamCategory"/>
+        <div class="tags-half">
+            <MasterTagCategoryGrid ClassName="@ClassName" OnRowClick="@OnCategoryRowClicked"/>
+        </div>   
+        <div class="tags-half">
+            <MasterTagGrid Category ="@SelectedCategory"/>
+        </div>
     </TabStripTab>
     <TabStripTab Title="Team Members">
-a
+        <div class="tags-half">
+            <MasterTagCategoryGrid ClassName="@ClassName" OnRowClick="@OnCategoryRowClicked"/>
+        </div>   
+        <div class="tags-half">
+            <MasterTagGrid Category ="@SelectedCategory"/>
+        </div>
     </TabStripTab>
     <TabStripTab Title="Stakeholders">
-b
+        <div class="tags-half">
+            <MasterTagCategoryGrid ClassName="@ClassName" OnRowClick="@OnCategoryRowClicked"/>
+        </div>   
+        <div class="tags-half">
+            <MasterTagGrid Category ="@SelectedCategory"/>
+        </div>
     </TabStripTab>
     <TabStripTab Title="Skills">
-c
+        <div class="tags-half">
+            <MasterTagCategoryGrid ClassName="@ClassName" OnRowClick="@OnCategoryRowClicked"/>
+        </div>
+        <div class="tags-half">
+            <MasterTagGrid Category ="@SelectedCategory"/>
+        </div>
     </TabStripTab>
 </TelerikTabStrip>
+
+@code{
+    private string ClassName { get; set; } = null!;
+    private MasterTagCategoryResponse? SelectedCategory { get; set; }
+    
+    [Inject]
+    public IJSRuntime Javascript { get; set; } = null!;
+
+    private async Task TabChangedHandler(int newIndex)
+    {
+        ClassName = newIndex switch
+        {
+            0 => "MasterTeamCategory",
+            1 => "MasterTeamMemberCategory",
+            2 => "MasterStakeholderCategory",
+            3 => "MasterSkillsCategory",
+            _ => ClassName
+        };
+        SelectedCategory = null;
+        await Javascript.InvokeVoidAsync("console.log", newIndex);
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        ClassName = "MasterTeamCategory";
+        return Task.CompletedTask;
+    }
+
+    private async Task OnCategoryRowClicked(MasterTagCategoryResponse category)
+    {
+        await Javascript.InvokeVoidAsync("console.log", category.Name + " clicked");
+        SelectedCategory = category;
+        StateHasChanged();
+    }
+}
+
+<style>
+    .tags-half{
+        display: inline-block;
+        width: 49%;
+        float: left;
+        padding: 0 10px;
+        
+    }
+    .k-master-row{
+        cursor: pointer;
+    }
+</style>
