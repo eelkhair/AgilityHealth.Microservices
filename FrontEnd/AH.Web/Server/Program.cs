@@ -1,8 +1,23 @@
 using System.IdentityModel.Tokens.Jwt;
+using AH.Web.Server.Services;
+using AH.Web.Server.Services.Interfaces;
+using Dapr.Client;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddTransient<IMasterTagCategoryService, MasterTagCategoryService>(
+    p=> new MasterTagCategoryService(
+        DaprClient.CreateInvokeHttpClient("ah-metadata-api"), 
+         p.GetRequiredService<IHttpContextAccessor>()));
+
+builder.Services.AddTransient<IMasterTagService, MasterTagService>(
+    p=> new MasterTagService(
+        DaprClient.CreateInvokeHttpClient("ah-metadata-api"), 
+        p.GetRequiredService<IHttpContextAccessor>()));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, c =>
