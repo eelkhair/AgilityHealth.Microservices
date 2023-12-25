@@ -6,36 +6,16 @@
 
 <TelerikTabStrip Width="1200px" ActiveTabIndexChanged="@TabChangedHandler">
     <TabStripTab Title="Teams">
-        <div class="tags-half">
-            <MasterTagCategoryGrid ClassName="@ClassName" OnRowClick="@OnCategoryRowClicked"/>
-        </div>   
-        <div class="tags-half">
-            <MasterTagGrid Category ="@SelectedCategory"/>
-        </div>
+        <MasterTagAndCategoryGrids ClassName="@ClassName"/>
     </TabStripTab>
     <TabStripTab Title="Team Members">
-        <div class="tags-half">
-            <MasterTagCategoryGrid ClassName="@ClassName" OnRowClick="@OnCategoryRowClicked"/>
-        </div>   
-        <div class="tags-half">
-            <MasterTagGrid Category ="@SelectedCategory"/>
-        </div>
+        <MasterTagAndCategoryGrids ClassName="@ClassName"/>
     </TabStripTab>
     <TabStripTab Title="Stakeholders">
-        <div class="tags-half">
-            <MasterTagCategoryGrid ClassName="@ClassName" OnRowClick="@OnCategoryRowClicked"/>
-        </div>   
-        <div class="tags-half">
-            <MasterTagGrid Category ="@SelectedCategory"/>
-        </div>
+        <MasterTagAndCategoryGrids ClassName="@ClassName"/>
     </TabStripTab>
     <TabStripTab Title="Skills">
-        <div class="tags-half">
-            <MasterTagCategoryGrid ClassName="@ClassName" OnRowClick="@OnCategoryRowClicked"/>
-        </div>
-        <div class="tags-half">
-            <MasterTagGrid Category ="@SelectedCategory"/>
-        </div>
+        <MasterTagAndCategoryGrids ClassName="@ClassName"/>
     </TabStripTab>
 </TelerikTabStrip>
 
@@ -65,24 +45,5 @@
         ClassName = "MasterTeamCategory";
         return Task.CompletedTask;
     }
-
-    private async Task OnCategoryRowClicked(MasterTagCategoryResponse category)
-    {
-        await Javascript.InvokeVoidAsync("console.log", category.Name + " clicked");
-        SelectedCategory = category;
-        StateHasChanged();
-    }
 }
 
-<style>
-    .tags-half{
-        display: inline-block;
-        width: 49%;
-        float: left;
-        padding: 0 10px;
-        
-    }
-    .k-master-row{
-        cursor: pointer;
-    }
-</style>

@@ -67,7 +67,6 @@ public class MasterTagsController : BaseController
         Logger.LogInformation("Getting all master tags by category with UId {UId}", masterTagCategoryUId);
         var query = new ListMasterTagsByCategoryQuery(User, Logger, masterTagCategoryUId);
         var masterTags = await Mediator.Send(query);
-        if(masterTags.Count == 0) return NotFound();
         
         var model = Mapper.Map<List<MasterTagResponse>>(masterTags);
         Logger.LogInformation("{Count} master tags found.{Data}", masterTags.Count, JsonSerializer.Serialize(model));

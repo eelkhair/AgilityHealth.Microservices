@@ -1,4 +1,5 @@
 using AH.Metadata.Shared.V1.Models.Requests.Tags;
+using AH.Metadata.Shared.V1.Models.Responses.MasterTags;
 using AH.Web.Server.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

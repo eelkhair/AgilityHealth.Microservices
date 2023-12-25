@@ -1,4 +1,4 @@
-﻿
+﻿using System.Net;
 using System.Net.Http.Headers;
 using AH.Metadata.Shared.V1.Models.Requests.Tags;
 using AH.Metadata.Shared.V1.Models.Responses.MasterTags;
@@ -16,12 +16,15 @@ public class MasterTagService : IMasterTagService
         var token = httpContextAccessor.HttpContext?.Request.Headers["Authorization"].ToString() ?? string.Empty;
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Replace("Bearer ", string.Empty));
     }
-    public async Task<List<MasterTagResponse>> GetMasterTags(Guid masterTagCategoryUId)
+    public async Task<List<MasterTagResponse>?> GetMasterTags(Guid masterTagCategoryUId)
     {
         var response = await _httpClient.GetAsync($"v1/mastertags/category/{masterTagCategoryUId}");
-
+        if (!response.StatusCode.Equals(HttpStatusCode.OK))
+        {
+            return new List<MasterTagResponse>();
+        }
         _httpContextAccessor.HttpContext!.Response.Headers.Add("Trace-Id", response.Headers.Where(x=>x.Key == "Trace-Id").Select(x=>x.Value).First().FirstOrDefault());
-        return await response.Content.ReadFromJsonAsync<List<MasterTagResponse>>() ?? new List<MasterTagResponse>();
+        return await response.Content.ReadFromJsonAsync<List<MasterTagResponse>>();
     }
     
     public async Task<MasterTagWithCategoryAndParentTagResponse> CreateMasterTag(MasterTagRequest tag)
