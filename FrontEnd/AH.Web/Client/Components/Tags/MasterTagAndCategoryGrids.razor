@@ -2,6 +2,8 @@
 @using System.Text.Json
 @using System.Text
 @using System.Net
+@using AH.Metadata.Shared.V1.Models.Requests.Tags
+@using AH.Metadata.Shared.V1.Models.Responses.MasterTags
 @inject HttpClient Http
 
 <div class="tags-half">
@@ -58,14 +60,17 @@
                      EnableLoaderContainer="@ShowLoading"
                      Sortable="true"
                      Height="600px"
+                     OnAdd="@AddTagHandler"
+                     OnCreate="@CreateTagHandler"
                      SelectionMode="@GridSelectionMode.Single"
                      ConfirmDelete="true">
             <GridToolBarTemplate>
                 <GridCommandButton Command="Add">Add Tag</GridCommandButton>
             </GridToolBarTemplate>
             <GridColumns>
-                <GridColumn Field="@nameof(MasterTagCategoryResponse.Name)" Title="Name"/>
-                <GridColumn Field="@nameof(MasterTagCategoryResponse.ClassName)" Visible="false"/>
+                <GridColumn Field="@nameof(MasterTagRequest.Name)" Title="Name"/>
+                <GridColumn Field="@nameof(MasterTagRequest.ClassName)" Visible="false"/>
+                <GridColumn Field="@nameof(MasterTagRequest.ParentMasterTagUId)" Visible = "@(MasterTagCategoryClassName == "MasterTeamMemberCategory")"/>
                 <GridCommandColumn>
                     <GridCommandButton Command="Edit" Icon="@SvgIcon.Pencil">Edit</GridCommandButton>
                     <GridCommandButton Command="Delete" Icon="@SvgIcon.Trash">Delete</GridCommandButton>
@@ -75,19 +80,31 @@
     }
 </div>
 @code {
-    [Parameter] public string? ClassName { get; set; }
+    [Parameter] public string? MasterTagCategoryClassName { get; set; }
+
 
     [Inject] private IJSRuntime Javascript { get; set; } = null!;
-    
+
     private List<MasterTagCategoryResponse> _categories = new();
     private List<MasterTagCategoryResponse> _gridCategories = new();
     private MasterTagCategoryResponse _selectedCategory = new();
     private MasterTagCategoryResponse? _tagCategory;
     private List<string> _types = new() { "All", "Individual", "Team", "MultiTeam", "Enterprise" };
     bool ShowLoading { get; set; } = true;
-    
-    private List<MasterTagCategoryResponse> Tags { get; set; } = new();
-    
+
+    private string MasterTagClassName =>
+        MasterTagCategoryClassName switch
+        {
+            "MasterTeamCategory" => "MasterTeamTag",
+            "MasterTeamMemberCategory" => "MasterTeamMemberTag",
+            "MasterStakeholderCategory" => "MasterStakeholderTag",
+            "MasterSkillsCategory" => "MasterSkillsTag",
+            _ => throw new ArgumentOutOfRangeException()
+        };
+
+
+    private List<MasterTagWithCategoryAndParentTagResponse> Tags { get; set; } = new();
+
     protected override async Task OnInitializedAsync()
     {
         _selectedCategory.Type = "All";
@@ -95,11 +112,13 @@
         _categories = await response.Content.ReadFromJsonAsync<List<MasterTagCategoryResponse>>() ?? new List<MasterTagCategoryResponse>();
         await RefreshCategoryGrid();
     }
-#region Category
+
+    #region Category
+
     private async Task RefreshCategoryGrid()
     {
-        _gridCategories = _categories.Where(x => x.ClassName == ClassName).ToList();
-        await Javascript.InvokeVoidAsync("console.log", $"Number Of Categories - {ClassName} - " + _gridCategories.Count);
+        _gridCategories = _categories.Where(x => x.ClassName == MasterTagCategoryClassName).ToList();
+        await Javascript.InvokeVoidAsync("console.log", $"Number Of Categories - {MasterTagCategoryClassName} - " + _gridCategories.Count);
 
         StateHasChanged();
     }
@@ -107,7 +126,7 @@
     private async Task CreateCategoryHandler(GridCommandEventArgs args)
     {
         var category = (MasterTagCategoryResponse)args.Item;
-        category.ClassName = ClassName;
+        category.ClassName = MasterTagCategoryClassName;
         var stringContent = new StringContent(JsonSerializer.Serialize(category), Encoding.UTF8, "application/json");
 
         var response = await Http.PostAsync("masterTagCategories", stringContent);
@@ -144,7 +163,7 @@
             await RefreshCategoryGrid();
         }
     }
-    
+
     private void AddCategoryHandler(GridCommandEventArgs arg)
     {
         var category = (MasterTagCategoryResponse)arg.Item;
@@ -160,18 +179,56 @@
             category.Type = "All";
         }
     }
-#endregion
+
+    #endregion
+
     private async Task CategoryClicked(GridRowClickEventArgs args)
     {
         _tagCategory = (MasterTagCategoryResponse)args.Item;
         var response = await Http.GetAsync($"MasterTags/MasterTags/Category/{_tagCategory.UId}");
-        Tags = await response.Content.ReadFromJsonAsync<List<MasterTagCategoryResponse>>() ?? new List<MasterTagCategoryResponse>();
+        Tags = await response.Content.ReadFromJsonAsync<List<MasterTagWithCategoryAndParentTagResponse>>() ?? new List<MasterTagWithCategoryAndParentTagResponse>();
         StateHasChanged();
     }
 
-#region Tag
+    #region Tag
 
-#endregion
+    private async Task AddTagHandler(GridCommandEventArgs arg)
+    {
+        var tag = (MasterTagWithCategoryAndParentTagResponse)arg.Item;
+        tag.ClassName = MasterTagClassName;
+        tag.MasterTagCategory.UId = _tagCategory!.UId;
+    }
+  
+    private async Task CreateTagHandler(GridCommandEventArgs arg)
+    {
+        var tag = (MasterTagWithCategoryAndParentTagResponse)arg.Item;
+        var stringContent = new StringContent(JsonSerializer.Serialize(tag), Encoding.UTF8, "application/json");
+
+        var response = await Http.PostAsync("masterTags", stringContent);
+        var createdTag = await response.Content.ReadFromJsonAsync<MasterTagWithCategoryAndParentTagResponse>();
+        await Javascript.InvokeVoidAsync("console.log", createdTag);
+        Tags.Add(createdTag!);
+        StateHasChanged();
+    }
+
+    private async Task UpdateTagHandler(GridCommandEventArgs args)
+    {
+        var tag = (MasterTagWithCategoryAndParentTagResponse)args.Item;
+        var stringContent = new StringContent(JsonSerializer.Serialize(tag), Encoding.UTF8, "application/json");
+        
+        var response = await Http.PutAsync("masterTagCategories", stringContent);
+        var updatedCategory = await response.Content.ReadFromJsonAsync<MasterTagCategoryResponse>() ?? new MasterTagCategoryResponse();
+        await Javascript.InvokeVoidAsync("console.log", updatedCategory);
+
+        if (_categories.Exists(y => y.UId == updatedCategory.UId))
+        {
+            _categories.First(x => x.UId == updatedCategory.UId).Name = updatedCategory.Name;
+            _categories.First(x => x.UId == updatedCategory.UId).Type = updatedCategory.Type;
+        }
+
+        await RefreshCategoryGrid();
+    }
+    #endregion
 }
 <style>
     .tags-half{

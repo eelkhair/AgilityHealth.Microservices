@@ -44,7 +44,7 @@ public class MasterTagsController : BaseController
         Logger.LogInformation("Getting all master tags");
         var query = new ListMasterTagsQuery(User, Logger);
         var masterTags = await Mediator.Send(query);
-        if(masterTags.Count == 0) return NotFound();
+
         
         var model = Mapper.Map<List<MasterTagResponse>>(masterTags);
         Logger.LogInformation("{Count} master tags found.{Data}", masterTags.Count, JsonSerializer.Serialize(model));
@@ -89,7 +89,7 @@ public class MasterTagsController : BaseController
         Logger.LogInformation("Getting master tag with UId {UId}", masterTagUId);
         var query = new GetMasterTagQuery(User, Logger, masterTagUId);
         var masterTag = await Mediator.Send(query);
-        if(masterTag == null) return NotFound();
+
         
         var model = Mapper.Map<MasterTagResponse>(masterTag);
         Logger.LogInformation("Master tag with UId {UId} found.{Data}", masterTagUId, JsonSerializer.Serialize(model));

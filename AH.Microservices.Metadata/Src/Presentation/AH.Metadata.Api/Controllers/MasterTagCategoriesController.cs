@@ -53,7 +53,6 @@ public class MasterTagCategoriesController : BaseController
         Logger.LogInformation("Getting all master tag categories");
         var query = new ListMasterTagCategoriesQuery(User, Logger);
         var masterTagCategories = await Mediator.Send(query);
-        if(masterTagCategories.Count == 0) return NotFound();
         
         var model = Mapper.Map<List<MasterTagCategoryResponse>>(masterTagCategories);
         Logger.LogInformation("{Count} master tag categories found.{Data}", masterTagCategories.Count, JsonSerializer.Serialize(model));
@@ -75,7 +74,6 @@ public class MasterTagCategoriesController : BaseController
         Logger.LogInformation("Getting all master tag categories with tags");
         var query = new ListMasterTagCategoriesWithTagsQuery(User, Logger);
         var masterTagCategories = await Mediator.Send(query);
-        if(masterTagCategories.Count == 0) return NotFound();
         
         var model = Mapper.Map<List<MasterTagCategoryWithTagsResponse>>(masterTagCategories);
         Logger.LogInformation("{Count} master tag categories with tags found.{Data}", masterTagCategories.Count, JsonSerializer.Serialize(model));

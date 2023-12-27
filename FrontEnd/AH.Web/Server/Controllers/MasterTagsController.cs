@@ -32,9 +32,9 @@ public class MasterTagsController : ControllerBase
         return Ok(response);
     }
     [HttpPost]
-    public async Task<ActionResult> Post(MasterTagRequest category)
+    public async Task<ActionResult> Post(MasterTagWithCategoryAndParentTagResponse tag)
     {
-        var response = await _masterTagService.CreateMasterTag(category);
+        var response = await _masterTagService.CreateMasterTag(tag);
         return Ok(response);
     }
     

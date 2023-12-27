@@ -27,9 +27,9 @@ public class MasterTagService : IMasterTagService
         return await response.Content.ReadFromJsonAsync<List<MasterTagResponse>>();
     }
     
-    public async Task<MasterTagWithCategoryAndParentTagResponse> CreateMasterTag(MasterTagRequest tag)
+    public async Task<MasterTagWithCategoryAndParentTagResponse> CreateMasterTag(MasterTagWithCategoryAndParentTagResponse tag)
     {
-        var request = new HttpRequestMessage(HttpMethod.Post, $"v1/mastertags?Name={tag.Name}&ClassName={tag.ClassName}&MasterTagCategoryUId={tag.MasterTagCategoryUId}&ParentMasterTagUId={tag.ParentMasterTagUId}");
+        var request = new HttpRequestMessage(HttpMethod.Post, $"v1/mastertags?Name={tag.Name}&ClassName={tag.ClassName}&MasterTagCategoryUId={tag.MasterTagCategory.UId}&ParentMasterTagUId={tag.ParentMasterTag?.UId}");
         request.Headers.Add("Accept", "text/plain");
         var response = await _httpClient.SendAsync(request);
        
