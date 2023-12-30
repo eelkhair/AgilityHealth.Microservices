@@ -1,8 +1,8 @@
+using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using AH.Web.Server.Services;
 using AH.Web.Server.Services.Interfaces;
 using Dapr.Client;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +16,11 @@ builder.Services.AddTransient<IMasterTagCategoryService, MasterTagCategoryServic
 
 builder.Services.AddTransient<IMasterTagService, MasterTagService>(
     p=> new MasterTagService(
+        DaprClient.CreateInvokeHttpClient("ah-metadata-api"), 
+        p.GetRequiredService<IHttpContextAccessor>()));
+
+builder.Services.AddTransient<IDomainService, DomainService>(
+    p=> new DomainService(
         DaprClient.CreateInvokeHttpClient("ah-metadata-api"), 
         p.GetRequiredService<IHttpContextAccessor>()));
 
@@ -75,5 +80,16 @@ app.UseAuthorization();
 app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
+app.Use(async (context, next) =>
+{
+    // Get the current span and its traceid
+    var span = Activity.Current;
+    var traceId = span?.TraceId.ToString();
 
+    // Add the traceid to the response headers
+    context.Response.Headers.Append("trace-id", traceId);
+
+    // Call the next middleware in the pipeline
+    await next();
+});
 app.Run();
