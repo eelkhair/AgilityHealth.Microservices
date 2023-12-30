@@ -1,4 +1,7 @@
+using System.Net;
 using System.Text.Json;
+using AH.Web.Server.Exceptions;
+using FluentValidation.Results;
 
 namespace AH.Web.Server.Services;
 
@@ -61,12 +64,39 @@ public static class BaseProxyService
                 return result!;
             }
 
+            if (response.StatusCode == HttpStatusCode.BadRequest)
+            {
+                var r = await response.Content.ReadAsStringAsync();
+                var document = JsonDocument.Parse(r);
+                var errors = new Dictionary<string, List<string>>();
+                if(document.RootElement.TryGetProperty("errors", out var errorsElement) 
+                   && errorsElement.ValueKind == JsonValueKind.Object)
+                {
+                    foreach(var property in errorsElement.EnumerateObject())
+                    {
+                        errors[property.Name] = new List<string>();
+                        if(property.Value.ValueKind == JsonValueKind.Array)
+                        {
+                            foreach(var arrayElement in property.Value.EnumerateArray())
+                            {
+                                errors[property.Name].Add(arrayElement.GetString());
+                            }
+                        }
+                    }
+                    throw new ValidationException(errors.SelectMany(x => x.Value.Select(y => new ValidationFailure(x.Key, y))).ToList());
+                }
+            }
+
             // handle error response
             Console.WriteLine($"Failed to upsert data. Status code: {response.StatusCode}");
         }
         catch (HttpRequestException ex)
         {
             Console.WriteLine($"An error occurred: {ex.Message}");
+        }
+        catch (ValidationException)
+        {
+            throw;
         }
         catch (Exception ex)
         {

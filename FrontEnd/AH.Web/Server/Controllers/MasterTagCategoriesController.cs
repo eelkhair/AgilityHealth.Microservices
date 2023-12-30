@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AH.Web.Server.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 [Authorize]
 public class MasterTagCategoriesController : ControllerBase
 {

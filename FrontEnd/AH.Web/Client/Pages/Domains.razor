@@ -1,6 +1,33 @@
 @page "/Domains"
-<h3>Domains</h3>
+@using AH.Metadata.Shared.V1.Models.Responses.Domains
+@inject HttpClient Http;
+@attribute [Authorize]
+<h1>Domains</h1>
 
-@code {
-    
+<TelerikGrid Data="@_domains"
+             EditMode="@GridEditMode.Popup"
+             FilterMode="@GridFilterMode.FilterMenu"
+             EnableLoaderContainer="true"
+             Sortable="true"
+             Height="600px"
+             ConfirmDelete="true">
+    <GridToolBarTemplate>
+        <GridCommandButton Command="Add">Add Domain</GridCommandButton>
+    </GridToolBarTemplate>
+    <GridColumns>
+        <GridColumn Field="@nameof(DomainResponse.Name)" Title="Name"/>
+        <GridCommandColumn>
+            <GridCommandButton Command="Edit" Icon="@SvgIcon.Pencil">Edit</GridCommandButton>
+            <GridCommandButton Command="Delete" Icon="@SvgIcon.Trash">Delete</GridCommandButton>
+        </GridCommandColumn>
+    </GridColumns>
+</TelerikGrid>
+@code{
+    [Inject] IJSRuntime Javascript { get; set; } = null!;
+    protected override async Task OnInitializedAsync()
+    {
+        _domains = await Http.GetFromJsonAsync<List<DomainResponse>>("api/domains");
+        await Javascript.InvokeVoidAsync("console.log", _domains);
+    }
+    private List<DomainResponse>? _domains;
 }

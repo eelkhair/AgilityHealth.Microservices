@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
+using AH.Web.Server.Middleware;
 using AH.Web.Server.Services;
 using AH.Web.Server.Services.Interfaces;
 using Dapr.Client;
@@ -92,4 +93,5 @@ app.Use(async (context, next) =>
     // Call the next middleware in the pipeline
     await next();
 });
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.Run();

@@ -31,8 +31,7 @@
                     @{
                         _selectedCategory = (MasterTagCategoryResponse) context;
                         <TelerikDropDownList Data="@_types"
-                                             @bind-Value="@_selectedCategory.Type"
-                        >
+                                             @bind-Value="@_selectedCategory.Type">
                             <DropDownListSettings>
                                 <DropDownListPopupSettings Height="auto" />
                             </DropDownListSettings>
@@ -148,7 +147,7 @@
     protected override async Task OnInitializedAsync()
     {
         _selectedCategory.Type = "All";
-        var response = await Http.GetAsync("masterTagCategories");
+        var response = await Http.GetAsync("api/masterTagCategories");
         _categories = await response.Content.ReadFromJsonAsync<List<MasterTagCategoryResponse>>() ?? new List<MasterTagCategoryResponse>();
         await RefreshCategoryGrid();
     }
@@ -169,7 +168,7 @@
         category.ClassName = MasterTagCategoryClassName;
         var stringContent = new StringContent(JsonSerializer.Serialize(category), Encoding.UTF8, "application/json");
 
-        var response = await Http.PostAsync("masterTagCategories", stringContent);
+        var response = await Http.PostAsync("api/masterTagCategories", stringContent);
         var createdCategory = await response.Content.ReadFromJsonAsync<MasterTagCategoryResponse>();
         await Javascript.InvokeVoidAsync("console.log", createdCategory);
         _categories.Add(createdCategory!);
@@ -180,7 +179,7 @@
     {
         var category = (MasterTagCategoryResponse)args.Item;
         var stringContent = new StringContent(JsonSerializer.Serialize(category), Encoding.UTF8, "application/json");
-        var response = await Http.PutAsync("masterTagCategories", stringContent);
+        var response = await Http.PutAsync("api/masterTagCategories", stringContent);
         var updatedCategory = await response.Content.ReadFromJsonAsync<MasterTagCategoryResponse>() ?? new MasterTagCategoryResponse();
         await Javascript.InvokeVoidAsync("console.log", updatedCategory);
 
@@ -196,7 +195,7 @@
     private async Task DeleteCategoryHandler(GridCommandEventArgs arg)
     {
         var category = (MasterTagCategoryResponse)arg.Item;
-        var response = await Http.DeleteAsync($"mastertagcategories/{category.UId}");
+        var response = await Http.DeleteAsync($"api/mastertagcategories/{category.UId}");
         if (response.StatusCode == HttpStatusCode.NoContent)
         {
             _categories.Remove(_categories.First(x => x.UId == category.UId));
@@ -225,7 +224,7 @@
     private async Task CategoryClicked(GridRowClickEventArgs args)
     {
         _tagCategory = (MasterTagCategoryResponse)args.Item;
-        var response = await Http.GetAsync($"MasterTags/Category/{_tagCategory.UId}");
+        var response = await Http.GetAsync($"api/MasterTags/Category/{_tagCategory.UId}");
         _tags = await response.Content.ReadFromJsonAsync<List<MasterTagWithCategoryAndParentTagResponse>>() ?? new List<MasterTagWithCategoryAndParentTagResponse>();
         StateHasChanged();
     }
@@ -250,7 +249,7 @@
         await Javascript.InvokeVoidAsync("console.log", tag);
         if (tag.ParentMasterTagCategoryUId != null)
         {
-            var response = await Http.GetAsync($"MasterTags/Category/{tag.ParentMasterTagCategoryUId}");
+            var response = await Http.GetAsync($"api/MasterTags/Category/{tag.ParentMasterTagCategoryUId}");
             _cascadedTags = await response.Content.ReadFromJsonAsync<List<MasterTagWithCategoryAndParentTagResponse>>() ?? new List<MasterTagWithCategoryAndParentTagResponse>();
         }
     }
@@ -260,7 +259,7 @@
         var tag = (MasterTagWithCategoryAndParentTagResponse)arg.Item;
         var stringContent = new StringContent(JsonSerializer.Serialize(tag), Encoding.UTF8, "application/json");
 
-        var response = await Http.PostAsync("masterTags", stringContent);
+        var response = await Http.PostAsync("api/masterTags", stringContent);
         var createdTag = await response.Content.ReadFromJsonAsync<MasterTagWithCategoryAndParentTagResponse>();
         await Javascript.InvokeVoidAsync("console.log", createdTag); 
         _tags.Add(createdTag!);
@@ -272,7 +271,7 @@
         var tag = (MasterTagWithCategoryAndParentTagResponse)args.Item;
         var stringContent = new StringContent(JsonSerializer.Serialize(tag), Encoding.UTF8, "application/json");
         
-        var response = await Http.PutAsync($"masterTags", stringContent);
+        var response = await Http.PutAsync($"api/masterTags", stringContent);
         var updatedTag = await response.Content.ReadFromJsonAsync<MasterTagWithCategoryAndParentTagResponse>() ?? new MasterTagWithCategoryAndParentTagResponse();
         await Javascript.InvokeVoidAsync("console.log", updatedTag);
 
@@ -287,7 +286,7 @@
     private async Task DeleteTagHandler(GridCommandEventArgs arg)
     {
         var tag = (MasterTagWithCategoryAndParentTagResponse)arg.Item;
-        var response = await Http.DeleteAsync($"mastertags/{tag.UId}");
+        var response = await Http.DeleteAsync($"api/mastertags/{tag.UId}");
         if (response.StatusCode == HttpStatusCode.NoContent)
         {
             _tags.Remove(_tags.First(x => x.UId == tag.UId));
@@ -299,7 +298,7 @@
     private async Task CascadedList(object obj)
     {
         await Javascript.InvokeVoidAsync("console.log", obj);
-        var response = await Http.GetAsync($"MasterTags/Category/{(Guid) obj}");
+        var response = await Http.GetAsync($"api/MasterTags/Category/{(Guid) obj}");
         _cascadedTags = await response.Content.ReadFromJsonAsync<List<MasterTagWithCategoryAndParentTagResponse>>() ?? new List<MasterTagWithCategoryAndParentTagResponse>();
         StateHasChanged();
     }
