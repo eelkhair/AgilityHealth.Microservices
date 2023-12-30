@@ -60,7 +60,7 @@ public class MasterTagsController : BaseController
     /// <response code="404">No master tags exist</response>
     /// <response code="500">Internal Server Error</response>
     /// <returns></returns>
-    [ProducesResponseType(typeof(List<MasterTagResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<MasterTagWithCategoryAndParentTagResponse>), StatusCodes.Status200OK)]
     [HttpGet("category/{masterTagCategoryUId:guid}")]
     public async Task<IActionResult> GetMasterTagsByCategory(Guid masterTagCategoryUId)
     {
@@ -68,7 +68,7 @@ public class MasterTagsController : BaseController
         var query = new ListMasterTagsByCategoryQuery(User, Logger, masterTagCategoryUId);
         var masterTags = await Mediator.Send(query);
         
-        var model = Mapper.Map<List<MasterTagResponse>>(masterTags);
+        var model = Mapper.Map<List<MasterTagWithCategoryAndParentTagResponse>>(masterTags);
         Logger.LogInformation("{Count} master tags found.{Data}", masterTags.Count, JsonSerializer.Serialize(model));
         
         return Ok(model);

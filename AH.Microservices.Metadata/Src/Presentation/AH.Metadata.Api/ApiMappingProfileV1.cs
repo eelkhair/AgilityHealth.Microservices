@@ -46,8 +46,12 @@ public class ApiMappingProfileV1 : Profile
                     src.ParentMasterTagUId == null ? null : new MasterTagDto { UId = (Guid)src.ParentMasterTagUId }));
         CreateMap<MasterTagDto, MasterTagNameUIdResponse>();
         CreateMap<MasterTagDto, MasterTagResponse>();
-        CreateMap<MasterTagDto, MasterTagWithCategoryAndParentTagResponse>();
-            
+        CreateMap<MasterTagDto, MasterTagWithCategoryAndParentTagResponse>()
+            .ForMember(x => x.ParentMasterTagCategoryUId,
+                opt => opt.MapFrom(src => src.ParentMasterTag == null ? (Guid?)null : src.ParentMasterTag.MasterTagCategory.UId))
+            .ForMember(x => x.ParentMasterTagCategoryName,
+                opt => opt.MapFrom(src => src.ParentMasterTag == null ? null : src.ParentMasterTag.MasterTagCategory.Name));
+
     }
 }
 

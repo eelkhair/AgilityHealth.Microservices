@@ -39,9 +39,11 @@ public class CreateMasterTagCommandHandler : BaseCommandHandler, IRequestHandler
         MasterTag? parentMasterTag = null;
         if (request.MasterTag.ParentMasterTag != null)
         {
-            parentMasterTag = await Context.MasterTags.FirstAsync(x => x.UId == request.MasterTag.ParentMasterTag.UId, cancellationToken);
+            parentMasterTag = await Context.MasterTags.Include(x=>x.MasterTagCategory).FirstAsync(x => x.UId == request.MasterTag.ParentMasterTag.UId, cancellationToken);
+            entity.ParentMasterTagId = parentMasterTag?.Id;
+            entity.ParentMasterTag = parentMasterTag;
         }
-        entity.ParentMasterTagId = parentMasterTag?.Id;
+       
         await Context.MasterTags.AddAsync(entity, cancellationToken);
         await Context.SaveChangesAsync(request.User, cancellationToken);
         

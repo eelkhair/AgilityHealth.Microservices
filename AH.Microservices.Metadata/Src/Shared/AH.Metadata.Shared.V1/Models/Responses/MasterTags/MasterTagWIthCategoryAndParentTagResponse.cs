@@ -1,6 +1,4 @@
-﻿using AH.Metadata.Shared.V1.Models.Responses.MasterTagCategories;
-
-namespace AH.Metadata.Shared.V1.Models.Responses.MasterTags;
+﻿namespace AH.Metadata.Shared.V1.Models.Responses.MasterTags;
 
 /// <summary>
 /// Represents an MasterTagResponse.
@@ -8,17 +6,33 @@ namespace AH.Metadata.Shared.V1.Models.Responses.MasterTags;
 public class MasterTagWithCategoryAndParentTagResponse : MasterTagResponse
 {
     /// <summary>
-    /// MasterTagCategory
+    /// MasterTagCategoryUId
     /// </summary>
-    public MasterTagCategoryResponse MasterTagCategory { get; set; } = new();
-
+    public Guid MasterTagCategoryUId { get; set; }
     /// <summary>
-    /// ParentMasterTag
+    /// MasterTagCategoryName
     /// </summary>
-    public MasterTagResponse? ParentMasterTag { get; set; }
-
+    public string MasterTagCategoryName { get; set; } = string.Empty;
+    
     /// <summary>
-    /// Child MasterTags
+    /// ParentMasterTagUId  
     /// </summary>
-    public List<MasterTagResponse> ChildMasterTags { get; set; } = new();
+    public Guid? ParentMasterTagUId { get; set; }
+    
+    /// <summary>
+    /// ParentMasterTagName
+    /// </summary>
+    public string? ParentMasterTagName { get; set; }
+    
+    /// <summary>
+    /// ParentMasterTagCategoryUId
+    /// </summary>
+    public Guid? ParentMasterTagCategoryUId { get; set; }
+    
+    /// <summary>
+    /// ParentMasterTagCategoryName
+    /// </summary>
+    public string? ParentMasterTagCategoryName { get; set; }
+
+
 }

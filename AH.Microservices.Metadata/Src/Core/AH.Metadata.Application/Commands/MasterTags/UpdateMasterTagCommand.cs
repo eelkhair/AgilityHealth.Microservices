@@ -37,7 +37,7 @@ public class UpdateMasterTagCommandHandler : BaseCommandHandler, IRequestHandler
         MasterTag? parentMasterTag = null;
         if (request.MasterTag.ParentMasterTag != null)
         {
-             parentMasterTag = await Context.MasterTags.FirstAsync(x => x.UId == request.MasterTag.ParentMasterTag.UId,
+             parentMasterTag = await Context.MasterTags.Include(x=>x.MasterTagCategory).FirstAsync(x => x.UId == request.MasterTag.ParentMasterTag.UId,
                 cancellationToken);
             
         }

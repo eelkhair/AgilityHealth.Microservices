@@ -17,7 +17,7 @@ public class MasterTagsController : ControllerBase
         _masterTagService = masterTagService;
     }
     
-    [HttpGet("MasterTags/Category/{categoryUId:guid}")]
+    [HttpGet("Category/{categoryUId:guid}")]
     public async Task<ActionResult> Get([FromRoute] Guid categoryUId)
     {
         var tags =
@@ -25,10 +25,10 @@ public class MasterTagsController : ControllerBase
         return Ok(tags);
     }
 
-    [HttpPut("MasterTags/{masterTagUId:guid}")]
-    public async Task<ActionResult> Put([FromRoute] Guid masterTagUId, MasterTagRequest masterTag)
+    [HttpPut]
+    public async Task<ActionResult> Put(MasterTagWithCategoryAndParentTagResponse masterTag)
     {
-        var response = await _masterTagService.UpdateMasterTag(masterTagUId, masterTag);
+        var response = await _masterTagService.UpdateMasterTag(masterTag);
         return Ok(response);
     }
     [HttpPost]

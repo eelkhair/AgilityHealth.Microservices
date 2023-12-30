@@ -5,8 +5,8 @@ namespace AH.Web.Server.Services.Interfaces;
 
 public interface IMasterTagService
 {
-    Task<List<MasterTagResponse>?> GetMasterTags(Guid masterTagCategoryUId);
+    Task<List<MasterTagWithCategoryAndParentTagResponse>?> GetMasterTags(Guid masterTagCategoryUId);
     Task<MasterTagWithCategoryAndParentTagResponse> CreateMasterTag(MasterTagWithCategoryAndParentTagResponse tag);
-    Task<MasterTagWithCategoryAndParentTagResponse> UpdateMasterTag(Guid masterTagUId,MasterTagRequest tag);
+    Task<MasterTagWithCategoryAndParentTagResponse> UpdateMasterTag(MasterTagWithCategoryAndParentTagResponse tag);
     Task DeleteMasterTag(Guid uid);
 }

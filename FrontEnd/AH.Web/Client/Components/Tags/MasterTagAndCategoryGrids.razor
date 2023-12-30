@@ -54,23 +54,64 @@
 <div class="k-master-row">
     @if (_tagCategory != null)
     {
-        <TelerikGrid Data="@Tags"
+        <TelerikGrid Data="@_tags"
                      EditMode="@GridEditMode.Popup"
                      FilterMode="@GridFilterMode.FilterMenu"
                      EnableLoaderContainer="@ShowLoading"
                      Sortable="true"
                      Height="600px"
                      OnAdd="@AddTagHandler"
+                     OnEdit="@EditTagHandler"
                      OnCreate="@CreateTagHandler"
+                     OnDelete="@DeleteTagHandler"
+                        OnUpdate="@UpdateTagHandler"
                      SelectionMode="@GridSelectionMode.Single"
                      ConfirmDelete="true">
             <GridToolBarTemplate>
                 <GridCommandButton Command="Add">Add Tag</GridCommandButton>
             </GridToolBarTemplate>
             <GridColumns>
-                <GridColumn Field="@nameof(MasterTagRequest.Name)" Title="Name"/>
-                <GridColumn Field="@nameof(MasterTagRequest.ClassName)" Visible="false"/>
-                <GridColumn Field="@nameof(MasterTagRequest.ParentMasterTagUId)" Visible = "@(MasterTagCategoryClassName == "MasterTeamMemberCategory")"/>
+                <GridColumn Field="@nameof(MasterTagWithCategoryAndParentTagResponse.Name)" Title="Name"/>
+                <GridColumn Field="@nameof(MasterTagWithCategoryAndParentTagResponse.ClassName)" Visible="false"/>
+                <GridColumn Field="@nameof(MasterTagWithCategoryAndParentTagResponse.ParentMasterTagCategoryUId)" Title="Category" Visible = "@(MasterTagCategoryClassName == "MasterTeamMemberCategory")">   
+                    <Template>
+                        @((context as MasterTagWithCategoryAndParentTagResponse)?.ParentMasterTagCategoryName)
+                    </Template>
+                    <EditorTemplate>
+                        @{
+                            var tag = (MasterTagWithCategoryAndParentTagResponse) context;
+                            <TelerikDropDownList @bind-Value="@tag.ParentMasterTagCategoryUId"
+                                                 ValueField="@nameof(MasterTagCategoryResponse.UId)"
+                                                 TextField="@nameof(MasterTagCategoryResponse.Name)"
+                                                 DefaultText="Select Category"
+                                                 OnChange="@CascadedList"
+                                                 Data="@_categories.Where(x=>x.ClassName == "MasterTeamCategory" && x.Name != "Methodology" && x.Type == _tagCategory.Type).ToList()">
+                                <DropDownListSettings>
+                                    <DropDownListPopupSettings Height="auto" MaxHeight="200px" />
+                                </DropDownListSettings>
+                            </TelerikDropDownList>
+                        }
+                    </EditorTemplate>
+                </GridColumn>
+                <GridColumn Field="@nameof(MasterTagWithCategoryAndParentTagResponse.ParentMasterTagUId)" Title="Tag" Visible="@(MasterTagCategoryClassName == "MasterTeamMemberCategory")">
+                    <Template>
+                        @((context as MasterTagWithCategoryAndParentTagResponse)?.ParentMasterTagName)
+                    </Template>
+                    <EditorTemplate>
+                        @{
+                            var tag = (MasterTagWithCategoryAndParentTagResponse) context;
+                            <TelerikDropDownList @bind-Value="@tag.ParentMasterTagUId"
+                                                 ValueField="@nameof(MasterTagWithCategoryAndParentTagResponse.UId)"
+                                                 TextField="@nameof(MasterTagWithCategoryAndParentTagResponse.Name)"
+                                                 DefaultText="Select Tag"
+                                                 Data="@_cascadedTags">
+                                <DropDownListSettings>
+                                    <DropDownListPopupSettings Height="auto" MaxHeight="200px" />
+                                </DropDownListSettings>
+                            </TelerikDropDownList>
+                        }
+                    </EditorTemplate>
+                </GridColumn>
                 <GridCommandColumn>
                     <GridCommandButton Command="Edit" Icon="@SvgIcon.Pencil">Edit</GridCommandButton>
                     <GridCommandButton Command="Delete" Icon="@SvgIcon.Trash">Delete</GridCommandButton>
@@ -81,8 +122,6 @@
 </div>
 @code {
     [Parameter] public string? MasterTagCategoryClassName { get; set; }
-
-
     [Inject] private IJSRuntime Javascript { get; set; } = null!;
 
     private List<MasterTagCategoryResponse> _categories = new();
@@ -103,7 +142,8 @@
         };
 
 
-    private List<MasterTagWithCategoryAndParentTagResponse> Tags { get; set; } = new();
+    private List<MasterTagWithCategoryAndParentTagResponse> _tags  = new();
+    private List<MasterTagWithCategoryAndParentTagResponse> _cascadedTags  = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -185,8 +225,8 @@
     private async Task CategoryClicked(GridRowClickEventArgs args)
     {
         _tagCategory = (MasterTagCategoryResponse)args.Item;
-        var response = await Http.GetAsync($"MasterTags/MasterTags/Category/{_tagCategory.UId}");
-        Tags = await response.Content.ReadFromJsonAsync<List<MasterTagWithCategoryAndParentTagResponse>>() ?? new List<MasterTagWithCategoryAndParentTagResponse>();
+        var response = await Http.GetAsync($"MasterTags/Category/{_tagCategory.UId}");
+        _tags = await response.Content.ReadFromJsonAsync<List<MasterTagWithCategoryAndParentTagResponse>>() ?? new List<MasterTagWithCategoryAndParentTagResponse>();
         StateHasChanged();
     }
 
@@ -196,7 +236,23 @@
     {
         var tag = (MasterTagWithCategoryAndParentTagResponse)arg.Item;
         tag.ClassName = MasterTagClassName;
-        tag.MasterTagCategory.UId = _tagCategory!.UId;
+        tag.MasterTagCategoryUId = _tagCategory!.UId;
+        _cascadedTags = new List<MasterTagWithCategoryAndParentTagResponse>();
+
+        await Javascript.InvokeVoidAsync("console.log", _tagCategory); 
+        await Javascript.InvokeVoidAsync("console.log", tag); 
+        await Javascript.InvokeVoidAsync("console.log", _categories.Where(x=>x.ClassName == "MasterTeamCategory" && x.Name != "Methodology" && x.Type == _tagCategory.Type)); 
+        
+    } 
+    private async Task EditTagHandler(GridCommandEventArgs arg)
+    {
+        var tag = (MasterTagWithCategoryAndParentTagResponse)arg.Item;
+        await Javascript.InvokeVoidAsync("console.log", tag);
+        if (tag.ParentMasterTagCategoryUId != null)
+        {
+            var response = await Http.GetAsync($"MasterTags/Category/{tag.ParentMasterTagCategoryUId}");
+            _cascadedTags = await response.Content.ReadFromJsonAsync<List<MasterTagWithCategoryAndParentTagResponse>>() ?? new List<MasterTagWithCategoryAndParentTagResponse>();
+        }
     }
   
     private async Task CreateTagHandler(GridCommandEventArgs arg)
@@ -206,8 +262,8 @@
 
         var response = await Http.PostAsync("masterTags", stringContent);
         var createdTag = await response.Content.ReadFromJsonAsync<MasterTagWithCategoryAndParentTagResponse>();
-        await Javascript.InvokeVoidAsync("console.log", createdTag);
-        Tags.Add(createdTag!);
+        await Javascript.InvokeVoidAsync("console.log", createdTag); 
+        _tags.Add(createdTag!);
         StateHasChanged();
     }
 
@@ -216,19 +272,38 @@
         var tag = (MasterTagWithCategoryAndParentTagResponse)args.Item;
         var stringContent = new StringContent(JsonSerializer.Serialize(tag), Encoding.UTF8, "application/json");
         
-        var response = await Http.PutAsync("masterTagCategories", stringContent);
-        var updatedCategory = await response.Content.ReadFromJsonAsync<MasterTagCategoryResponse>() ?? new MasterTagCategoryResponse();
-        await Javascript.InvokeVoidAsync("console.log", updatedCategory);
+        var response = await Http.PutAsync($"masterTags", stringContent);
+        var updatedTag = await response.Content.ReadFromJsonAsync<MasterTagWithCategoryAndParentTagResponse>() ?? new MasterTagWithCategoryAndParentTagResponse();
+        await Javascript.InvokeVoidAsync("console.log", updatedTag);
 
-        if (_categories.Exists(y => y.UId == updatedCategory.UId))
+       
+        var index = _tags.FindIndex(i => i.UId == updatedTag.UId);
+        if (index != -1)
         {
-            _categories.First(x => x.UId == updatedCategory.UId).Name = updatedCategory.Name;
-            _categories.First(x => x.UId == updatedCategory.UId).Type = updatedCategory.Type;
+            _tags[index] = updatedTag;
         }
-
-        await RefreshCategoryGrid();
+        StateHasChanged();
+    }
+    private async Task DeleteTagHandler(GridCommandEventArgs arg)
+    {
+        var tag = (MasterTagWithCategoryAndParentTagResponse)arg.Item;
+        var response = await Http.DeleteAsync($"mastertags/{tag.UId}");
+        if (response.StatusCode == HttpStatusCode.NoContent)
+        {
+            _tags.Remove(_tags.First(x => x.UId == tag.UId));
+            await RefreshCategoryGrid();
+        }
     }
     #endregion
+
+    private async Task CascadedList(object obj)
+    {
+        await Javascript.InvokeVoidAsync("console.log", obj);
+        var response = await Http.GetAsync($"MasterTags/Category/{(Guid) obj}");
+        _cascadedTags = await response.Content.ReadFromJsonAsync<List<MasterTagWithCategoryAndParentTagResponse>>() ?? new List<MasterTagWithCategoryAndParentTagResponse>();
+        StateHasChanged();
+    }
+
 }
 <style>
     .tags-half{

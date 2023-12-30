@@ -1,5 +1,5 @@
 ﻿
-rootPath="/c/Users/elkha/RiderProjects/AgilityHealthMicroServices/"
+rootPath="/home/eelkhair/RiderProjects/"
 myArray=(
 "${rootPath}AgilityHealth.Microservices/Shared/AH.Shared.Domain/"
 "${rootPath}AgilityHealth.Microservices/Shared/AH.Shared.Application/"
