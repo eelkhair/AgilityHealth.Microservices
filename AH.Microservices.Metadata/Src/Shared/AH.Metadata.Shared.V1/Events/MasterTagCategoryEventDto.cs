@@ -2,6 +2,9 @@
 
 namespace AH.Metadata.Shared.V1.Events;
 
+/// <summary>
+/// Event DTO for MasterTagCategory
+/// </summary>
 public class MasterTagCategoryEventDto
 {
     public MasterTagCategoryResponse MasterTagCategory { get; set; } = new();

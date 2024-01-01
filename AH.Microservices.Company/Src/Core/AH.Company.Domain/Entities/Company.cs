@@ -60,7 +60,6 @@ public class Company : BaseAuditableEntity
     public string? SubscriptionType { get; set; }
     public string? TimeZoneInfoId { get; set; }
     public string? ZipCode { get; set; }
-    public int MetadataId { get; set; }
     public ICollection<CompanySkillCategory> CompanySkillCategories { get; set; }
     public ICollection<CompanyStakeholderCategory> CompanyStakeholderCategories { get; set; }
     public ICollection<CompanyTeamCategory> CompanyTeamCategories { get; set; }

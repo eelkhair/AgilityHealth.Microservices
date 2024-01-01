@@ -55,10 +55,11 @@ public partial class CompanyMicroserviceDbContext : DbContext, ICompanyMicroServ
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (optionsBuilder.IsConfigured) return;
-        var connection =  _contextAccessor.HttpContext?.Request.Headers["Host"].ToString();
-        connection = connection != null
-            ? connection.Replace("ahcompany-", "").Replace(":","")
-            : _configuration.GetConnectionString("DefaultConnection");
+        var connection = !string.IsNullOrEmpty(_contextAccessor.HttpContext?.Request.Headers["WebHost"].ToString())
+            ? _contextAccessor.HttpContext.Request.Headers["WebHost"].ToString()
+            : !string.IsNullOrEmpty(_contextAccessor.HttpContext?.Request.Headers["Host"].ToString())
+                ? _contextAccessor.HttpContext.Request.Headers["Host"].ToString().Replace("ahcompany-", "").Replace(":","")
+                : _configuration.GetConnectionString("DefaultConnection");
             
             
         optionsBuilder.UseSqlServer(_configuration.GetConnectionString(connection!), x =>
