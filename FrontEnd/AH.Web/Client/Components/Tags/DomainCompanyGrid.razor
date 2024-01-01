@@ -1,0 +1,41 @@
+@using AH.Metadata.Shared.V1.Models.Responses.Companies
+<TelerikGrid Data="@Companies" 
+             EditMode="@GridEditMode.Popup"
+             FilterMode="@GridFilterMode.FilterMenu"
+             EnableLoaderContainer="true"
+             Sortable="true"
+             ConfirmDelete="true"
+             Pageable="true"
+             PageSize="10">
+    <GridToolBarTemplate>
+        <GridCommandButton Command="Add">Add Company</GridCommandButton>
+    </GridToolBarTemplate> 
+    <GridColumns>
+        <GridCommandColumn>
+            <GridCommandButton Title="View" OnClick="@View">View</GridCommandButton>
+        </GridCommandColumn>
+        <GridColumn Field="@nameof(CompanyResponse.Name)" Title="Name"/>
+        <GridCommandColumn>
+            <GridCommandButton Command="Edit" Icon="@SvgIcon.Pencil">Edit</GridCommandButton>
+            <GridCommandButton Command="Delete" Icon="@SvgIcon.Trash">Delete</GridCommandButton>
+        </GridCommandColumn>
+    </GridColumns>
+    <GridSettings>
+        <GridPopupEditSettings Title="Edit Company"></GridPopupEditSettings>
+    </GridSettings>
+    
+</TelerikGrid>
+
+@code {
+    [Parameter]
+    public required List<CompanyResponse> Companies { get; set; }
+
+    [Inject] private IJSRuntime JavaScript { get; set; } = null!;
+    [Inject] private NavigationManager NavigationManager { get; set; } = null!;
+    private void View(GridCommandEventArgs arg)
+    {
+        var company = (CompanyResponse)arg.Item;
+        NavigationManager.NavigateTo("/Company/" + company.UId);
+    }
+
+}

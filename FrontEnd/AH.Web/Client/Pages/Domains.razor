@@ -1,5 +1,8 @@
 @page "/Domains"
 @using AH.Metadata.Shared.V1.Models.Responses.Domains
+@using System.Text.Json
+@using System.Text
+@using AH.Web.Client.Components.Tags
 @inject HttpClient Http;
 @attribute [Authorize]
 <h1>Domains</h1>
@@ -9,13 +12,21 @@
              FilterMode="@GridFilterMode.FilterMenu"
              EnableLoaderContainer="true"
              Sortable="true"
-             Height="600px"
+             OnCreate="@CreateHandler"
+             OnUpdate="@UpdateHandler"
+             OnDelete="@DeleteHandler"
              ConfirmDelete="true">
     <GridToolBarTemplate>
         <GridCommandButton Command="Add">Add Domain</GridCommandButton>
-    </GridToolBarTemplate>
+    </GridToolBarTemplate> 
+    <DetailTemplate>
+        @{
+            var domain = (DomainWithCompaniesResponse)context;
+            <DomainCompanyGrid Companies="@domain.Companies" />
+        }
+    </DetailTemplate>
     <GridColumns>
-        <GridColumn Field="@nameof(DomainResponse.Name)" Title="Name"/>
+        <GridColumn Field="@nameof(DomainWithCompaniesResponse.Name)" Title="Name"/>
         <GridCommandColumn>
             <GridCommandButton Command="Edit" Icon="@SvgIcon.Pencil">Edit</GridCommandButton>
             <GridCommandButton Command="Delete" Icon="@SvgIcon.Trash">Delete</GridCommandButton>
@@ -23,11 +34,54 @@
     </GridColumns>
 </TelerikGrid>
 @code{
+    
+    private List<DomainWithCompaniesResponse> _domains = new();
     [Inject] IJSRuntime Javascript { get; set; } = null!;
     protected override async Task OnInitializedAsync()
     {
-        _domains = await Http.GetFromJsonAsync<List<DomainResponse>>("api/domains");
+        _domains = await Http.GetFromJsonAsync<List<DomainWithCompaniesResponse>>("api/domains") ?? new List<DomainWithCompaniesResponse>();
         await Javascript.InvokeVoidAsync("console.log", _domains);
     }
-    private List<DomainResponse>? _domains;
+
+    private async Task CreateHandler(GridCommandEventArgs arg)
+    {
+        var domain = (DomainWithCompaniesResponse) arg.Item;
+        var stringContent = new StringContent(JsonSerializer.Serialize(domain), Encoding.UTF8, "application/json");
+        
+        var response = await Http.PostAsync("api/domains", stringContent);
+        
+        if (response.IsSuccessStatusCode)
+        {
+            var createdDomain = await response.Content.ReadFromJsonAsync<DomainWithCompaniesResponse>();
+            _domains.Add(createdDomain!);
+        }
+        StateHasChanged();
+    }
+    
+    private async Task UpdateHandler(GridCommandEventArgs arg)
+    {
+        var domain = (DomainWithCompaniesResponse) arg.Item;
+        var stringContent = new StringContent(JsonSerializer.Serialize(domain), Encoding.UTF8, "application/json");
+        
+        var response = await Http.PutAsync($"api/domains", stringContent);
+        
+        if (response.IsSuccessStatusCode)
+        {
+            var index = _domains.FindIndex(x => x.UId == domain.UId);
+            _domains[index] = domain;
+        }
+        StateHasChanged();
+    }
+
+    private async Task DeleteHandler(GridCommandEventArgs arg)
+    {
+        var domain = (DomainWithCompaniesResponse) arg.Item;
+        var response = await Http.DeleteAsync($"api/domains/{domain.UId}");
+        
+        if (response.IsSuccessStatusCode)
+        {
+            _domains.Remove(domain);
+        }
+    }
+
 }

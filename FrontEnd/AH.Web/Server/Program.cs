@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http.Headers;
 using AH.Web.Server.Middleware;
 using AH.Web.Server.Services;
 using AH.Web.Server.Services.Interfaces;
@@ -89,7 +90,7 @@ app.Use(async (context, next) =>
 
     // Add the traceid to the response headers
     context.Response.Headers.Append("trace-id", traceId);
-
+    
     // Call the next middleware in the pipeline
     await next();
 });

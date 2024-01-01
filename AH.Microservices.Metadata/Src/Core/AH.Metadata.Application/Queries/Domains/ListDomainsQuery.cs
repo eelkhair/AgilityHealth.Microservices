@@ -24,7 +24,7 @@ public class ListDomainsQueryHandler : BaseQueryHandler, IRequestHandler<ListDom
 
     public async Task<List<DomainDto>> Handle(ListDomainsQuery request, CancellationToken cancellationToken)
     {
-        var domains = await Context.Domains.ToListAsync(cancellationToken);
+        var domains = await Context.Domains.Include(x=>x.Companies).ToListAsync(cancellationToken);
         return Mapper.Map<List<DomainDto>>(domains);
     }
 }

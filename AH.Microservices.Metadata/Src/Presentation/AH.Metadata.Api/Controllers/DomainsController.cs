@@ -45,7 +45,7 @@ public class DomainsController : BaseController
         var domains = await Mediator.Send(query);
         if(domains.Count == 0) return NotFound();
         
-        var model = Mapper.Map<List<DomainResponse>>(domains);
+        var model = Mapper.Map<List<DomainWithCompaniesResponse>>(domains);
         Logger.LogInformation("{Count} domains found.{Data}", domains.Count, JsonSerializer.Serialize(model));
         
         return Ok(model);
@@ -84,7 +84,7 @@ public class DomainsController : BaseController
     /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(typeof(DomainResponse), StatusCodes.Status201Created)]
-    public async Task<IActionResult> CreateDomain([FromQuery] DomainRequest model)
+    public async Task<IActionResult> CreateDomain([FromBody] DomainRequest model)
     {
         var dto = Mapper.Map<DomainDto>(model);
         Logger.LogInformation("Creating domain {Data}", JsonSerializer.Serialize(model));
@@ -92,7 +92,7 @@ public class DomainsController : BaseController
         var command = new CreateDomainCommand(User, Logger, dto);
         var domain = await Mediator.Send(command);
         
-        var domainModel = Mapper.Map<DomainResponse>(domain);
+        var domainModel = Mapper.Map<DomainWithCompaniesResponse>(domain);
         Logger.LogInformation("Domain created {Data}", JsonSerializer.Serialize(domainModel));
         
         return CreatedAtAction(nameof(GetDomain), new { uid = domain.UId }, domainModel);
@@ -110,7 +110,7 @@ public class DomainsController : BaseController
     /// <returns></returns>
     [ProducesResponseType(typeof(DomainResponse), StatusCodes.Status200OK)] 
     [HttpPut("{uid:guid}")]
-    public async Task<IActionResult> UpdateDomain(Guid uid, [FromQuery] DomainRequest model)
+    public async Task<IActionResult> UpdateDomain([FromRoute] Guid uid, [FromBody] DomainRequest model)
     {
         Logger.LogInformation("Updating domain {Uid} {Data}", uid, JsonSerializer.Serialize(model));
         var dto = Mapper.Map<DomainDto>(model);
@@ -119,7 +119,7 @@ public class DomainsController : BaseController
         var command = new UpdateDomainCommand(User, Logger, dto);
         var domain = await Mediator.Send(command);
         
-        var domainModel = Mapper.Map<DomainResponse>(domain);
+        var domainModel = Mapper.Map<DomainWithCompaniesResponse>(domain);
         Logger.LogInformation("Domain updated {Data}", JsonSerializer.Serialize(domainModel));
         
         return Ok(domainModel);

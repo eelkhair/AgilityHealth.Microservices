@@ -28,7 +28,7 @@ public class UpdateDomainCommandHandler : BaseCommandHandler, IRequestHandler<Up
 
     public async Task<DomainDto> Handle(UpdateDomainCommand request, CancellationToken cancellationToken)
     {
-        var domain = await Context.Domains.FirstAsync(x=> x.UId == request.Domain.UId, cancellationToken);
+        var domain = await Context.Domains.Include(x=>x.Companies).FirstAsync(x=> x.UId == request.Domain.UId, cancellationToken);
         
         domain.Name = request.Domain.Name;
         

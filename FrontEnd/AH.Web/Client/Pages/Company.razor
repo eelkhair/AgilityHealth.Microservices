@@ -1,0 +1,6 @@
+@page "/company/{uid:guid}"
+<h3>Company</h3>
+@Uid
+@code {
+    [Parameter] public Guid Uid { get; set; }
+}

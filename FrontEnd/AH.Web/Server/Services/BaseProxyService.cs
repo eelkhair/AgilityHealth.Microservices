@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using AH.Web.Server.Exceptions;
 using FluentValidation.Results;
@@ -7,10 +8,19 @@ namespace AH.Web.Server.Services;
 
 public static class BaseProxyService
 {
-    public static async Task<List<T>> Get<T>(this HttpClient httpClient, string url)
+    private static void SetHeaders(HttpClient httpClient, IHttpContextAccessor accessor)
+    {
+        var token = accessor.HttpContext?.Request.Headers["Authorization"].ToString() ?? string.Empty;
+        httpClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", token.Replace("Bearer ", string.Empty));
+        httpClient.DefaultRequestHeaders.Add("WebHost", accessor.HttpContext?.Request.Host.Host);
+    }
+    public static async Task<List<T>> Get<T>(this HttpClient httpClient, string url, IHttpContextAccessor accessor)
     {
         try
         {
+            SetHeaders(httpClient, accessor);
+            
             var response = await httpClient.GetAsync(url);
 
             if (response.IsSuccessStatusCode)
@@ -42,10 +52,12 @@ public static class BaseProxyService
         return new List<T>();
     }
 
-    public static async Task<T> Upsert<T>(this HttpClient httpClient, string url, object data, bool isUpdate)
+    public static async Task<T> Upsert<T>(this HttpClient httpClient, string url, object data, bool isUpdate,
+        IHttpContextAccessor accessor)
     {
         try
         {
+            SetHeaders(httpClient, accessor);
             var jsonContent = JsonContent.Create(data);
             HttpResponseMessage response;
 
@@ -66,8 +78,8 @@ public static class BaseProxyService
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
-                var r = await response.Content.ReadAsStringAsync();
-                var document = JsonDocument.Parse(r);
+                var res = await response.Content.ReadAsStringAsync();
+                var document = JsonDocument.Parse(res);
                 var errors = new Dictionary<string, List<string>>();
                 if(document.RootElement.TryGetProperty("errors", out var errorsElement) 
                    && errorsElement.ValueKind == JsonValueKind.Object)
@@ -79,7 +91,7 @@ public static class BaseProxyService
                         {
                             foreach(var arrayElement in property.Value.EnumerateArray())
                             {
-                                errors[property.Name].Add(arrayElement.GetString());
+                                errors[property.Name].Add(arrayElement.GetString()!);
                             }
                         }
                     }
@@ -106,10 +118,12 @@ public static class BaseProxyService
         return default!;
     }
     
-    public static async Task<bool> Delete(this HttpClient httpClient, string url)
+    public static async Task<bool> Delete(this HttpClient httpClient, string url,
+        IHttpContextAccessor accessor)
     {
         try
         {
+            SetHeaders(httpClient, accessor);
             var response = await httpClient.DeleteAsync(url);
         
             if(response.IsSuccessStatusCode)

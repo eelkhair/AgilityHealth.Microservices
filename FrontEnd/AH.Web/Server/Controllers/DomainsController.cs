@@ -24,13 +24,13 @@ public class DomainsController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<ActionResult> Put(DomainResponse  domain)
+    public async Task<ActionResult> Put(DomainWithCompaniesResponse  domain)
     {
         var response = await _domainService.UpdateDomain(domain);
         return Ok(response);
     }
     [HttpPost]
-    public async Task<ActionResult> Post(DomainResponse domain)
+    public async Task<ActionResult> Post(DomainWithCompaniesResponse domain)
     {
         var response = await _domainService.CreateDomain(domain);
         return Ok(response);
