@@ -36,7 +36,7 @@ public class DomainsController : BaseController
     /// <response code="404">No domains exist</response>
     /// <response code="500">Internal Server Error</response>
     /// <returns></returns>
-    [ProducesResponseType(typeof(List<DomainResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<DomainWithCompaniesResponse>), StatusCodes.Status200OK)]
     [HttpGet]
     public async Task<IActionResult> GetDomains()
     {

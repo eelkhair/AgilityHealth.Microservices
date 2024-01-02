@@ -1,4 +1,9 @@
 @using AH.Metadata.Shared.V1.Models.Responses.Companies
+@using AH.Metadata.Shared.V1.Models.Responses.Domains
+@using AH.Web.Client.Pages
+@using System.Text.Json
+@using System.Text
+@inject HttpClient Http
 <TelerikGrid Data="@Companies" 
              EditMode="@GridEditMode.Popup"
              FilterMode="@GridFilterMode.FilterMenu"
@@ -6,6 +11,10 @@
              Sortable="true"
              ConfirmDelete="true"
              Pageable="true"
+             OnAdd="@AddHandler"
+             OnCreate="@CreateHandler"
+             OnDelete="@DeleteHandler"
+             OnUpdate="@UpdateHandler"
              PageSize="10">
     <GridToolBarTemplate>
         <GridCommandButton Command="Add">Add Company</GridCommandButton>
@@ -14,28 +23,98 @@
         <GridCommandColumn>
             <GridCommandButton Title="View" OnClick="@View">View</GridCommandButton>
         </GridCommandColumn>
-        <GridColumn Field="@nameof(CompanyResponse.Name)" Title="Name"/>
+        <GridColumn Field="@nameof(CompanyWithDomainResponse.Name)" Title="Name"/>
+            
+        <GridColumn Field="Domain.UId" Title="Domain">
+            <EditorTemplate>
+                @((context as CompanyWithDomainResponse)?.Domain.Name)
+            </EditorTemplate>
+            <Template>
+                @((context as CompanyWithDomainResponse)?.Domain.Name)
+            </Template>
+        </GridColumn>
         <GridCommandColumn>
             <GridCommandButton Command="Edit" Icon="@SvgIcon.Pencil">Edit</GridCommandButton>
             <GridCommandButton Command="Delete" Icon="@SvgIcon.Trash">Delete</GridCommandButton>
         </GridCommandColumn>
     </GridColumns>
     <GridSettings>
-        <GridPopupEditSettings Title="Edit Company"></GridPopupEditSettings>
+        <GridPopupEditSettings Title="@_gridTitle"></GridPopupEditSettings>
     </GridSettings>
     
 </TelerikGrid>
 
 @code {
+    private string _gridTitle = "Add";
     [Parameter]
-    public required List<CompanyResponse> Companies { get; set; }
+    public required List<CompanyWithDomainResponse> Companies { get; set; }
+    
+    [Parameter]
+    public required Guid DomainUId { get; set; }
+    
+    [Parameter]
+    public required string DomainName {get; set; }
 
     [Inject] private IJSRuntime JavaScript { get; set; } = null!;
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
-    private void View(GridCommandEventArgs arg)
+    private async Task View(GridCommandEventArgs arg)
     {
-        var company = (CompanyResponse)arg.Item;
-        NavigationManager.NavigateTo("/Company/" + company.UId);
+        var company = (CompanyWithDomainResponse)arg.Item;
+        await JavaScript.InvokeVoidAsync("open", $"/companies/{company.UId}", "_blank");
+    }
+
+    private void AddHandler(GridCommandEventArgs arg)
+    {
+        _gridTitle = "Add Company";
+        
+        var item = (CompanyWithDomainResponse)arg.Item;
+        item.Domain = new DomainResponse
+        {
+            UId = DomainUId,
+            Name = DomainName
+        };
+    }
+
+    private async Task CreateHandler(GridCommandEventArgs arg)
+    {
+        var company = (CompanyWithDomainResponse) arg.Item;
+        var stringContent = new StringContent(JsonSerializer.Serialize(company), Encoding.UTF8, "application/json");
+        
+        var response = await Http.PostAsync("api/companies", stringContent);
+        
+        if (response.IsSuccessStatusCode)
+        {
+            var createdCompany = await response.Content.ReadFromJsonAsync<CompanyWithDomainResponse>();
+            Companies.Add(createdCompany!);
+        }
+        StateHasChanged();
+    }
+
+    private async Task DeleteHandler(GridCommandEventArgs arg)
+    {
+        var company = (CompanyWithDomainResponse) arg.Item;
+        var response = await Http.DeleteAsync($"api/companies/{company.UId}");
+        
+        if (response.IsSuccessStatusCode)
+        {
+            var index = Companies.FindIndex(x => x.UId == company.UId);
+            Companies.RemoveAt(index);
+        }
+    }
+
+    private async Task UpdateHandler(GridCommandEventArgs arg)
+    {
+        var company = (CompanyWithDomainResponse) arg.Item;
+        var stringContent = new StringContent(JsonSerializer.Serialize(company), Encoding.UTF8, "application/json");
+        
+        var response = await Http.PutAsync($"api/companies", stringContent);
+        
+        if (response.IsSuccessStatusCode)
+        {
+            var index = Companies.FindIndex(x => x.UId == company.UId); 
+            Companies[index] = company;
+        }
+        StateHasChanged();
     }
 
 }

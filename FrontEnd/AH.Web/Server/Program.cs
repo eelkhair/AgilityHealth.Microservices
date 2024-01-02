@@ -26,6 +26,11 @@ builder.Services.AddTransient<IDomainService, DomainService>(
         DaprClient.CreateInvokeHttpClient("ah-metadata-api"), 
         p.GetRequiredService<IHttpContextAccessor>()));
 
+builder.Services.AddTransient<ICompanyService, CompanyService>(
+    p=> new CompanyService(
+        DaprClient.CreateInvokeHttpClient("ah-metadata-api"), 
+        p.GetRequiredService<IHttpContextAccessor>()));
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, c =>
     {

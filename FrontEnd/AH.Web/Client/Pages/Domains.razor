@@ -1,5 +1,5 @@
-@page "/Domains"
-
+@page "/domains"
+@layout AdminLayout
 @using AH.Metadata.Shared.V1.Models.Responses.Domains
 @using System.Text.Json
 @using System.Text
@@ -23,7 +23,7 @@
     <DetailTemplate>
         @{
             var domain = (DomainWithCompaniesResponse)context;
-            <DomainCompanyGrid Companies="@domain.Companies" />
+            <DomainCompanyGrid Companies="@domain.Companies" DomainUId="@domain.UId" DomainName="@domain.Name" />
         }
     </DetailTemplate>
     <GridColumns>

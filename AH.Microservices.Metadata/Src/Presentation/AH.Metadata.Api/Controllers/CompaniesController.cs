@@ -80,7 +80,7 @@ public class CompaniesController : BaseController
     /// <returns></returns>
     [ProducesResponseType(typeof(CompanyWithDomainResponse), StatusCodes.Status201Created)]
     [HttpPost]
-    public async Task<IActionResult> CreateCompany([FromQuery] CreateCompanyRequest model)
+    public async Task<IActionResult> CreateCompany([FromBody] CreateCompanyRequest model)
     {
         var dto = Mapper.Map<CompanyDto>(model);
         Logger.LogInformation("Creating company {Data}", JsonSerializer.Serialize(model));
@@ -106,7 +106,7 @@ public class CompaniesController : BaseController
     /// <returns></returns>
     [ProducesResponseType(typeof(CompanyResponse), StatusCodes.Status200OK)]
     [HttpPut("{uid:guid}")]
-    public async Task<IActionResult> UpdateCompany(Guid uid, [FromQuery] UpdateCompanyRequest model)
+    public async Task<IActionResult> UpdateCompany(Guid uid, [FromBody] UpdateCompanyRequest model)
     {
         Logger.LogInformation("Updating company {Data}", JsonSerializer.Serialize(model));
         var dto = Mapper.Map<CompanyDto>(model);

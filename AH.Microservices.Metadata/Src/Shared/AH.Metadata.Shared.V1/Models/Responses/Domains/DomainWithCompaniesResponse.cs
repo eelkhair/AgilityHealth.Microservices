@@ -16,5 +16,5 @@ public class DomainWithCompaniesResponse : BaseResponse
     /// List of companies
     /// </summary>
     // ReSharper disable once CollectionNeverUpdated.Global
-    public required List<CompanyResponse> Companies { get; set; } = new();
+    public required List<CompanyWithDomainResponse> Companies { get; set; } = new();
 }
