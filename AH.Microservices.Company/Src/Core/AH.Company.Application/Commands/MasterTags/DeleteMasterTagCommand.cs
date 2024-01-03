@@ -9,24 +9,16 @@ using Microsoft.Extensions.Logging;
 
 namespace AH.Company.Application.Commands.MasterTags;
 
-public class DeleteMasterTagCommand : BaseCommand<Unit>
+public class DeleteMasterTagCommand(ClaimsPrincipal user, ILogger logger, MasterTagDto masterTag, string domain)
+    : BaseCommand<Unit>(user, logger)
 {
-    public MasterTagDto MasterTag{ get; }
-    public string Domain { get; }
-
-    public DeleteMasterTagCommand(ClaimsPrincipal user, ILogger logger, MasterTagDto masterTag, string domain) : base(user, logger)
-    {
-        MasterTag = masterTag;
-        Domain = domain;
-    }
+    public MasterTagDto MasterTag{ get; } = masterTag;
+    public string Domain { get; } = domain;
 }
 
-public class DeleteMasterTagCommandHandler : BaseCommandHandler, IRequestHandler<DeleteMasterTagCommand, Unit>
+public class DeleteMasterTagCommandHandler(ICompanyMicroServiceDbContext context, IMapper mapper)
+    : BaseCommandHandler(context, mapper), IRequestHandler<DeleteMasterTagCommand, Unit>
 {
-    public DeleteMasterTagCommandHandler(ICompanyMicroServiceDbContext context, IMapper mapper) : base(context, mapper)
-    {
-    }
-
     public async Task<Unit> Handle(DeleteMasterTagCommand request, CancellationToken cancellationToken)
     {
         SetConnectionString(request.Domain, request.Logger);
