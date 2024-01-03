@@ -13,7 +13,12 @@ public class DeleteCompanyCommandTests : BaseTest
     {
         _entityInDb = DbContextFactory.CreateEntity(MetadataDbContext, new Company
         {
-            Name = Guid.NewGuid().ToString()
+            Name = Guid.NewGuid().ToString(),
+            Domain = new Domain()
+            {
+                Name= Guid.NewGuid().ToString(),
+                UId = Guid.NewGuid()
+            }.SetCommonAuditableEntityProps()
         }.SetCommonAuditableEntityProps());
     }
 
