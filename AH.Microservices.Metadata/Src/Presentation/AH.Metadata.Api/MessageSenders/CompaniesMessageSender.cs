@@ -43,4 +43,32 @@ public class CompaniesMessageSender : BaseMetadataMessageSender, ICompaniesMessa
             JsonSerializer.Serialize(message));
 
     }
+    
+    /// <summary>
+    /// Send a message to update a company
+    /// </summary>
+    /// <param name="user">The user sending the message</param>
+    /// <param name="company">The company to update</param>
+    /// <returns></returns>
+    public async Task SendUpdateCompanyMessageAsync(ClaimsPrincipal user, CompanyWithDomainResponse company)
+    {
+        var message = new CompanyEventDto(company);
+
+        await MessageSender.SendEventAsync(PubSubNames.RabbitMq, "CompanyUpdate", user.GetUserId(),
+            JsonSerializer.Serialize(message));
+    }
+    
+    /// <summary>
+    /// Send a message to delete a company
+    /// </summary>
+    /// <param name="user">The user sending the message</param>
+    /// <param name="company">The company to delete</param>
+    /// <returns></returns>
+    public async Task SendDeleteCompanyMessageAsync(ClaimsPrincipal user, CompanyWithDomainResponse company)
+    {
+        var message = new CompanyEventDto(company);
+
+        await MessageSender.SendEventAsync(PubSubNames.RabbitMq, "CompanyDelete", user.GetUserId(),
+            JsonSerializer.Serialize(message));
+    }
 }

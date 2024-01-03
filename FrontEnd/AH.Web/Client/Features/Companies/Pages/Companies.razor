@@ -1,0 +1,80 @@
+@page "/companies"
+@using CompanyResponse = AH.Company.Shared.V1.Models.Companies.Responses.CompanyResponse
+@inject HttpClient Http
+@attribute [Authorize]
+<h3>Companies</h3>
+
+<TelerikGrid Data="@CompaniesList" 
+             EditMode="@GridEditMode.Popup"
+             FilterMode="@GridFilterMode.FilterMenu"
+             EnableLoaderContainer="true"
+             Sortable="true"
+             ConfirmDelete="true"
+             Pageable="true"
+             OnAdd="@AddHandler"
+             OnEdit="@EditHandler"
+             OnCreate="@CreateHandler"
+             OnDelete="@DeleteHandler"
+             OnUpdate="@UpdateHandler"
+             PageSize="10">
+    <GridColumns>
+        <GridCommandColumn>
+            <GridCommandButton Title="View" OnClick="@View">View</GridCommandButton>
+        </GridCommandColumn>
+        <GridColumn Field="@nameof(CompanyResponse.Name)" Title="Name"/>
+        <GridCommandColumn>
+            <GridCommandButton Command="Edit" Icon="@SvgIcon.Pencil">Edit</GridCommandButton>
+            <GridCommandButton Command="Delete" Icon="@SvgIcon.Trash">Delete</GridCommandButton>
+        </GridCommandColumn>
+    </GridColumns>
+    <GridSettings>
+        <GridPopupEditSettings Title="@_gridTitle"></GridPopupEditSettings>
+    </GridSettings>
+    
+</TelerikGrid>
+
+@code {
+    private string _gridTitle = "Company";
+    private List<CompanyResponse> CompaniesList { get; set; } = new();
+    protected override async Task OnInitializedAsync()
+    {
+        CompaniesList = await Http.GetFromJsonAsync<List<CompanyResponse>>("api/companies") ?? new();
+    }
+
+    private void AddHandler(GridCommandEventArgs arg)
+    {
+        _gridTitle = "Add Company";
+    }
+    
+    private void EditHandler(GridCommandEventArgs arg)
+    {
+        _gridTitle = "Edit Company";
+    }
+    
+    private Task CreateHandler(GridCommandEventArgs arg)
+    {
+        throw new NotImplementedException();
+    }
+    
+    private Task UpdateHandler(GridCommandEventArgs arg)
+    {
+        throw new NotImplementedException();
+    }
+    
+    private Task DeleteHandler(GridCommandEventArgs arg)
+    {
+        throw new NotImplementedException();
+    }
+    
+    private Task View(GridCommandEventArgs arg)
+    {
+        throw new NotImplementedException();
+    }
+
+}
+
+<style>
+    fl-rt {
+        float: right;
+    }
+</style>

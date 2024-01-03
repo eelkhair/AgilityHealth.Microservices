@@ -20,7 +20,7 @@ public class MasterTagCategoryService : IMasterTagCategoryService
     public async Task<MasterTagCategoryResponse> CreateMasterTagCategory(MasterTagCategoryResponse category)
     {
         var response = await _httpClient.Upsert<MasterTagCategoryResponse>
-        ($"v1/mastertagcategories?Name={category.Name}&ClassName={category.ClassName}&Type={category.Type}",
+        ($"v1/mastertagcategories",
             category, false, _httpContextAccessor);
         return response;
     }
@@ -28,7 +28,7 @@ public class MasterTagCategoryService : IMasterTagCategoryService
 
     public async Task<MasterTagCategoryResponse> UpdateMasterTagCategory(MasterTagCategoryResponse category) =>
         await _httpClient.Upsert<MasterTagCategoryResponse>
-        ($"v1/mastertagcategories/{category.UId}?Name={category.Name}&ClassName={category.ClassName}&Type={category.Type}",
+        ($"v1/mastertagcategories/{category.UId}",
             category, true, _httpContextAccessor);
 
     public async Task DeleteMasterTagCategory(Guid uid) =>

@@ -3,7 +3,7 @@
 @using AH.Metadata.Shared.V1.Models.Responses.Domains
 @using System.Text.Json
 @using System.Text
-
+@using AH.Web.Client.Features.Domains.Components
 @inject HttpClient Http;
 @attribute [Authorize]
 <h1>Domains</h1>
@@ -18,9 +18,10 @@
              OnCreate="@CreateHandler"
              OnUpdate="@UpdateHandler"
              OnDelete="@DeleteHandler"
+             
              ConfirmDelete="true">
     <GridToolBarTemplate>
-        <GridCommandButton Command="Add">Add Domain</GridCommandButton>
+        <GridCommandButton Command="Add" Icon = "@SvgIcon.Plus">Add Domain</GridCommandButton>
     </GridToolBarTemplate> 
     <DetailTemplate>
         @{

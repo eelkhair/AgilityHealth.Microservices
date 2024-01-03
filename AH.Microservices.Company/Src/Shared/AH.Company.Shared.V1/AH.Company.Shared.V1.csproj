@@ -7,7 +7,7 @@
         <RootNamespace>AH.Company.Shared.V1</RootNamespace>
         <PackageId>AH.Company.Shared.V1</PackageId>
         <Authors>Elkhair Elkhair</Authors>
-        <Version>1.0.2</Version>
+        <Version>1.0.3</Version>
         <Description>Shared components for the company microservice</Description>
         <IsPackable>true</IsPackable>
     </PropertyGroup>

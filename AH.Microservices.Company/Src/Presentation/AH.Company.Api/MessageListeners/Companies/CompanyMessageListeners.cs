@@ -1,5 +1,5 @@
-﻿using System.Text.Json;
-using AH.Company.Application.Commands.MasterTags;
+using System.Text.Json;
+using AH.Company.Application.Commands.Companies;
 using AH.Company.Application.Dtos;
 using AH.Metadata.Shared.V1.Events;
 using AH.Shared.Application.Dtos;
@@ -9,12 +9,12 @@ using Dapr;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AH.Company.Api.MessageListeners.MasterTagCategories;
+namespace AH.Company.Api.MessageListeners.Companies;
 
 /// <summary>
-/// Listeners for MasterTag events
+/// Listeners for Company events
 /// </summary>
-public class MasterTagMessageListeners : BaseMessageListener
+public class CompanyMessageListeners : BaseMessageListener
 {
     /// <summary>
     /// Constructor
@@ -22,27 +22,26 @@ public class MasterTagMessageListeners : BaseMessageListener
     /// <param name="mapper"></param>
     /// <param name="logger"></param>
     /// <param name="mediator"></param>
-    public MasterTagMessageListeners(IMapper mapper, ILogger<MasterTagMessageListeners> logger, IMediator mediator) : base(mapper, logger, mediator)
+    public CompanyMessageListeners(IMapper mapper, ILogger logger, IMediator mediator) : base(mapper, logger, mediator)
     {
     }
-
+    
     /// <summary>
-    /// Listener for MasterTagCreate event
+    /// Listener for CompanyCreate event
     /// </summary>
     /// <param name="message"></param>
-    [Topic(PubSubNames.RabbitMq, "MasterTagCreate")]
-    [Route("CreateMasterTagListener")]
-    public async Task CreateMasterTagListener(EventDto message)
+    [Topic(PubSubNames.RabbitMq, "CompanyCreate")]
+    [Route("CreateCompanyListener")]
+    public async Task CreateCompanyListener(EventDto message)
     {
-        var model = JsonSerializer.Deserialize<MasterTagEventDto>(message.Data);
+        var model = JsonSerializer.Deserialize<CompanyEventDto>(message.Data);
         
         if (model is null)
         {
             Logger.LogError("Received message is null");
             return;
         }
-            
-        var dto = Mapper.Map<MasterTagDto>(model.MasterTag);
+        var dto = Mapper.Map<CompanyDto>(model.Company);
         if (dto is null)
         {
             Logger.LogError("Received message is null");
@@ -50,27 +49,27 @@ public class MasterTagMessageListeners : BaseMessageListener
         }
             
         Logger.LogInformation("Received message: {@Model}", model);
-        var command = new CreateMasterTagCommand(CreateUser(message.UserId), Logger, dto, model.Domain);
+        var command = new CreateCompanyCommand(CreateUser(message.UserId), Logger, dto);
         await Mediator.Send(command);
     }
-        
+    
     /// <summary>
-    /// Listener for MasterTagUpdate event
+    /// Listener for CompanyUpdate event
     /// </summary>
     /// <param name="message"></param>
-    [Topic(PubSubNames.RabbitMq, "MasterTagUpdate")]
-    [Route("UpdateMasterTagListener")]
-    public async Task UpdateMasterTagListener(EventDto message)
+    /// <returns></returns>
+    [Topic(PubSubNames.RabbitMq, "CompanyUpdate")]
+    [Route("UpdateCompanyListener")]
+    public async Task UpdateCompanyListener(EventDto message)
     {
-        var model = JsonSerializer.Deserialize<MasterTagEventDto>(message.Data);
+        var model = JsonSerializer.Deserialize<CompanyEventDto>(message.Data);
         
         if (model is null)
         {
             Logger.LogError("Received message is null");
             return;
         }
-            
-        var dto = Mapper.Map<MasterTagDto>(model.MasterTag);
+        var dto = Mapper.Map<CompanyDto>(model.Company);
         if (dto is null)
         {
             Logger.LogError("Received message is null");
@@ -78,27 +77,27 @@ public class MasterTagMessageListeners : BaseMessageListener
         }
             
         Logger.LogInformation("Received message: {@Model}", model);
-        var command = new UpdateMasterTagCommand(CreateUser(message.UserId), Logger, dto, model.Domain);
+        var command = new UpdateCompanyCommand(CreateUser(message.UserId), Logger, dto);
         await Mediator.Send(command);
     }
-        
+    
     /// <summary>
-    /// Listener for MasterTagDelete event
+    /// Listener for CompanyDelete event
     /// </summary>
     /// <param name="message"></param>
-    [Topic(PubSubNames.RabbitMq, "MasterTagDelete")]
-    [Route("DeleteMasterTagListener")]
-    public async Task DeleteMasterTagListener(EventDto message)
+    /// <returns></returns>
+    [Topic(PubSubNames.RabbitMq, "CompanyDelete")]
+    [Route("DeleteCompanyListener")]
+    public async Task DeleteCompanyListener(EventDto message)
     {
-        var model = JsonSerializer.Deserialize<MasterTagEventDto>(message.Data);
+        var model = JsonSerializer.Deserialize<CompanyEventDto>(message.Data);
         
         if (model is null)
         {
             Logger.LogError("Received message is null");
             return;
         }
-            
-        var dto = Mapper.Map<MasterTagDto>(model.MasterTag);
+        var dto = Mapper.Map<CompanyDto>(model.Company);
         if (dto is null)
         {
             Logger.LogError("Received message is null");
@@ -106,7 +105,7 @@ public class MasterTagMessageListeners : BaseMessageListener
         }
             
         Logger.LogInformation("Received message: {@Model}", model);
-        var command = new DeleteMasterTagCommand(CreateUser(message.UserId), Logger, dto, model.Domain);
+        var command = new DeleteCompanyCommand(CreateUser(message.UserId), Logger, dto);
         await Mediator.Send(command);
     }
 }

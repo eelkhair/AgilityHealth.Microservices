@@ -119,9 +119,10 @@ public class CompaniesController : BaseController
         var command = new UpdateCompanyCommand(User, Logger, dto);
         var company = await Mediator.Send(command);
         
-        var companyModel = Mapper.Map<CompanyResponse>(company);
+        var companyModel = Mapper.Map<CompanyWithDomainResponse>(company);
         Logger.LogInformation("Company updated {Data}", JsonSerializer.Serialize(companyModel));
         
+        await MessageSender.SendUpdateCompanyMessageAsync(User, companyModel);
         return Ok(companyModel);
     }
     
@@ -139,10 +140,12 @@ public class CompaniesController : BaseController
     {
         Logger.LogInformation("Deleting company {Uid}", uid);
         var command = new DeleteCompanyCommand(User, Logger, uid);
-        await Mediator.Send(command);
+        var response = await Mediator.Send(command);
         
-        Logger.LogInformation("company deleted {Uid}", uid);
-
+        Logger.LogInformation("company deleted {Uid}", uid);    
+        
+        var companyModel = Mapper.Map<CompanyWithDomainResponse>(response);
+        await MessageSender.SendDeleteCompanyMessageAsync(User, companyModel);
         return NoContent();
     }
 }

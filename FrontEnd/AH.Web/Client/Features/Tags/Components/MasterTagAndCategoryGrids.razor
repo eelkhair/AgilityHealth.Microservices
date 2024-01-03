@@ -22,7 +22,7 @@
                  ConfirmDelete="true"
                  OnRowClick="@( async args => { await CategoryClicked(args); })">
         <GridToolBarTemplate>
-            <GridCommandButton Command="Add">Add Category</GridCommandButton>
+            <GridCommandButton Command="Add" Icon = "@SvgIcon.Plus">Add Category</GridCommandButton>
         </GridToolBarTemplate>
         <GridColumns>
             <GridColumn Field="@nameof(MasterTagCategoryResponse.Name)" Title="Name"/>
@@ -70,7 +70,7 @@
                      SelectionMode="@GridSelectionMode.Single"
                      ConfirmDelete="true">
             <GridToolBarTemplate>
-                <GridCommandButton Command="Add">Add Tag</GridCommandButton>
+                <GridCommandButton Command="Add" Icon="@SvgIcon.Plus">Add Tag</GridCommandButton>
             </GridToolBarTemplate>
             <GridColumns>
                 <GridColumn Field="@nameof(MasterTagWithCategoryAndParentTagResponse.Name)" Title="Name" Width="@(MasterTagCategoryClassName == "MasterTeamMemberCategory" ? "20%" : "72%" )" />

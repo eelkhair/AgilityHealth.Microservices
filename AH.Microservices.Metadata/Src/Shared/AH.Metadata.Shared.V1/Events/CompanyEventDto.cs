@@ -9,3 +9,4 @@ namespace AH.Metadata.Shared.V1.Events;
 /// <param name="Domain">The domain</param>
 /// <returns></returns>
 public record CompanyEventDto(CompanyWithDomainResponse Company);
+

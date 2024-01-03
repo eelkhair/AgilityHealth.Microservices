@@ -1,9 +1,10 @@
 @using AH.Metadata.Shared.V1.Models.Responses.Companies
 @using AH.Metadata.Shared.V1.Models.Responses.Domains
-@using AH.Web.Client.Pages
 @using System.Text.Json
 @using System.Text
 @inject HttpClient Http
+
+
 <TelerikGrid Data="@Companies" 
              EditMode="@GridEditMode.Popup"
              FilterMode="@GridFilterMode.FilterMenu"
@@ -18,7 +19,7 @@
              OnUpdate="@UpdateHandler"
              PageSize="10">
     <GridToolBarTemplate>
-        <GridCommandButton Command="Add">Add Company</GridCommandButton>
+        <GridCommandButton Command="Add" Icon="@SvgIcon.Plus">Add Company</GridCommandButton>
     </GridToolBarTemplate> 
     <GridColumns>
         <GridCommandColumn>

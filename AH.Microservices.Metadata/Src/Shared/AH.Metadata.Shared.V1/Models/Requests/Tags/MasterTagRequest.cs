@@ -14,13 +14,12 @@ public class MasterTagRequest
     /// </summary>
     [Required]
     public string Name { get; set; } = null!;
-    
+
     /// <summary>
     /// MasterTagCategory ClassName
     /// </summary>
     [Required]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public MasterTagClassName ClassName { get; set; } 
+    public string ClassName { get; set; } = null!;
     
     /// <summary>
     /// MasterTagCategory UId
@@ -34,27 +33,3 @@ public class MasterTagRequest
     public Guid? ParentMasterTagUId { get; set; }
 }
 
-/// <summary>
-/// Enum for MasterTagCategory ClassNames
-/// </summary>
-[SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-[SuppressMessage("ReSharper", "UnusedMember.Global")]
-public enum MasterTagClassName
-{
-    /// <summary>
-    ///  Team
-    /// </summary>
-    MasterTeamTag,
-    /// <summary>
-    /// Team Member
-    /// </summary>
-    MasterTeamMemberTag,
-    /// <summary>
-    /// Stakeholders
-    /// </summary>
-    MasterStakeholderTag,
-    /// <summary>
-    /// Skills
-    /// </summary>
-    MasterSkillsTag
-}

@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AH.Company.Shared.V1" Version="1.0.2" />
+        <PackageReference Include="AH.Company.Shared.V1" Version="1.0.3" />
         <PackageReference Include="AH.Metadata.Shared.V1" Version="1.0.8" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.13"/>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="7.0.13"/>
@@ -19,6 +19,11 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Shared\AH.Web.Shared.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Shared\Pages\Authentication.razor" />
+      <AdditionalFiles Include="Shared\Pages\Home.razor" />
     </ItemGroup>
 
 </Project>

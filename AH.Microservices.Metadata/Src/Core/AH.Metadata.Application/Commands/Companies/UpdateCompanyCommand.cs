@@ -21,7 +21,7 @@ public class UpdateCompanyCommandHandler(IMetadataDbContext context, IMapper map
 {
     public async Task<CompanyDto> Handle(UpdateCompanyCommand request, CancellationToken cancellationToken)
     {
-        var company = await Context.Companies.FirstAsync(x=> x.UId == request.Company.UId, cancellationToken);
+        var company = await Context.Companies.Include(x=>x.Domain).FirstAsync(x=> x.UId == request.Company.UId, cancellationToken);
         
         company.Name = request.Company.Name;
         

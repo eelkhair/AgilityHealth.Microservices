@@ -22,13 +22,13 @@ public class MasterTagService : IMasterTagService
         MasterTagWithCategoryAndParentTagResponse tag)
         =>
             await _httpClient.Upsert<MasterTagWithCategoryAndParentTagResponse>
-            ($"v1/mastertags?Name={tag.Name}&ClassName={tag.ClassName}&MasterTagCategoryUId={tag.MasterTagCategoryUId}&ParentMasterTagUId={tag.ParentMasterTagUId}"
+            ($"v1/mastertags"
                 , tag, false, _httpContextAccessor);
     
     public async Task<MasterTagWithCategoryAndParentTagResponse> UpdateMasterTag(
         MasterTagWithCategoryAndParentTagResponse tag)
         => await _httpClient.Upsert<MasterTagWithCategoryAndParentTagResponse>(
-            $"v1/mastertags/{tag.UId}?Name={tag.Name}&ClassName={tag.ClassName}&MasterTagCategoryUId={tag.MasterTagCategoryUId}&ParentMasterTagUId={tag.ParentMasterTagUId}",
+            $"v1/mastertags/{tag.UId}",
             tag, true, _httpContextAccessor);
 
     public async Task DeleteMasterTag(Guid uid)

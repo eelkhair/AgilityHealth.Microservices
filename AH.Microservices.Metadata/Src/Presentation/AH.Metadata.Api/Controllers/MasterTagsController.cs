@@ -107,7 +107,7 @@ public class MasterTagsController : BaseController
     /// <returns></returns>
     [ProducesResponseType(typeof(MasterTagWithCategoryAndParentTagResponse), StatusCodes.Status201Created)]
     [HttpPost]
-    public  async Task<IActionResult> CreateMasterTag([FromQuery] MasterTagRequest request)
+    public  async Task<IActionResult> CreateMasterTag([FromBody] MasterTagRequest request)
     {
         var dto = Mapper.Map<MasterTagDto>(request);
         Logger.LogInformation("Creating master tag with name {Name}", request.Name);
@@ -133,7 +133,7 @@ public class MasterTagsController : BaseController
     /// <returns></returns>
     [ProducesResponseType(typeof(MasterTagWithCategoryAndParentTagResponse), StatusCodes.Status200OK)]
     [HttpPut("{masterTagUId:guid}")]
-    public async Task<IActionResult> UpdateMasterTag(Guid masterTagUId, [FromQuery] MasterTagRequest request)
+    public async Task<IActionResult> UpdateMasterTag([FromRoute] Guid masterTagUId, [FromBody] MasterTagRequest request)
     {
         var dto = Mapper.Map<MasterTagDto>(request);
         dto.UId = masterTagUId;

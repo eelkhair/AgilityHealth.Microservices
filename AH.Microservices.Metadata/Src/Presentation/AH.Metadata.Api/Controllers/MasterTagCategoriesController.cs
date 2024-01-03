@@ -118,7 +118,7 @@ public class MasterTagCategoriesController : BaseController
     [Authorize]
     [ProducesResponseType(typeof(MasterTagCategoryResponse), StatusCodes.Status201Created)]
     [HttpPost]
-    public async Task<IActionResult> CreateMasterTagCategory([FromQuery] MasterTagCategoryRequest request)
+    public async Task<IActionResult> CreateMasterTagCategory([FromBody] MasterTagCategoryRequest request)
     {
 
         var activity = _activitySource.StartActivity(Activities.CreateMasterTagCategory, ActivityKind.Producer);
@@ -151,7 +151,7 @@ public class MasterTagCategoriesController : BaseController
     /// <exception cref="ArgumentNullException"></exception>
     [ProducesResponseType(typeof(MasterTagCategoryResponse), StatusCodes.Status200OK)]
     [HttpPut("{uid:guid}")]
-    public async Task<IActionResult> UpdateMasterTagCategory(Guid uid,  [FromQuery] MasterTagCategoryRequest request)
+    public async Task<IActionResult> UpdateMasterTagCategory([FromRoute] Guid uid,  [FromBody] MasterTagCategoryRequest request)
     {
         if(uid == Guid.Empty) throw new ArgumentNullException(nameof(uid));
         if(request == null) throw new ArgumentNullException(nameof(request));

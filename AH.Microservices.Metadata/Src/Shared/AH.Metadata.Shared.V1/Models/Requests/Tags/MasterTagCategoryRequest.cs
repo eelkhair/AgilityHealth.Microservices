@@ -22,54 +22,12 @@ public class MasterTagCategoryRequest
     /// MasterTagCategory ClassName
     /// </summary>
     [Required]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public MasterTagCategoryClassName ClassName { get; set; }
+    public string ClassName { get; set; } = null!;
+
     /// <summary>
     /// MasterTagCategory Type
     /// </summary>
     [Required]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public MasterTagCategoryTypes Type { get; set; }
-    
-}
+    public string Type { get; set; } = null!;
 
-/// <summary>
-/// Enum for MasterTagCategory Type
-///  </summary>
-[SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-[SuppressMessage("ReSharper", "UnusedMember.Global")]
-public enum MasterTagCategoryTypes
-{
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    All,
-    Individual,
-    Team, 
-    MultiTeam, 
-    Enterprise
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-}
-
-/// <summary>
-/// Enum for MasterTagCategory ClassNames
-/// </summary>
-[SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-[SuppressMessage("ReSharper", "UnusedMember.Global")]
-public enum MasterTagCategoryClassName
-{
-    /// <summary>
-    ///  Team
-    /// </summary>
-    MasterTeamCategory = 1,
-    /// <summary>
-    /// Team Member
-    /// </summary>
-    MasterTeamMemberCategory = 2,
-    /// <summary>
-    /// Stakeholders
-    /// </summary>
-    MasterStakeholderCategory = 3,
-    /// <summary>
-    /// Skills
-    /// </summary>
-    MasterSkillsCategory = 4
 }

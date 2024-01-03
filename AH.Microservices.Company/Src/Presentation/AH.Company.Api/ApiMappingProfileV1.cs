@@ -21,7 +21,10 @@ public class ApiMappingProfileV1 : Profile
         CreateMap<MasterTagWithCategoryAndParentTagResponse, MasterTagDto>()
             .ForMember(x => x.ParentMasterTag,
                 opt => opt.MapFrom((src, dest) =>
-                    src.ParentMasterTagUId == null ? null : new MasterTagDto { UId = src.ParentMasterTagUId.Value }));
+                    src.ParentMasterTagUId == null ? null : new MasterTagDto { UId = src.ParentMasterTagUId.Value }))  
+            .ForMember(x => x.MasterTagCategory,
+                opt => opt.MapFrom((src, dest) =>
+                    new MasterTagCategoryDto() { UId = src.MasterTagCategoryUId }));
 
         CreateMap<CompanyWithDomainResponse, CompanyDto>()
             .ForMember(x => x.DomainName, opt => opt.MapFrom(src => src.Domain.Name));
