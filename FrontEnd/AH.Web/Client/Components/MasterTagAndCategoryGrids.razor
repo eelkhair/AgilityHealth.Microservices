@@ -6,7 +6,7 @@
 @using AH.Metadata.Shared.V1.Models.Responses.MasterTags
 @inject HttpClient Http
 
-<div class="tags-half">
+<div class="tags-forty">
     <TelerikGrid Data="@_gridCategories"
                  EditMode="@GridEditMode.Popup"
                  FilterMode="@GridFilterMode.FilterMenu"
@@ -48,6 +48,9 @@
                 <GridCommandButton Command="Delete" Icon="@SvgIcon.Trash">Delete</GridCommandButton>
             </GridCommandColumn>
         </GridColumns>
+         <GridSettings>
+                <GridPopupEditSettings Title="@_gridTitle"></GridPopupEditSettings>
+            </GridSettings>
     </TelerikGrid>
 </div>
 <div class="k-master-row">
@@ -63,15 +66,15 @@
                      OnEdit="@EditTagHandler"
                      OnCreate="@CreateTagHandler"
                      OnDelete="@DeleteTagHandler"
-                        OnUpdate="@UpdateTagHandler"
+                     OnUpdate="@UpdateTagHandler"
                      SelectionMode="@GridSelectionMode.Single"
                      ConfirmDelete="true">
             <GridToolBarTemplate>
                 <GridCommandButton Command="Add">Add Tag</GridCommandButton>
             </GridToolBarTemplate>
             <GridColumns>
-                <GridColumn Field="@nameof(MasterTagWithCategoryAndParentTagResponse.Name)" Title="Name"/>
-                <GridColumn Field="@nameof(MasterTagWithCategoryAndParentTagResponse.ClassName)" Visible="false"/>
+                <GridColumn Field="@nameof(MasterTagWithCategoryAndParentTagResponse.Name)" Title="Name" Width="@(MasterTagCategoryClassName == "MasterTeamMemberCategory" ? "20%" : "72%" )" />
+                <GridColumn Field="@nameof(MasterTagWithCategoryAndParentTagResponse.ClassName)" Visible="false" />
                 <GridColumn Field="@nameof(MasterTagWithCategoryAndParentTagResponse.ParentMasterTagCategoryUId)" Title="Category" Visible = "@(MasterTagCategoryClassName == "MasterTeamMemberCategory")">   
                     <Template>
                         @((context as MasterTagWithCategoryAndParentTagResponse)?.ParentMasterTagCategoryName)
@@ -116,13 +119,16 @@
                     <GridCommandButton Command="Delete" Icon="@SvgIcon.Trash">Delete</GridCommandButton>
                 </GridCommandColumn>
             </GridColumns>
+             <GridSettings>
+                    <GridPopupEditSettings Title="@_gridTitle"></GridPopupEditSettings>
+                </GridSettings>
         </TelerikGrid>
     }
 </div>
 @code {
     [Parameter] public string? MasterTagCategoryClassName { get; set; }
     [Inject] private IJSRuntime Javascript { get; set; } = null!;
-
+    private string _gridTitle = "";
     private List<MasterTagCategoryResponse> _categories = new();
     private List<MasterTagCategoryResponse> _gridCategories = new();
     private MasterTagCategoryResponse _selectedCategory = new();
@@ -207,7 +213,7 @@
     {
         var category = (MasterTagCategoryResponse)arg.Item;
         category.Type = "All";
-        
+        _gridTitle = "Add Category";
     }
 
     private void EditCategoryHandler(GridCommandEventArgs arg)
@@ -218,6 +224,8 @@
         {
             category.Type = "All";
         }
+        
+        _gridTitle = "Edit Category";
     }
 
     #endregion
@@ -243,6 +251,7 @@
         await Javascript.InvokeVoidAsync("console.log", tag); 
         await Javascript.InvokeVoidAsync("console.log", _categories.Where(x=>x.ClassName == "MasterTeamCategory" && x.Name != "Methodology" && x.Type == _tagCategory.Type)); 
         
+        _gridTitle = "Add Tag";
     } 
     private async Task EditTagHandler(GridCommandEventArgs arg)
     {
@@ -253,6 +262,8 @@
             var response = await Http.GetAsync($"api/MasterTags/Category/{tag.ParentMasterTagCategoryUId}");
             _cascadedTags = await response.Content.ReadFromJsonAsync<List<MasterTagWithCategoryAndParentTagResponse>>() ?? new List<MasterTagWithCategoryAndParentTagResponse>();
         }
+        
+        _gridTitle = "Edit Tag";
     }
   
     private async Task CreateTagHandler(GridCommandEventArgs arg)
@@ -306,9 +317,9 @@
 
 }
 <style>
-    .tags-half{
+    .tags-forty{
         display: inline-block;
-        width: 49%;
+        width: 45%;
         float: left;
         padding: 0 10px;
         

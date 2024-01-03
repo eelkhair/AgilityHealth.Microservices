@@ -10,14 +10,10 @@ using Microsoft.Extensions.Logging;
 
 namespace AH.Metadata.Application.Commands.MasterTags;
 
-public class DeleteMasterTagCommand : BaseCommand<MasterTagDto>
+public class DeleteMasterTagCommand(ClaimsPrincipal user, ILogger logger, Guid masterTagUId)
+    : BaseCommand<MasterTagDto>(user, logger)
 {
-    public Guid MasterTagUId { get; }
-
-    public DeleteMasterTagCommand(ClaimsPrincipal user, ILogger logger, Guid masterTagUId) : base(user, logger)
-    {
-        MasterTagUId = masterTagUId;
-    }
+    public Guid MasterTagUId { get; } = masterTagUId;
 }
 
 public class DeleteMasterTagCommandHandler : BaseCommandHandler, IRequestHandler<DeleteMasterTagCommand, MasterTagDto>

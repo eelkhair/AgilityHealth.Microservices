@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using AH.Metadata.Api.MessageSenders.Interfaces;
 using AH.Metadata.Application.Commands.Companies;
 using AH.Metadata.Application.Dtos;
 using AH.Metadata.Application.Queries.Companies;
@@ -15,14 +16,16 @@ namespace AH.Metadata.Api.Controllers;
 /// </summary>
 public class CompaniesController : BaseController
 {
+    private readonly ICompaniesMessageSender MessageSender;
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="mapper"></param>
     /// <param name="logger"></param>
     /// <param name="mediator"></param>
-    public CompaniesController(IMapper mapper, ILogger<CompaniesController> logger, IMediator mediator) : base(mapper, logger, mediator)
+    public CompaniesController(IMapper mapper, ILogger<CompaniesController> logger, IMediator mediator, ICompaniesMessageSender sender) : base(mapper, logger, mediator)
     {
+        MessageSender = sender;
     }
     
     /// <summary>
@@ -91,6 +94,7 @@ public class CompaniesController : BaseController
         var companyModel = Mapper.Map<CompanyWithDomainResponse>(company);
         Logger.LogInformation("Company created {Data}", JsonSerializer.Serialize(companyModel));
         
+        await MessageSender.SendCreateCompanyMessageAsync(User, companyModel);
         return CreatedAtAction(nameof(GetCompany), new {uid = company.UId}, companyModel);
     }
     

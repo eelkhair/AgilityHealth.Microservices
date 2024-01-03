@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AH.Company.Persistence.Migrations
 {
     [DbContext(typeof(CompanyMicroserviceDbContext))]
-    [Migration("20231026144509_Initial-Migration")]
+    [Migration("20240103033453_Initial-Migration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -21,7 +21,7 @@ namespace AH.Company.Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("Company")
-                .HasAnnotation("ProductVersion", "7.0.13")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -129,9 +129,6 @@ namespace AH.Company.Persistence.Migrations
                         .HasColumnType("bit");
 
                     b.Property<int>("MaxSessionLength")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MetadataId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -1099,8 +1096,7 @@ namespace AH.Company.Persistence.Migrations
                     b.HasOne("AH.Company.Domain.Entities.MasterTagCategory", "MasterTagCategory")
                         .WithMany("CompanySkillCategories")
                         .HasForeignKey("MasterTagCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Company");
 
@@ -1136,8 +1132,7 @@ namespace AH.Company.Persistence.Migrations
                     b.HasOne("AH.Company.Domain.Entities.MasterTagCategory", "MasterTagCategory")
                         .WithMany("CompanyStakeholderCategories")
                         .HasForeignKey("MasterTagCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Company");
 
@@ -1173,8 +1168,7 @@ namespace AH.Company.Persistence.Migrations
                     b.HasOne("AH.Company.Domain.Entities.MasterTagCategory", "MasterTagCategory")
                         .WithMany("CompanyTeamCategories")
                         .HasForeignKey("MasterTagCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Company");
 
@@ -1192,8 +1186,7 @@ namespace AH.Company.Persistence.Migrations
                     b.HasOne("AH.Company.Domain.Entities.MasterTagCategory", "MasterTagCategory")
                         .WithMany("CompanyTeamMemberCategories")
                         .HasForeignKey("MasterTagCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Company");
 

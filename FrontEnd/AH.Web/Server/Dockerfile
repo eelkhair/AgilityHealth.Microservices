@@ -11,6 +11,9 @@ COPY ["FrontEnd/AH.Web/Server/AH.Web.Server.csproj", "FrontEnd/AH.Web/Server/"]
 COPY ["FrontEnd/AH.Web/Client/AH.Web.Client.csproj", "FrontEnd/AH.Web/Client/"]
 COPY ["FrontEnd/AH.Web/Shared/AH.Web.Shared.csproj", "FrontEnd/AH.Web/Shared/"]
 RUN dotnet restore "FrontEnd/AH.Web/Server/AH.Web.Server.csproj" --configfile "Nuget.Config"
+RUN dotnet restore "FrontEnd/AH.Web/Client/AH.Web.Client.csproj" --configfile "Nuget.Config"
+RUN dotnet restore "FrontEnd/AH.Web/Shared/AH.Web.Shared.csproj" --configfile "Nuget.Config"
+
 COPY . .
 WORKDIR "/src/FrontEnd/AH.Web/Server"
 RUN dotnet build "AH.Web.Server.csproj" -c $BUILD_CONFIGURATION -o /app/build

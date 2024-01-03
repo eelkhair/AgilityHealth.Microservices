@@ -13,7 +13,7 @@ public static class BaseProxyService
         var token = accessor.HttpContext?.Request.Headers["Authorization"].ToString() ?? string.Empty;
         httpClient.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", token.Replace("Bearer ", string.Empty));
-        httpClient.DefaultRequestHeaders.Add("WebHost", accessor.HttpContext?.Request.Host.Host);
+        httpClient.DefaultRequestHeaders.Add("WebHost", accessor.HttpContext?.Request.Host.ToString());
     }
     public static async Task<List<T>> Get<T>(this HttpClient httpClient, string url, IHttpContextAccessor accessor)
     {

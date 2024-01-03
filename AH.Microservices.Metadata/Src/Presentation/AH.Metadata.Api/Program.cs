@@ -33,6 +33,7 @@ builder.Services.AddActors(_ =>
 
 builder.Services.AddScoped<IMasterTagCategoriesMessageSender, MasterTagCategoriesMessageSender>();
 builder.Services.AddScoped<IMasterTagsMessageSender, MasterTagsMessageSender>();
+builder.Services.AddScoped<ICompaniesMessageSender, CompaniesMessageSender>();
 
 var app = builder.Build();
 app.Initialize();

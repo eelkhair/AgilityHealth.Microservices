@@ -10,22 +10,15 @@ using Microsoft.Extensions.Logging;
 
 namespace AH.Metadata.Application.Commands.MasterTagCategories;
 
-public class CreateMasterTagCategoryCommand : BaseCommand<MasterTagCategoryDto>
+public class CreateMasterTagCategoryCommand(ClaimsPrincipal user, ILogger logger, MasterTagCategoryDto dto)
+    : BaseCommand<MasterTagCategoryDto>(user, logger)
 {
-    public MasterTagCategoryDto MasterTagCategory { get; }
-
-    public CreateMasterTagCategoryCommand(ClaimsPrincipal user, ILogger logger, MasterTagCategoryDto dto) : base(user, logger)
-    {
-        MasterTagCategory = dto;
-    }
+    public MasterTagCategoryDto MasterTagCategory { get; } = dto;
 }
 
-public class CreateMasterTagCategoryCommandHandler : BaseCommandHandler, IRequestHandler<CreateMasterTagCategoryCommand, MasterTagCategoryDto>
+public class CreateMasterTagCategoryCommandHandler(IMetadataDbContext context, IMapper mapper)
+    : BaseCommandHandler(context, mapper), IRequestHandler<CreateMasterTagCategoryCommand, MasterTagCategoryDto>
 {
-    public CreateMasterTagCategoryCommandHandler(IMetadataDbContext context, IMapper mapper) : base(context, mapper)
-    {
-    }
-
     public async Task<MasterTagCategoryDto> Handle(CreateMasterTagCategoryCommand request, CancellationToken cancellationToken)
     {
         var entity = Mapper.Map<MasterTagCategory>(request.MasterTagCategory);

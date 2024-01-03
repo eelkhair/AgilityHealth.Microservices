@@ -9,21 +9,14 @@ using Microsoft.Extensions.Logging;
 
 namespace AH.Metadata.Application.Commands.Companies;
 
-public class DeleteCompanyCommand : BaseCommand<Unit>
+public class DeleteCompanyCommand(ClaimsPrincipal user, ILogger logger, Guid uid) : BaseCommand<Unit>(user, logger)
 {
-    public Guid Uid { get; }
-    public DeleteCompanyCommand(ClaimsPrincipal user, ILogger logger, Guid uid) : base(user, logger)
-    {
-        Uid = uid;
-    }
+    public Guid Uid { get; } = uid;
 }
 
-public class DeleteCompanyCommandHandler : BaseCommandHandler, IRequestHandler<DeleteCompanyCommand, Unit>
+public class DeleteCompanyCommandHandler(IMetadataDbContext context, IMapper mapper)
+    : BaseCommandHandler(context, mapper), IRequestHandler<DeleteCompanyCommand, Unit>
 {
-    public DeleteCompanyCommandHandler(IMetadataDbContext context, IMapper mapper) : base(context, mapper)
-    {
-    }
-
     public async Task<Unit> Handle(DeleteCompanyCommand request, CancellationToken cancellationToken)
     {
         var company = await Context.Companies.FirstAsync(x => x.UId == request.Uid, cancellationToken);

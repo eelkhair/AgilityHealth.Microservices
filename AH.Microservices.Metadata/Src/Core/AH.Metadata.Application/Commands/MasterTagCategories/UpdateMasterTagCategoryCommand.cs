@@ -10,22 +10,18 @@ using Microsoft.Extensions.Logging;
 
 namespace AH.Metadata.Application.Commands.MasterTagCategories;
 
-public class UpdateMasterTagCategoryCommand : BaseCommand<MasterTagCategoryDto>
+public class UpdateMasterTagCategoryCommand(
+    ClaimsPrincipal user,
+    ILogger logger,
+    MasterTagCategoryDto masterTagCategoryDto)
+    : BaseCommand<MasterTagCategoryDto>(user, logger)
 {
-    public MasterTagCategoryDto MasterTagCategory{ get; }
-
-    public UpdateMasterTagCategoryCommand(ClaimsPrincipal user, ILogger logger, MasterTagCategoryDto masterTagCategoryDto) : base(user, logger)
-    {
-        MasterTagCategory = masterTagCategoryDto;
-    }
+    public MasterTagCategoryDto MasterTagCategory{ get; } = masterTagCategoryDto;
 }
 
-public class UpdateMasterTagCategoryCommandHandler : BaseCommandHandler, IRequestHandler<UpdateMasterTagCategoryCommand, MasterTagCategoryDto>
+public class UpdateMasterTagCategoryCommandHandler(IMetadataDbContext context, IMapper mapper)
+    : BaseCommandHandler(context, mapper), IRequestHandler<UpdateMasterTagCategoryCommand, MasterTagCategoryDto>
 {
-    public UpdateMasterTagCategoryCommandHandler(IMetadataDbContext context, IMapper mapper) : base(context, mapper)
-    {
-    }
-
     public async Task<MasterTagCategoryDto> Handle(UpdateMasterTagCategoryCommand request, CancellationToken cancellationToken)
     {
         var entity = await Context.MasterTagCategories.FirstAsync(x=> x.UId == request.MasterTagCategory.UId, cancellationToken);

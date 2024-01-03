@@ -10,22 +10,15 @@ using Microsoft.Extensions.Logging;
 
 namespace AH.Metadata.Application.Commands.Domains;
 
-public class UpdateDomainCommand : BaseCommand<DomainDto>
+public class UpdateDomainCommand(ClaimsPrincipal user, ILogger logger, DomainDto domain)
+    : BaseCommand<DomainDto>(user, logger)
 {
-    public DomainDto Domain { get; }
-
-    public UpdateDomainCommand(ClaimsPrincipal user, ILogger logger, DomainDto domain) : base(user, logger)
-    {
-        Domain = domain;
-    }
+    public DomainDto Domain { get; } = domain;
 }
 
-public class UpdateDomainCommandHandler : BaseCommandHandler, IRequestHandler<UpdateDomainCommand, DomainDto>
+public class UpdateDomainCommandHandler(IMetadataDbContext context, IMapper mapper)
+    : BaseCommandHandler(context, mapper), IRequestHandler<UpdateDomainCommand, DomainDto>
 {
-    public UpdateDomainCommandHandler(IMetadataDbContext context, IMapper mapper) : base(context, mapper)
-    {
-    }
-
     public async Task<DomainDto> Handle(UpdateDomainCommand request, CancellationToken cancellationToken)
     {
         var domain = await Context.Domains.Include(x=>x.Companies).FirstAsync(x=> x.UId == request.Domain.UId, cancellationToken);

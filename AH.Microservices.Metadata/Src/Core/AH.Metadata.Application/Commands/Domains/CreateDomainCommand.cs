@@ -9,22 +9,15 @@ using Microsoft.Extensions.Logging;
 
 namespace AH.Metadata.Application.Commands.Domains;
 
-public class CreateDomainCommand : BaseCommand<DomainDto>
+public class CreateDomainCommand(ClaimsPrincipal user, ILogger logger, DomainDto domain)
+    : BaseCommand<DomainDto>(user, logger)
 {
-    public DomainDto Domain { get; }
-
-    public CreateDomainCommand(ClaimsPrincipal user, ILogger logger, DomainDto domain ) : base(user, logger)
-    {
-        Domain = domain;
-    }
+    public DomainDto Domain { get; } = domain;
 }
 
-public class CreateDomainCommandHandler : BaseCommandHandler, IRequestHandler<CreateDomainCommand, DomainDto>
+public class CreateDomainCommandHandler(IMetadataDbContext context, IMapper mapper)
+    : BaseCommandHandler(context, mapper), IRequestHandler<CreateDomainCommand, DomainDto>
 {
-        public CreateDomainCommandHandler(IMetadataDbContext context, IMapper mapper) : base(context, mapper)
-    {
-    }
-
     public  async Task<DomainDto> Handle(CreateDomainCommand request, CancellationToken cancellationToken)
     {
         var domain = Mapper.Map<Domain.Entities.Domain>(request.Domain);

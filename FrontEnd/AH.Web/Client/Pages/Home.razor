@@ -1,0 +1,18 @@
+@page "/"
+@inject NavigationManager NavigationManager
+
+<AuthorizeView>
+    <Authorized>
+        @{
+            NavigationManager.NavigateTo("/companies");
+        }
+    </Authorized>
+    <NotAuthorized>
+        @{
+            NavigationManager.NavigateTo("/authentication/login");
+        }
+    </NotAuthorized>
+</AuthorizeView>
+@code {
+
+}

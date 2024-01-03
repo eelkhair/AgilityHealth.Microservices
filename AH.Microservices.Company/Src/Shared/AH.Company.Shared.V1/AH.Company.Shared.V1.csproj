@@ -1,15 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RootNamespace>AH.Company.Shared.V1</RootNamespace>
         <PackageId>AH.Company.Shared.V1</PackageId>
         <Authors>Elkhair Elkhair</Authors>
-        <Version>1.0.0</Version>
+        <Version>1.0.2</Version>
         <Description>Shared components for the company microservice</Description>
         <IsPackable>true</IsPackable>
     </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Models\Companies\Requests\" />
+    </ItemGroup>
 
 </Project>

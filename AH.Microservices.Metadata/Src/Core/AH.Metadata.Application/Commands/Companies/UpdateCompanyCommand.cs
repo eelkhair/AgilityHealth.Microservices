@@ -10,22 +10,15 @@ using Microsoft.Extensions.Logging;
 
 namespace AH.Metadata.Application.Commands.Companies;
 
-public class UpdateCompanyCommand : BaseCommand<CompanyDto>
+public class UpdateCompanyCommand(ClaimsPrincipal user, ILogger logger, CompanyDto company)
+    : BaseCommand<CompanyDto>(user, logger)
 {
-    public UpdateCompanyCommand(ClaimsPrincipal user, ILogger logger, CompanyDto company) : base(user, logger)
-    {
-        Company = company;
-    }
-
-    public CompanyDto Company { get; }
+    public CompanyDto Company { get; } = company;
 }
 
-public class UpdateCompanyCommandHandler : BaseCommandHandler, IRequestHandler<UpdateCompanyCommand, CompanyDto>
+public class UpdateCompanyCommandHandler(IMetadataDbContext context, IMapper mapper)
+    : BaseCommandHandler(context, mapper), IRequestHandler<UpdateCompanyCommand, CompanyDto>
 {
-    public UpdateCompanyCommandHandler(IMetadataDbContext context, IMapper mapper) : base(context, mapper)
-    {
-    }
-
     public async Task<CompanyDto> Handle(UpdateCompanyCommand request, CancellationToken cancellationToken)
     {
         var company = await Context.Companies.FirstAsync(x=> x.UId == request.Company.UId, cancellationToken);

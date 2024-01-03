@@ -56,7 +56,7 @@ public partial class CompanyMicroserviceDbContext : DbContext, ICompanyMicroServ
     {
         if (optionsBuilder.IsConfigured) return;
         var connection = !string.IsNullOrEmpty(_contextAccessor.HttpContext?.Request.Headers["WebHost"].ToString())
-            ? _contextAccessor.HttpContext.Request.Headers["WebHost"].ToString()
+            ? _contextAccessor.HttpContext.Request.Headers["WebHost"].ToString().Replace(":","")
             : !string.IsNullOrEmpty(_contextAccessor.HttpContext?.Request.Headers["Host"].ToString())
                 ? _contextAccessor.HttpContext.Request.Headers["Host"].ToString().Replace("ahcompany-", "").Replace(":","")
                 : _configuration.GetConnectionString("DefaultConnection");

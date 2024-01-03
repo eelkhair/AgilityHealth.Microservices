@@ -9,26 +9,22 @@ using Microsoft.Extensions.Logging;
 
 namespace AH.Company.Application.Commands.MasterTagCategories;
 
-public class CreateMasterTagCategoryCommand : BaseCommand<Unit>
+public class CreateMasterTagCategoryCommand(
+    ClaimsPrincipal user,
+    ILogger logger,
+    MasterTagCategoryDto masterTagCategory,
+    string domain)
+    : BaseCommand<Unit>(user, logger)
 {
-    public MasterTagCategoryDto MasterTagCategory { get; }
-    public string Domain { get; }
-
-    public CreateMasterTagCategoryCommand(ClaimsPrincipal user, ILogger logger, MasterTagCategoryDto masterTagCategory, string domain) : base(user, logger)
-    {
-        MasterTagCategory = masterTagCategory;
-        Domain = domain;
-    }
+    public MasterTagCategoryDto MasterTagCategory { get; } = masterTagCategory;
+    public string Domain { get; } = domain;
 }
 
-public class CreateMasterTagCategoryCommandHandler : BaseCommandHandler,
-    IRequestHandler<CreateMasterTagCategoryCommand, Unit>
+public class CreateMasterTagCategoryCommandHandler(ICompanyMicroServiceDbContext context, IMapper mapper)
+    : BaseCommandHandler(context,
+            mapper),
+        IRequestHandler<CreateMasterTagCategoryCommand, Unit>
 {
-    public CreateMasterTagCategoryCommandHandler(ICompanyMicroServiceDbContext context, IMapper mapper) : base(context,
-        mapper)
-    {
-    }
-
     public async Task<Unit> Handle(CreateMasterTagCategoryCommand request, CancellationToken cancellationToken)
     {
         SetConnectionString(request.Domain, request.Logger);

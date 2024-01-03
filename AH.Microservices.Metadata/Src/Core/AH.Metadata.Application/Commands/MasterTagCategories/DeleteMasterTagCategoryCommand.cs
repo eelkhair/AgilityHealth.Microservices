@@ -10,22 +10,15 @@ using Microsoft.Extensions.Logging;
 
 namespace AH.Metadata.Application.Commands.MasterTagCategories;
 
-public class DeleteMasterTagCategoryCommand : BaseCommand<MasterTagCategoryDto>
+public class DeleteMasterTagCategoryCommand(ClaimsPrincipal user, ILogger logger, Guid uId)
+    : BaseCommand<MasterTagCategoryDto>(user, logger)
 {
-    public Guid UId { get; }
-
-    public DeleteMasterTagCategoryCommand(ClaimsPrincipal user, ILogger logger, Guid uId) : base(user, logger)
-    {
-        UId = uId;
-    }
+    public Guid UId { get; } = uId;
 }
 
-public class DeleteMasterTagCategoryCommandHandler : BaseCommandHandler, IRequestHandler<DeleteMasterTagCategoryCommand, MasterTagCategoryDto>
+public class DeleteMasterTagCategoryCommandHandler(IMetadataDbContext context, IMapper mapper)
+    : BaseCommandHandler(context, mapper), IRequestHandler<DeleteMasterTagCategoryCommand, MasterTagCategoryDto>
 {
-    public DeleteMasterTagCategoryCommandHandler(IMetadataDbContext context, IMapper mapper) : base(context, mapper)
-    {
-    }
-
     public async Task<MasterTagCategoryDto> Handle(DeleteMasterTagCategoryCommand request, CancellationToken cancellationToken)
     {
         var entity = await Context.MasterTagCategories.FirstAsync(x => x.UId == request.UId, cancellationToken);

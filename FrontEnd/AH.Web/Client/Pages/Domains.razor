@@ -3,7 +3,7 @@
 @using AH.Metadata.Shared.V1.Models.Responses.Domains
 @using System.Text.Json
 @using System.Text
-@using AH.Web.Client.Components.Tags
+
 @inject HttpClient Http;
 @attribute [Authorize]
 <h1>Domains</h1>
@@ -13,6 +13,8 @@
              FilterMode="@GridFilterMode.FilterMenu"
              EnableLoaderContainer="true"
              Sortable="true"
+             OnAdd="@AddHandler"
+             OnEdit="@EditHandler"
              OnCreate="@CreateHandler"
              OnUpdate="@UpdateHandler"
              OnDelete="@DeleteHandler"
@@ -33,9 +35,12 @@
             <GridCommandButton Command="Delete" Icon="@SvgIcon.Trash">Delete</GridCommandButton>
         </GridCommandColumn>
     </GridColumns>
+    <GridSettings>
+            <GridPopupEditSettings Title="@_popupTitle"></GridPopupEditSettings>
+        </GridSettings>
 </TelerikGrid>
 @code{
-    
+    private string _popupTitle = "Add Domain";
     private List<DomainWithCompaniesResponse> _domains = new();
     [Inject] IJSRuntime Javascript { get; set; } = null!;
     protected override async Task OnInitializedAsync()
@@ -76,6 +81,7 @@
 
     private async Task DeleteHandler(GridCommandEventArgs arg)
     {
+        _popupTitle = "Delete Domain";
         var domain = (DomainWithCompaniesResponse) arg.Item;
         var response = await Http.DeleteAsync($"api/domains/{domain.UId}");
         
@@ -83,6 +89,16 @@
         {
             _domains.Remove(domain);
         }
+    }
+
+    private void AddHandler()
+    {
+         _popupTitle = "Add Domain";
+    } 
+    
+    private void EditHandler()
+    {
+        _popupTitle = "Edit Domain";
     }
 
 }

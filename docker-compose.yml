@@ -18,6 +18,7 @@ services:
     build:
       context: .
       dockerfile: AH.Microservices.User/Src/Presentation/AH.User.Api/Dockerfile  
+      
   ah-metadata-api:
     image: ${DOCKER_REGISTRY-}ahmetadataapi
     build:

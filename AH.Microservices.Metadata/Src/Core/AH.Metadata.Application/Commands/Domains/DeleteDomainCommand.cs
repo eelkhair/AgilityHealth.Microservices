@@ -9,21 +9,14 @@ using Microsoft.Extensions.Logging;
 
 namespace AH.Metadata.Application.Commands.Domains;
 
-public class DeleteDomainCommand : BaseCommand<Unit>
+public class DeleteDomainCommand(ClaimsPrincipal user, ILogger logger, Guid uid) : BaseCommand<Unit>(user, logger)
 {
-    public Guid Uid { get; }
-    public DeleteDomainCommand(ClaimsPrincipal user, ILogger logger, Guid uid) : base(user, logger)
-    {
-        Uid = uid;
-    }
+    public Guid Uid { get; } = uid;
 }
 
-public class DeleteDomainCommandHandler : BaseCommandHandler, IRequestHandler<DeleteDomainCommand, Unit>
+public class DeleteDomainCommandHandler(IMetadataDbContext context, IMapper mapper)
+    : BaseCommandHandler(context, mapper), IRequestHandler<DeleteDomainCommand, Unit>
 {
-    public DeleteDomainCommandHandler(IMetadataDbContext context, IMapper mapper) : base(context, mapper)
-    {
-    }
-
     public async Task<Unit> Handle(DeleteDomainCommand request, CancellationToken cancellationToken)
     {
         var domain = await Context.Domains.FirstAsync(x => x.UId == request.Uid, cancellationToken);

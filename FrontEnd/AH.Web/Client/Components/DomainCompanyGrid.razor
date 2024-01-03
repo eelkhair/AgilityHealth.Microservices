@@ -12,6 +12,7 @@
              ConfirmDelete="true"
              Pageable="true"
              OnAdd="@AddHandler"
+             OnEdit="@EditHandler"
              OnCreate="@CreateHandler"
              OnDelete="@DeleteHandler"
              OnUpdate="@UpdateHandler"
@@ -73,6 +74,11 @@
             UId = DomainUId,
             Name = DomainName
         };
+    }
+
+    private void EditHandler(GridCommandEventArgs arg)
+    {
+        _gridTitle = "Edit Company";
     }
 
     private async Task CreateHandler(GridCommandEventArgs arg)

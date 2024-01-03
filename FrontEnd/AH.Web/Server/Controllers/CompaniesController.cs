@@ -15,7 +15,14 @@ public class CompaniesController : ControllerBase
     {
         _companyService = companyService;
     }
-
+    
+    [HttpGet]
+    public async Task<ActionResult> Get()
+    {
+        var response = await _companyService.GetCompanies();
+        return Ok(response);
+    }
+    
     [HttpPut]
     public async Task<ActionResult> Put(CompanyWithDomainResponse  company)
     {

@@ -22,12 +22,9 @@ public class GetListsCommand : BaseCommand<ListDto>{
     public List<string> ListTypes { get; }
 }
 
-public class GetListsCommandHandler : BaseCommandHandler, IRequestHandler<GetListsCommand, ListDto>
+public class GetListsCommandHandler(IMetadataDbContext context, IMapper mapper)
+    : BaseCommandHandler(context, mapper), IRequestHandler<GetListsCommand, ListDto>
 {
-    public GetListsCommandHandler(IMetadataDbContext context, IMapper mapper) : base(context, mapper)
-    {
-    }
-
     public async Task<ListDto> Handle(GetListsCommand request, CancellationToken cancellationToken)
     {
         var result = new Dictionary<string, object>();

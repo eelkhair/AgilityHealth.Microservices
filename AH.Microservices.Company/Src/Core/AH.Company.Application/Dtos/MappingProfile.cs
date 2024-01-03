@@ -22,5 +22,7 @@ public class MappingProfile:Profile
             .ForMember(x => x.CompanyStakeholderTags, opt => opt.Ignore())
             .ForMember(x => x.CompanyTeamMemberTags, opt => opt.Ignore())
             .ReverseMap();
+
+        CreateMap<CompanyDto, Domain.Entities.Company>().ReverseMap();
     }
 }

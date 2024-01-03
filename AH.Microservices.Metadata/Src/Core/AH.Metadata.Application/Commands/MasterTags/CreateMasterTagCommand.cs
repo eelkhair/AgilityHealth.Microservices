@@ -11,22 +11,15 @@ using Microsoft.Extensions.Logging;
 
 namespace AH.Metadata.Application.Commands.MasterTags;
 
-public class CreateMasterTagCommand : BaseCommand<MasterTagDto>
+public class CreateMasterTagCommand(ClaimsPrincipal user, ILogger logger, MasterTagDto masterTag)
+    : BaseCommand<MasterTagDto>(user, logger)
 {
-    public MasterTagDto MasterTag { get; }
-
-    public CreateMasterTagCommand(ClaimsPrincipal user, ILogger logger, MasterTagDto masterTag) : base(user, logger)
-    {
-        MasterTag = masterTag;
-    }
+    public MasterTagDto MasterTag { get; } = masterTag;
 }
 
-public class CreateMasterTagCommandHandler : BaseCommandHandler, IRequestHandler<CreateMasterTagCommand, MasterTagDto>
+public class CreateMasterTagCommandHandler(IMetadataDbContext context, IMapper mapper)
+    : BaseCommandHandler(context, mapper), IRequestHandler<CreateMasterTagCommand, MasterTagDto>
 {
-    public CreateMasterTagCommandHandler(IMetadataDbContext context, IMapper mapper) : base(context, mapper)
-    {
-    }
-
     public async Task<MasterTagDto> Handle(CreateMasterTagCommand request, CancellationToken cancellationToken)
     {
         // Get Needed data from the database
