@@ -18,10 +18,12 @@
     <ProjectReference Include="..\..\Shared\AH.User.Shared.V1\AH.User.Shared.V1.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Components\" />
     <Folder Include="MessageSenders\Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AH.Shared.Api" Version="1.0.11" />
+    <PackageReference Include="Dapr.Extensions.Configuration" Version="1.12.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="[1.19.6-Preview.1, 1.19.6]" />
   </ItemGroup>

@@ -67,6 +67,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", 
 		Components\pubsub.redis.yaml = Components\pubsub.redis.yaml
 		Components\rabbitmq.yaml = Components\rabbitmq.yaml
 		Components\statestore.yaml = Components\statestore.yaml
+		Components\binding-auth0token.yaml = Components\binding-auth0token.yaml
+		Components\secret.yaml = Components\secret.yaml
+		Components\jaeger.yaml = Components\jaeger.yaml
+		Components\secrets.json = Components\secrets.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AH.Shared.Application", "Shared\AH.Shared.Application\AH.Shared.Application.csproj", "{C3D7FF4C-07CB-4BA0-8E92-758CC3762DFA}"
@@ -177,6 +181,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AH.Web.Shared", "FrontEnd\AH.Web\Shared\AH.Web.Shared.csproj", "{C578B12C-AC26-4ED9-BAB3-44EEAA55E1FD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AH.Web.Client", "FrontEnd\AH.Web\Client\AH.Web.Client.csproj", "{6F4AD0A8-118E-4BFD-A567-4EAB1628E033}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AH.Integration.Auth0.ServiceAgent", "Integrations\Src\AH.Integration.Auth0.ServiceAgent\AH.Integration.Auth0.ServiceAgent.csproj", "{D88D14A8-EAE4-45BC-8F76-9EE091009B9E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -324,6 +330,10 @@ Global
 		{6F4AD0A8-118E-4BFD-A567-4EAB1628E033}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F4AD0A8-118E-4BFD-A567-4EAB1628E033}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F4AD0A8-118E-4BFD-A567-4EAB1628E033}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D88D14A8-EAE4-45BC-8F76-9EE091009B9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D88D14A8-EAE4-45BC-8F76-9EE091009B9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D88D14A8-EAE4-45BC-8F76-9EE091009B9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D88D14A8-EAE4-45BC-8F76-9EE091009B9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -392,6 +402,7 @@ Global
 		{42B801CA-5814-4BD0-AFE8-9DAF81BE81B3} = {55277A4E-2B89-45DA-AD57-84A6CF12C5EF}
 		{C578B12C-AC26-4ED9-BAB3-44EEAA55E1FD} = {55277A4E-2B89-45DA-AD57-84A6CF12C5EF}
 		{6F4AD0A8-118E-4BFD-A567-4EAB1628E033} = {55277A4E-2B89-45DA-AD57-84A6CF12C5EF}
+		{D88D14A8-EAE4-45BC-8F76-9EE091009B9E} = {41F7D394-B9CD-4FFD-9DA3-483366B87324}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ADA7513C-1144-4397-870D-DF008958C056}

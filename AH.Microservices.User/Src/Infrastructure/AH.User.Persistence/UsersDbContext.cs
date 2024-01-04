@@ -5,6 +5,7 @@ using AH.Shared.Domain.Entities;
 using AH.User.Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 
@@ -18,7 +19,7 @@ public partial class UsersDbContext : DbContext, IUsersDbContext
 {
     private readonly IConfiguration _configuration = null!;
     private readonly IHttpContextAccessor _contextAccessor = null!;
-
+  
 
     public UsersDbContext(IConfiguration configuration, IHttpContextAccessor contextAccessor)
     {
