@@ -1,6 +1,4 @@
-﻿using AH.Shared.Domain.Entities;
-
-namespace AH.Company.Domain.Entities;
+﻿namespace AH.Company.Domain.Entities;
 
 public class Company : BaseAuditableEntity
 {

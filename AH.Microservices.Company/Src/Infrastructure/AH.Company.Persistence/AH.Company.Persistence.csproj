@@ -8,8 +8,9 @@
     <ProjectReference Include="..\..\Core\AH.Company.Application\AH.Company.Application.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AH.Shared.Persistence" Version="1.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Migrations\" />

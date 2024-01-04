@@ -1,7 +1,6 @@
 using System.Security.Claims;
 using AH.Company.Application.Dtos;
 using AH.Company.Application.Interfaces;
-using AH.Shared.Application.Commands;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;

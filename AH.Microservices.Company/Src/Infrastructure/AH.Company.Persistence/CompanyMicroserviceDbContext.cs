@@ -1,9 +1,8 @@
 using System.Security.Claims;
+using AH.Company.Application.Extensions;
 using AH.Company.Application.Interfaces;
+using AH.Company.Domain.Constants;
 using AH.Company.Domain.Entities;
-using AH.Shared.Application.Extensions;
-using AH.Shared.Domain.Constants;
-using AH.Shared.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;

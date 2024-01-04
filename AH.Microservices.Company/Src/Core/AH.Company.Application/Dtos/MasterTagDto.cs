@@ -1,6 +1,4 @@
-﻿using AH.Shared.Application.Dtos;
-
-namespace AH.Company.Application.Dtos;
+﻿namespace AH.Company.Application.Dtos;
 
 public class MasterTagDto : BaseDto
 {

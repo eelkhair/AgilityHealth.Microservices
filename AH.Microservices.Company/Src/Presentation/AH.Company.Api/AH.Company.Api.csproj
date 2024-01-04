@@ -15,6 +15,7 @@
     <DocumentationFile>bin\Release\AH.Company.Api.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\HealthChecks\HealthChecks\HealthChecks.csproj" />
     <ProjectReference Include="..\..\Infrastructure\AH.Company.Infrastructure\AH.Company.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\AH.Company.Persistence\AH.Company.Persistence.csproj" />
     <ProjectReference Include="..\..\Shared\AH.Company.Shared.V1\AH.Company.Shared.V1.csproj" />
@@ -27,10 +28,30 @@
     <Compile Remove="MessageListeners\MasterTagCategories\UpdateMasterTagCategoryMessageListener.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AH.Metadata.Shared.V1" Version="1.0.9" />
-    <PackageReference Include="AH.Shared.Api" Version="1.0.11" />
+    <PackageReference Include="AH.Metadata.Shared.V1" Version="1.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="[1.19.6-Preview.1, 1.19.6]" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.0" />
+    <PackageReference Include="Dapr.AspNetCore" Version="1.12.0" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.7.0" />
+    <PackageReference Include="OpenTelemetry.Exporter.Zipkin" Version="1.7.0" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.7.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.7.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.SqlClient" Version="1.6.0-beta.3" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.6.0-beta.3" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.0.0-beta.8" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
+    <PackageReference Include="Serilog.Enrichers.OpenTelemetry" Version="1.0.1" />
+    <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
+    <PackageReference Include="Serilog.Exceptions.EntityFrameworkCore" Version="8.4.0" />
+    <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
+    <PackageReference Include="Serilog.Sinks.Seq" Version="6.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.12" />
+    <PackageReference Include="Dapr.Actors.AspNetCore" Version="1.12.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\..\..\.dockerignore">

@@ -1,31 +1,19 @@
 using System.Diagnostics;
-using System.Reflection;
 using AH.Company.Api;
+using AH.Company.Api.ProgramExtensions;
 using AH.Company.Application;
 using AH.Company.Application.Dtos;
-using AH.Company.Domain.Constants;
 using AH.Company.Persistence;
-using AH.Shared.Api;
-using AH.Shared.Api.Dtos;
 using AutoMapper;
+
+const string appName = "AgilityHealth Company Api";
+const string appTag = "ah-company-api";
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor();
 
-var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
-
-
-
-var swaggerConfig = new SwaggerDocSetup("AgilityHealth Company Api", "ah-company-api", PermissionDefinitions.GetPermissions(), xmlPath);
-var auth0Config = new Auth0Configuration(
-    builder.Configuration[$"Auth0:Domain"],
-    builder.Configuration["Auth0:Audience"],
-    builder.Configuration["Auth0:ClientId"],
-    builder.Configuration["Auth0:ClientSecret"]
-);
-
-builder.Services.Build(swaggerConfig,auth0Config, Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? string.Empty, builder.Configuration,builder.Host);
+builder.ConfigureServices(appName, appTag);
+builder.Services.AddSingleton(builder.Configuration);
 
 var mapper = new MapperConfiguration(c =>
 {
@@ -34,7 +22,6 @@ var mapper = new MapperConfiguration(c =>
 }).CreateMapper();
 
 builder.Services.AddSingleton(mapper);
-builder.Services.AddSingleton(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddPersistence(builder.Configuration);
 
@@ -42,11 +29,9 @@ builder.Services.AddActors(_ =>
 {
   // Example :  options.Actors.RegisterActor<MetadataActor>();
 });
-
-builder.SetupTracing("ah-company-api");
 var app = builder.Build();
 
-app.Initialize(auth0Config);
+app.Initialize();
 
 
 #if DEBUG

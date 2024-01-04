@@ -1,9 +1,8 @@
 ﻿using System.Text.Json;
 using AH.Company.Application.Commands.MasterTags;
 using AH.Company.Application.Dtos;
+using AH.Company.Domain.Constants;
 using AH.Metadata.Shared.V1.Events;
-using AH.Shared.Application.Dtos;
-using AH.Shared.Domain.Constants;
 using AutoMapper;
 using Dapr;
 using MediatR;

@@ -1,30 +1,20 @@
 ﻿using System.Security.Claims;
 using AH.Company.Application.Dtos;
 using AH.Company.Application.Interfaces;
-using AH.Shared.Application.Queries;
 using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace AH.Company.Application.Queries.MasterTagCategories;
 
-public class ListMasterTagCategoriesQuery: BaseQuery<List<MasterTagCategoryDto>>
-{
-    public ListMasterTagCategoriesQuery(ClaimsPrincipal user, ILogger logger) : base(user, logger)
-    {
-    }
-}
+public class ListMasterTagCategoriesQuery(ClaimsPrincipal user, ILogger logger)
+    : BaseQuery<List<MasterTagCategoryDto>>(user, logger);
 
-public class ListMasterTagCategoriesQueryHandler : BaseQueryHandler,
-    IRequestHandler<ListMasterTagCategoriesQuery, List<MasterTagCategoryDto>>
+public class ListMasterTagCategoriesQueryHandler(ICompanyMicroServiceDbContext context, IMapper mapper)
+    : BaseQueryHandler(context, mapper),
+        IRequestHandler<ListMasterTagCategoriesQuery, List<MasterTagCategoryDto>>
 {
-    public ListMasterTagCategoriesQueryHandler(ICompanyMicroServiceDbContext context, IMapper mapper) : base(context, mapper)
-    {
-        
-    }
-
     public async Task<List<MasterTagCategoryDto>> Handle(ListMasterTagCategoriesQuery request,
         CancellationToken cancellationToken)
     {

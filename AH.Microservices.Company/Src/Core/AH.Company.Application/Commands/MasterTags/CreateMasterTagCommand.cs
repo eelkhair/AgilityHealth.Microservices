@@ -2,7 +2,6 @@
 using AH.Company.Application.Dtos;
 using AH.Company.Application.Interfaces;
 using AH.Company.Domain.Entities;
-using AH.Shared.Application.Commands;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

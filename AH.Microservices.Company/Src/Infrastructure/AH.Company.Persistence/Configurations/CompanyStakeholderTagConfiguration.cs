@@ -1,5 +1,4 @@
 ﻿using AH.Company.Domain.Entities;
-using AH.Shared.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
