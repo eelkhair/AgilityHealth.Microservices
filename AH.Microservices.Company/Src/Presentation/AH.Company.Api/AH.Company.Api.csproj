@@ -21,6 +21,7 @@
     <ProjectReference Include="..\..\Shared\AH.Company.Shared.V1\AH.Company.Shared.V1.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Components\" />
     <Folder Include="MessageSenders\Interfaces\" />
   </ItemGroup>
   <ItemGroup>

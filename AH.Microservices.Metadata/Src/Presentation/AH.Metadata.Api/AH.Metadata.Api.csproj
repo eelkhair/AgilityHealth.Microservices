@@ -54,4 +54,7 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
   
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Components\" />
+  </ItemGroup>
 </Project>

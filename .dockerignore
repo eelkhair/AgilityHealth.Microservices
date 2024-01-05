@@ -1,2 +1,5 @@
 FrontEnd/AH.Web/Server/registration/
+FrontEnd/AH.Web/Server/Components
 AH.Microservices.User/Src/Presentation/AH.User.Api/Components/
+AH.Microservices.Metadata/Src/Presentation/AH.Metadata.Api/Components/
+AH.Microservices.Company/Src/Presentation/AH.Company.Api/Components/

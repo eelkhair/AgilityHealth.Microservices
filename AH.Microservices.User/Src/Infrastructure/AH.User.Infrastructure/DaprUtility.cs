@@ -37,4 +37,9 @@ public class DaprUtility(ILogger<DaprUtility> logger, DaprClient daprClient) : I
             return new Dictionary<string, Dictionary<string, string>>();
         }
     }
+
+    public async Task SaveStateAsync(string store, string key, object value, CancellationToken cancellationToken)
+    {
+        await daprClient.SaveStateAsync(store, key, value, cancellationToken: cancellationToken);
+    }
 }

@@ -12,12 +12,12 @@ namespace AH.User.Api.TimerTriggers;
 /// </summary>
 
 [ApiController]
-public class Auth0TokenController : BaseController
+public class TimerTriggerController : BaseController
 {
-    private readonly ILogger<Auth0TokenController> _logger;
+    private readonly ILogger<TimerTriggerController> _logger;
     private readonly DaprClient _daprClient;
 
-    public Auth0TokenController(IMapper mapper, IMediator mediator, ILogger<Auth0TokenController> logger, DaprClient daprClient) : base(mapper,logger, mediator)
+    public TimerTriggerController(IMapper mapper, IMediator mediator, ILogger<TimerTriggerController> logger, DaprClient daprClient) : base(mapper,logger, mediator)
     {
         _logger = logger;
         _daprClient = daprClient;

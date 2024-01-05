@@ -36,16 +36,16 @@ var mapper = new MapperConfiguration(c =>
 }).CreateMapper();
 
 builder.Services.AddSingleton(mapper);
-builder.Services.AddSingleton(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddPersistence(builder.Configuration);
+builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddActors(_ =>
 {
     // Example :  options.Actors.RegisterActor<MetadataActor>();
 });
 builder.SetupTracing("ah-user");
-builder.Services.AddDaprUtility();
+
 var app = builder.Build();
 
 app.Initialize(auth0Config);
