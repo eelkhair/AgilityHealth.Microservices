@@ -9,23 +9,21 @@ public class CompanyService : ICompanyService
 {
     private readonly HttpClient _metadataHttpClient;
     private readonly HttpClient _companyHttpClient;
-    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public CompanyService(HttpClient metadataHttpClient, HttpClient companyHttpClient, IHttpContextAccessor httpContextAccessor)
+    public CompanyService(HttpClient metadataHttpClient, HttpClient companyHttpClient)
     {
         _metadataHttpClient = metadataHttpClient;
         _companyHttpClient = companyHttpClient;
-        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<CompanyWithDomainResponse> UpdateCompany(CompanyWithDomainResponse company)
-        => await _metadataHttpClient.Upsert<CompanyWithDomainResponse>($"v1/companies/{company.UId}", company, true, _httpContextAccessor);
+        => await _metadataHttpClient.Upsert<CompanyWithDomainResponse>($"v1/companies/{company.UId}", company, true);
 
     public async Task<CompanyWithDomainResponse> CreateCompany(CompanyWithDomainResponse company) =>
-         await _metadataHttpClient.Upsert<CompanyWithDomainResponse>($"v1/companies", BuildCreateRequest(company), false, _httpContextAccessor);
+         await _metadataHttpClient.Upsert<CompanyWithDomainResponse>($"v1/companies", BuildCreateRequest(company), false);
 
-    public async Task DeleteCompany(Guid uid) => await _metadataHttpClient.Delete($"v1/companies/{uid}", _httpContextAccessor);
-    public async Task<List<CompanyResponse>> GetCompanies() => await _companyHttpClient.Get<CompanyResponse>("api/companies", _httpContextAccessor);
+    public async Task DeleteCompany(Guid uid) => await _metadataHttpClient.Delete($"v1/companies/{uid}");
+    public async Task<List<CompanyResponse>> GetCompanies() => await _companyHttpClient.Get<CompanyResponse>("api/companies");
     
     private static CreateCompanyRequest BuildCreateRequest(CompanyWithDomainResponse company)
     {

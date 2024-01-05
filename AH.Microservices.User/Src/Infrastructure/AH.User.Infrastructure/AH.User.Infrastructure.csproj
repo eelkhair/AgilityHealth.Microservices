@@ -9,7 +9,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AH.Integration.Auth0.ServiceAgent.SDK" Version="1.0.0" />
-    <PackageReference Include="AH.Shared.Infrastructure" Version="1.0.2" />
     <PackageReference Include="Dapr.AspNetCore" Version="1.12.0" />
   </ItemGroup>
 </Project>

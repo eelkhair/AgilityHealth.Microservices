@@ -37,7 +37,9 @@ services:
       - HealthChecksUI__HealthChecks__0__Name=AH Metadata API
       - HealthChecksUI__HealthChecks__0__Uri=http://ah-metadata-api:8080/healthzEndpoint     
       - HealthChecksUI__HealthChecks__1__Name=AH Company API
-      - HealthChecksUI__HealthChecks__1__Uri=http://ah-company-api:8080/healthzEndpoint
+      - HealthChecksUI__HealthChecks__1__Uri=http://ah-company-api:8080/healthzEndpoint 
+      - HealthChecksUI__HealthChecks__2__Name=AH User API
+      - HealthChecksUI__HealthChecks__2__Uri=http://ah-user-api:8080/healthzEndpoint
     
     ports:
       - "5107:8080"

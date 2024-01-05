@@ -10,27 +10,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpContextAccessor();
-
-builder.Services.AddTransient<IMasterTagCategoryService, MasterTagCategoryService>(
-    p=> new MasterTagCategoryService(
-        DaprClient.CreateInvokeHttpClient("ah-metadata-api"), 
-         p.GetRequiredService<IHttpContextAccessor>()));
-
-builder.Services.AddTransient<IMasterTagService, MasterTagService>(
-    p=> new MasterTagService(
-        DaprClient.CreateInvokeHttpClient("ah-metadata-api"), 
-        p.GetRequiredService<IHttpContextAccessor>()));
-
-builder.Services.AddTransient<IDomainService, DomainService>(
-    p=> new DomainService(
-        DaprClient.CreateInvokeHttpClient("ah-metadata-api"), 
-        p.GetRequiredService<IHttpContextAccessor>()));
-
-builder.Services.AddTransient<ICompanyService, CompanyService>(
-    p=> new CompanyService(
-        DaprClient.CreateInvokeHttpClient("ah-metadata-api"), 
-        DaprClient.CreateInvokeHttpClient("ah-company-api"),
-        p.GetRequiredService<IHttpContextAccessor>()));
+builder.Services.AddTransient<IMasterTagCategoryService, MasterTagCategoryService>(p=>  new MasterTagCategoryService(GetHttpClient(p, "ah-metadata-api")));
+builder.Services.AddTransient<IMasterTagService, MasterTagService>(p=>  new MasterTagService(GetHttpClient(p, "ah-metadata-api")));
+builder.Services.AddTransient<IDomainService, DomainService>(p=>  new DomainService(GetHttpClient(p, "ah-metadata-api")));
+builder.Services.AddTransient<ICompanyService, CompanyService>(p=> new CompanyService(
+        GetHttpClient(p, "ah-metadata-api"),
+    GetHttpClient(p, "ah-company-api")));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, c =>
@@ -102,3 +87,15 @@ app.Use(async (context, next) =>
 });
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.Run();
+
+HttpClient GetHttpClient(IServiceProvider services, string appId)
+{
+    var accessor = services.GetRequiredService<IHttpContextAccessor>();
+    var httpClient = DaprClient.CreateInvokeHttpClient(appId);
+    var token = accessor.HttpContext?.Request.Headers["Authorization"].ToString() ?? string.Empty;
+    httpClient.DefaultRequestHeaders.Authorization =
+        new AuthenticationHeaderValue("Bearer", token.Replace("Bearer ", string.Empty));
+    httpClient.DefaultRequestHeaders.Add("WebHost", accessor.HttpContext?.Request.Host.ToString());
+    
+    return httpClient;
+}

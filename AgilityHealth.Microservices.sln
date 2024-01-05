@@ -67,7 +67,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", 
 		Components\pubsub.redis.yaml = Components\pubsub.redis.yaml
 		Components\rabbitmq.yaml = Components\rabbitmq.yaml
 		Components\statestore.yaml = Components\statestore.yaml
-		Components\binding-auth0token.yaml = Components\binding-auth0token.yaml
 		Components\secret.yaml = Components\secret.yaml
 		Components\jaeger.yaml = Components\jaeger.yaml
 		Components\secrets.json = Components\secrets.json

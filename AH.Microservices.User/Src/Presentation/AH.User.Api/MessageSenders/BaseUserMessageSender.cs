@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using AH.Shared.Application.Interfaces;
+using AH.User.Application.Interfaces;
 using AutoMapper;
 using MediatR;
 
@@ -15,7 +15,7 @@ public abstract class BaseUserMessageSender
     /// <summary>
     /// The message sender used to send messages to the pub/sub system
     /// </summary>
-    protected IMessageSender MessageSender { get; }
+    protected IDaprUtility DaprUtility { get; }
     
     /// <summary>
     /// The mediator used to send queries and commands
@@ -39,9 +39,9 @@ public abstract class BaseUserMessageSender
     /// <param name="logger">The logger used to log information</param>
     /// <param name="mediator">The mediator used to send queries and commands</param>
     /// <param name="mapper">The mapper used to map objects</param>
-    protected BaseUserMessageSender(IMessageSender sender, ILogger logger, IMediator mediator, IMapper mapper)
+    protected BaseUserMessageSender(IDaprUtility daprUtility, ILogger logger, IMediator mediator, IMapper mapper)
     {
-        MessageSender = sender;
+        DaprUtility = daprUtility;
         Mediator = mediator;
         Logger = logger;
         Mapper = mapper;

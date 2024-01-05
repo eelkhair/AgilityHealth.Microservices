@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using AH.Shared.Application.Behaviors;
+using AH.User.Application.Behaviors;
 using AH.User.Application.Interfaces;
 using FluentValidation;
 using MediatR;

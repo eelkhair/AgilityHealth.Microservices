@@ -6,31 +6,29 @@ namespace AH.Web.Server.Services;
 public class MasterTagService : IMasterTagService
 {
     private readonly HttpClient _httpClient;
-    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public MasterTagService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
+    public MasterTagService(HttpClient httpClient)
     {
         _httpClient = httpClient;
-        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<List<MasterTagWithCategoryAndParentTagResponse>?> GetMasterTags(Guid masterTagCategoryUId)
         => await _httpClient.Get<MasterTagWithCategoryAndParentTagResponse>(
-            $"v1/mastertags/category/{masterTagCategoryUId}", _httpContextAccessor);
+            $"v1/mastertags/category/{masterTagCategoryUId}");
     
     public async Task<MasterTagWithCategoryAndParentTagResponse> CreateMasterTag(
         MasterTagWithCategoryAndParentTagResponse tag)
         =>
             await _httpClient.Upsert<MasterTagWithCategoryAndParentTagResponse>
             ($"v1/mastertags"
-                , tag, false, _httpContextAccessor);
+                , tag, false);
     
     public async Task<MasterTagWithCategoryAndParentTagResponse> UpdateMasterTag(
         MasterTagWithCategoryAndParentTagResponse tag)
         => await _httpClient.Upsert<MasterTagWithCategoryAndParentTagResponse>(
             $"v1/mastertags/{tag.UId}",
-            tag, true, _httpContextAccessor);
+            tag, true);
 
     public async Task DeleteMasterTag(Guid uid)
-    => await _httpClient.Delete($"v1/mastertags/{uid}", _httpContextAccessor);
+    => await _httpClient.Delete($"v1/mastertags/{uid}");
 }

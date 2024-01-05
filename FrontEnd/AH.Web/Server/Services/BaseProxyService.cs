@@ -8,19 +8,17 @@ namespace AH.Web.Server.Services;
 
 public static class BaseProxyService
 {
-    private static void SetHeaders(HttpClient httpClient, IHttpContextAccessor accessor)
-    {
-        var token = accessor.HttpContext?.Request.Headers["Authorization"].ToString() ?? string.Empty;
-        httpClient.DefaultRequestHeaders.Authorization =
-            new AuthenticationHeaderValue("Bearer", token.Replace("Bearer ", string.Empty));
-        httpClient.DefaultRequestHeaders.Add("WebHost", accessor.HttpContext?.Request.Host.ToString());
-    }
-    public static async Task<List<T>> Get<T>(this HttpClient httpClient, string url, IHttpContextAccessor accessor)
+    // private static void SetHeaders(HttpClient httpClient)
+    // {
+    //     var token = accessor.HttpContext?.Request.Headers["Authorization"].ToString() ?? string.Empty;
+    //     httpClient.DefaultRequestHeaders.Authorization =
+    //         new AuthenticationHeaderValue("Bearer", token.Replace("Bearer ", string.Empty));
+    //     httpClient.DefaultRequestHeaders.Add("WebHost", accessor.HttpContext?.Request.Host.ToString());
+    // }
+    public static async Task<List<T>> Get<T>(this HttpClient httpClient, string url)
     {
         try
         {
-            SetHeaders(httpClient, accessor);
-            
             var response = await httpClient.GetAsync(url);
 
             if (response.IsSuccessStatusCode)
@@ -52,12 +50,11 @@ public static class BaseProxyService
         return new List<T>();
     }
 
-    public static async Task<T> Upsert<T>(this HttpClient httpClient, string url, object data, bool isUpdate,
-        IHttpContextAccessor accessor)
+    public static async Task<T> Upsert<T>(this HttpClient httpClient, string url, object data, bool isUpdate)
     {
         try
         {
-            SetHeaders(httpClient, accessor);
+            // SetHeaders(httpClient, accessor);
             var jsonContent = JsonContent.Create(data);
             HttpResponseMessage response;
 
@@ -118,12 +115,11 @@ public static class BaseProxyService
         return default!;
     }
     
-    public static async Task<bool> Delete(this HttpClient httpClient, string url,
-        IHttpContextAccessor accessor)
+    public static async Task<bool> Delete(this HttpClient httpClient, string url)
     {
         try
         {
-            SetHeaders(httpClient, accessor);
+          //  SetHeaders(httpClient, accessor);
             var response = await httpClient.DeleteAsync(url);
         
             if(response.IsSuccessStatusCode)
