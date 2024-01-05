@@ -12,23 +12,20 @@ namespace AH.User.Api.TimerTriggers;
 /// </summary>
 
 [ApiController]
-public class TimerTriggerController : BaseController
+public class TimerTriggerController(
+    IMapper mapper,
+    IMediator mediator,
+    ILogger<TimerTriggerController> logger,
+    DaprClient daprClient)
+    : BaseController(mapper, logger, mediator)
 {
-    private readonly ILogger<TimerTriggerController> _logger;
-    private readonly DaprClient _daprClient;
-
-    public TimerTriggerController(IMapper mapper, IMediator mediator, ILogger<TimerTriggerController> logger, DaprClient daprClient) : base(mapper,logger, mediator)
-    {
-        _logger = logger;
-        _daprClient = daprClient;
-    }
 
     [HttpPost]
     [Route("/refresh-auth-token")]
     public async Task<IActionResult> Post()
     {
-        await Mediator.Send(new StoreAuth0TokenCommand(User, _logger));
+        var token = await Mediator.Send(new StoreAuth0TokenCommand(User, logger));
 
-        return Ok();
+        return Ok(token);
     }
 }

@@ -5,6 +5,5 @@ namespace AH.User.Infrastructure;
 
 public class Auth0Resource(IAuth0Resource auth0Resource) : IAuthResource
 {
-    private readonly IAuth0Resource _auth0Resource = auth0Resource;
-    public Task<string> GetTokenAsync() => _auth0Resource.GetTokenAsync();
+    public Task<string> GetTokenAsync() => auth0Resource.GetTokenAsync();
 }

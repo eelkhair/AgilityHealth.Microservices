@@ -69,6 +69,7 @@ services:
       "--app-port", "8080",
       "--placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
       "--components-path", "./Components",
+      "--log-level" ,"debug",
       "-config", "./Config/config.yaml"
     ]
     volumes:
@@ -106,7 +107,7 @@ services:
     ports:
       - "50006:50006"
       
-  web-status:
+  ah-status:
     image: ${DOCKER_REGISTRY-}ahwebstatus
     build:
       context: .

@@ -31,6 +31,7 @@ internal static class LoggingAndTracingExtensions
             .Filter.ByExcluding(LogFilter.Exclude )
             .WriteTo.Elasticsearch(ConfigureElasticSink(builder.Configuration, builder.Environment.EnvironmentName))
             .WriteTo.Seq(seqServerUrl!)
+            .WriteTo.Console()
             .CreateLogger();
 
         builder.Host.UseSerilog();
