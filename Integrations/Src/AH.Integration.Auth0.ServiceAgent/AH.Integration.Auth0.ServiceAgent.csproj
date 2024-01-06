@@ -7,9 +7,15 @@
         <RootNamespace>AH.Integration.Auth0.ServiceAgent</RootNamespace>
         <PackageId>AH.Integration.Auth0.ServiceAgent</PackageId>
         <Authors>Elkhair Elkhair</Authors>
-        <Version>1.0.0</Version>
+        <Version>1.0.2</Version>
         <Description>Auth0 Integration</Description>
         <IsPackable>true</IsPackable>
     </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="Auth0.ManagementApi">
+        <HintPath>..\..\..\..\..\.nuget\packages\auth0.managementapi\7.26.0\lib\netstandard2.0\Auth0.ManagementApi.dll</HintPath>
+      </Reference>
+    </ItemGroup>
 
 </Project>

@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using AH.Metadata.Shared.V1.Models.Responses.Companies;
+using AH.User.Application.Dtos;
+using AutoMapper;
 
 namespace AH.User.Api;
 
@@ -12,5 +14,6 @@ public class ApiMappingProfileV1 : Profile
     /// </summary>
     public ApiMappingProfileV1()
     {
+        CreateMap<CompanyWithDomainResponse,CompanyDto> ();
     }
 }

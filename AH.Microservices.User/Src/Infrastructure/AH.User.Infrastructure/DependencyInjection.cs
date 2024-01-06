@@ -1,6 +1,7 @@
 ﻿using AH.Integration.Auth0.ServiceAgent;
 using AH.Integration.Auth0.ServiceAgent.Dtos;
 using AH.Integration.Auth0.ServiceAgent.SDK;
+using AH.User.Application.Dtos;
 using AH.User.Application.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,15 +33,21 @@ public static class DependencyInjection
     
     private static void AddAuth0ServiceAgent(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddSingleton<IServiceAgentFactory>(new ServiceAgentFactory(LoggerFactory.Create(config =>
+        services.AddTransient<IServiceAgentFactory, ServiceAgentFactory>(p =>
         {
-            config.AddConsole();
-            config.AddDebug();
-        }), new Auth0Config(configuration["Auth0:Domain"] ?? string.Empty,
-            configuration["Auth0:ApiClientId"] ?? string.Empty,
-            configuration["Auth0:ApiClientSecret"] ?? string.Empty, 
-            configuration["Auth0:ApiAudience"] ?? string.Empty)));
-        
+            var logger = p.GetService<ILoggerFactory>()?.CreateLogger<ServiceAgentFactory>()!;
+            
+            var daprUtility = p.GetService<IDaprUtility>();
+            
+            var token = daprUtility!.GetStateAsync<TokenDto>("statestore.redis", "auth0token", CancellationToken.None).Result;
+            
+            var auth0Config = new Auth0Config(configuration["Auth0:Domain"] ?? string.Empty,
+                configuration["Auth0:ApiClientId"] ?? string.Empty,
+                configuration["Auth0:ApiClientSecret"] ?? string.Empty, 
+                configuration["Auth0:ApiAudience"] ?? string.Empty);
+            return new ServiceAgentFactory(logger, auth0Config, token.Token);
+
+        });
         services.AddSingleton<IAuthFactory, Auth0Factory>();
     }
 

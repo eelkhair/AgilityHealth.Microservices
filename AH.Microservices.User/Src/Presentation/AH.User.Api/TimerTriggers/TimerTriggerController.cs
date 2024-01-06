@@ -20,6 +20,10 @@ public class TimerTriggerController(
     : BaseController(mapper, logger, mediator)
 {
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     [HttpPost]
     [Route("/refresh-auth-token")]
     public async Task<IActionResult> Post()
