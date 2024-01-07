@@ -14,6 +14,7 @@ public class ApiMappingProfileV1 : Profile
     /// </summary>
     public ApiMappingProfileV1()
     {
-        CreateMap<CompanyWithDomainResponse,CompanyDto> ();
+        CreateMap<CompanyWithDomainResponse, CompanyDto>()
+            .ForMember(x => x.DomainUId, opt => opt.MapFrom(x => x.Domain.UId));
     }
 }

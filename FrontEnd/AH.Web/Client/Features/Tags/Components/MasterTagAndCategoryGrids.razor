@@ -73,9 +73,9 @@
                 <GridCommandButton Command="Add" Icon="@SvgIcon.Plus">Add Tag</GridCommandButton>
             </GridToolBarTemplate>
             <GridColumns>
-                <GridColumn Field="@nameof(MasterTagWithCategoryAndParentTagResponse.Name)" Title="Name" Width="@(MasterTagCategoryClassName == "MasterTeamMemberCategory" ? "20%" : "72%" )" />
+                <GridColumn Field="@nameof(MasterTagWithCategoryAndParentTagResponse.Name)" Title="Name" Width="@(MasterTagCategoryClassName == "MasterTeamMemberCategory" && _tagCategory.Name == "Role" ? "20%" : "72%" )" />
                 <GridColumn Field="@nameof(MasterTagWithCategoryAndParentTagResponse.ClassName)" Visible="false" />
-                <GridColumn Field="@nameof(MasterTagWithCategoryAndParentTagResponse.ParentMasterTagCategoryUId)" Title="Category" Visible = "@(MasterTagCategoryClassName == "MasterTeamMemberCategory")">   
+                <GridColumn Field="@nameof(MasterTagWithCategoryAndParentTagResponse.ParentMasterTagCategoryUId)" Title="Category" Visible = "@(MasterTagCategoryClassName == "MasterTeamMemberCategory" && _tagCategory.Name == "Role")">   
                     <Template>
                         @((context as MasterTagWithCategoryAndParentTagResponse)?.ParentMasterTagCategoryName)
                     </Template>
@@ -95,7 +95,7 @@
                         }
                     </EditorTemplate>
                 </GridColumn>
-                <GridColumn Field="@nameof(MasterTagWithCategoryAndParentTagResponse.ParentMasterTagUId)" Title="Tag" Visible="@(MasterTagCategoryClassName == "MasterTeamMemberCategory")">
+                <GridColumn Field="@nameof(MasterTagWithCategoryAndParentTagResponse.ParentMasterTagUId)" Title="Tag" Visible="@(MasterTagCategoryClassName == "MasterTeamMemberCategory" && _tagCategory.Name == "Role")">
                     <Template>
                         @((context as MasterTagWithCategoryAndParentTagResponse)?.ParentMasterTagName)
                     </Template>

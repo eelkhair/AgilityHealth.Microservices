@@ -38,7 +38,7 @@ public class Auth0Resource(ILogger logger, Auth0Config config, string bearerToke
         throw new NotImplementedException();
     }
 
-    public async Task<ApiResponse<Organization>> CreateOrganizationAsync(string name, Guid uid, CancellationToken cancellationToken)
+    public async Task<ApiResponse<Organization>> CreateOrganizationAsync(string name, Guid uid, string domainUId, CancellationToken cancellationToken)
     {
         try
         {
@@ -49,6 +49,10 @@ public class Auth0Resource(ILogger logger, Auth0Config config, string bearerToke
                 Branding = new OrganizationBranding
                 {
                     Colors = new BrandingColors { Primary = "#ffffff", PageBackground = "#222E62" }
+                },
+                Metadata = new Dictionary<string, string>
+                {
+                    {"domainUId", domainUId}
                 }
             }, cancellationToken);
             await Organizations.CreateConnectionAsync(organization.Id, new OrganizationConnectionCreateRequest()
@@ -64,15 +68,20 @@ public class Auth0Resource(ILogger logger, Auth0Config config, string bearerToke
             return await HandleException<Organization>(e, new object[] { name, uid });
         }	
     }
-    public async Task<ApiResponse<Organization>> UpdateOrganizationAsync(string name, Guid uid, CancellationToken cancellationToken)
+    public async Task<ApiResponse<Organization>> UpdateOrganizationAsync(string name, Guid uid, string domainUId, CancellationToken cancellationToken)
     {
         try
         {
             var organization = await Organizations.GetByNameAsync(uid.ToString(), cancellationToken);
             var dto = new OrganizationUpdateRequest
             {
-                DisplayName = name
+                DisplayName = name,
+                Metadata = new Dictionary<string, string>
+                {
+                    {"domainUId", domainUId}
+                }
             };
+           
             organization = await Organizations.UpdateAsync(organization.Id, dto, cancellationToken);
             
             return OkResult(organization);

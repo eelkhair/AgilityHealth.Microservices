@@ -10,8 +10,8 @@ public interface IAuth0Resource
     Task<ApiResponse<Job>> ImportUsersAsync(string connectionId, string filename, Stream file, bool upsert, string externalId, bool data);
     Task<ApiResponse<Job>> ExportAllUsersAsync (List<string> fields);
     Task<ApiResponse<Organization>> GetOrganizationByNameAsync(Role role);
-    Task<ApiResponse<Organization>> CreateOrganizationAsync(string Name, Guid uid, CancellationToken cancellationToken);
-    Task<ApiResponse<Organization>> UpdateOrganizationAsync(string companyName, Guid companyUId, CancellationToken cancellationToken);
+    Task<ApiResponse<Organization>> CreateOrganizationAsync(string name, Guid uid, string domainUId, CancellationToken cancellationToken);
+    Task<ApiResponse<Organization>> UpdateOrganizationAsync(string companyName, Guid companyUId, string domainUId, CancellationToken cancellationToken);
     Task DeleteOrganizationAsync(string organizationId, CancellationToken cancellationToken);
    
     Task<ApiResponse<List<Organization>>> GetAllOrganizationsAsync();

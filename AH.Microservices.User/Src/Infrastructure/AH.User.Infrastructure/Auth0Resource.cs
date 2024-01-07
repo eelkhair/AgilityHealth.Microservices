@@ -10,16 +10,16 @@ public class Auth0Resource(IAuth0Resource auth0Resource) : IAuthResource
 
     public async Task<CompanyDto> CreateAuthCompanyAsync(CompanyDto company, CancellationToken cancellationToken)
     {
-        var org = await auth0Resource.CreateOrganizationAsync(company.Name, company.UId, cancellationToken);
+        var org = await auth0Resource.CreateOrganizationAsync(company.Name, company.UId, company.DomainUId, cancellationToken);
         
-        return new CompanyDto(new Guid(org.Dto.Name), org.Dto.DisplayName);
+        return new CompanyDto(new Guid(org.Dto.Name), org.Dto.DisplayName, org.Dto.Metadata["domainUId"].ToString());
     }
     
     public async Task<CompanyDto> UpdateAuthCompanyAsync(CompanyDto company, CancellationToken cancellationToken)
     {
-        var org = await auth0Resource.UpdateOrganizationAsync(company.Name, company.UId, cancellationToken);
+        var org = await auth0Resource.UpdateOrganizationAsync(company.Name, company.UId,  company.DomainUId, cancellationToken);
         
-        return new CompanyDto(new Guid(org.Dto.Name), org.Dto.DisplayName);
+        return new CompanyDto(new Guid(org.Dto.Name), org.Dto.DisplayName, org.Dto.Metadata["domainUId"].ToString());
     }
 
     public Task DeleteAuthCompanyAsync(CompanyDto company, CancellationToken cancellationToken)

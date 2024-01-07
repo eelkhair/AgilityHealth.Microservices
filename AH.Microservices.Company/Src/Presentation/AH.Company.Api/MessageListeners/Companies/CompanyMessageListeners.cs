@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.Json;
 using AH.Company.Application.Commands.Companies;
 using AH.Company.Application.Dtos;
@@ -13,18 +14,13 @@ namespace AH.Company.Api.MessageListeners.Companies;
 /// <summary>
 /// Listeners for Company events
 /// </summary>
-public class CompanyMessageListeners : BaseMessageListener
+/// <param name="mapper"></param>
+/// <param name="logger"></param>
+/// <param name="mediator"></param>
+
+public class CompanyMessageListeners(IMapper mapper, ILogger logger, IMediator mediator, ActivitySource activitySource )  : BaseMessageListener(mapper, logger, mediator)
 {
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    /// <param name="mapper"></param>
-    /// <param name="logger"></param>
-    /// <param name="mediator"></param>
-    public CompanyMessageListeners(IMapper mapper, ILogger logger, IMediator mediator) : base(mapper, logger, mediator)
-    {
-    }
-    
+ 
     /// <summary>
     /// Listener for CompanyCreate event
     /// </summary>
@@ -48,8 +44,20 @@ public class CompanyMessageListeners : BaseMessageListener
         }
             
         Logger.LogInformation("Received message: {@Model}", model);
+        var companyCreateActivity = activitySource.StartActivity("Creating Company");
+        companyCreateActivity?.SetTag("Company dto", dto);
         var command = new CreateCompanyCommand(CreateUser(message.UserId), Logger, dto);
-        await Mediator.Send(command);
+        var response = await Mediator.Send(command);
+        
+        companyCreateActivity?.SetTag("Company response", response);
+        companyCreateActivity?.Stop();
+        
+        var copyTagsActivity = activitySource.StartActivity("Copying tags");
+        copyTagsActivity?.SetTag("Company dto", dto);
+        
+        var copyTagsCommand = new CopyTagsCommand(CreateUser(message.UserId), Logger, dto);
+        await Mediator.Send(copyTagsCommand);
+        copyTagsActivity?.Stop();
     }
     
     /// <summary>
