@@ -5,10 +5,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Integrations\Src\AH.Integration.Auth0.ServiceAgent.SDK\AH.Integration.Auth0.ServiceAgent.SDK.csproj" />
     <ProjectReference Include="..\..\Core\AH.User.Application\AH.User.Application.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AH.Integration.Auth0.ServiceAgent.SDK" Version="1.0.3" />
     <PackageReference Include="Dapr.AspNetCore" Version="1.12.0" />
   </ItemGroup>
 </Project>

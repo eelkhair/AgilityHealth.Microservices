@@ -8,6 +8,7 @@ using AutoMapper;
 using Dapr;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+// ReSharper disable ExplicitCallerInfoArgument
 
 namespace AH.Company.Api.MessageListeners.Companies;
 
@@ -45,15 +46,15 @@ public class CompanyMessageListeners(IMapper mapper, ILogger logger, IMediator m
             
         Logger.LogInformation("Received message: {@Model}", model);
         var companyCreateActivity = activitySource.StartActivity("Creating Company");
-        companyCreateActivity?.SetTag("Company dto", dto);
+        companyCreateActivity?.SetTag("Company dto", JsonSerializer.Serialize(dto));
         var command = new CreateCompanyCommand(CreateUser(message.UserId), Logger, dto);
         var response = await Mediator.Send(command);
         
-        companyCreateActivity?.SetTag("Company response", response);
+        companyCreateActivity?.SetTag("Company response", JsonSerializer.Serialize(response));
         companyCreateActivity?.Stop();
         
         var copyTagsActivity = activitySource.StartActivity("Copying tags");
-        copyTagsActivity?.SetTag("Company dto", dto);
+        copyTagsActivity?.SetTag("Company dto", JsonSerializer.Serialize(dto));
         
         var copyTagsCommand = new CopyTagsCommand(CreateUser(message.UserId), Logger, dto);
         await Mediator.Send(copyTagsCommand);
