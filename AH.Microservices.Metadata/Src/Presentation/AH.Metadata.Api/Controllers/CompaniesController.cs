@@ -44,7 +44,7 @@ public class CompaniesController : BaseController
         var companies = await Mediator.Send(query);
         if(companies.Count == 0) return NotFound();
         
-        var model = Mapper.Map<List<CompanyResponse>>(companies);
+        var model = Mapper.Map<List<CompanyWithDomainResponse>>(companies);
         Logger.LogInformation("{Count} companies found.{Data}", companies.Count, JsonSerializer.Serialize(model));
         
         return Ok(model);

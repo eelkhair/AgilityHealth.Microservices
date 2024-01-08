@@ -8,5 +8,7 @@ public interface ICompanyService
     Task<CompanyWithDomainResponse> UpdateCompany(CompanyWithDomainResponse domain);
     Task<CompanyWithDomainResponse> CreateCompany(CompanyWithDomainResponse domain);
     Task DeleteCompany(Guid uid);
-    Task<List<CompanyResponse>> GetCompanies();
+    Task<List<CompanyResponse>> GetCompaniesForCurrentDomain();
+    
+    Task<List<CompanyWithDomainResponse>> GetCompaniesForAllDomains();
 }

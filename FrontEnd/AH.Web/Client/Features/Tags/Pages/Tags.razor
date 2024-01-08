@@ -1,10 +1,13 @@
 @page "/tags"
 @layout AdminLayout
 @using AH.Web.Client.Features.Tags.Components
+@using AH.Web.Client.Shared.Components
 @using AH.Metadata.Shared.V1.Models.Responses.MasterTagCategories
 @attribute [Authorize]
-<h3>Tags - @ClassName</h3>
-
+@inject NavigationManager NavigationManager
+<div style="text-align:center">
+    <MasterCompanyDropdown OnCompanySelected="@CompanySelected" SelectedCompanyUId="@Guid.Empty"/>
+</div>
 <TelerikTabStrip Width="1600px" ActiveTabIndexChanged="@TabChangedHandler">
     <TabStripTab Title="Teams">
         <MasterTagAndCategoryGrids MasterTagCategoryClassName="@ClassName"/>
@@ -22,8 +25,6 @@
 
 @code{
     private string ClassName { get; set; } = null!;
-    private MasterTagCategoryResponse? SelectedCategory { get; set; }
-    
     [Inject]
     public IJSRuntime Javascript { get; set; } = null!;
 
@@ -37,7 +38,6 @@
             3 => "MasterSkillsCategory",
             _ => ClassName
         };
-        SelectedCategory = null;
         await Javascript.InvokeVoidAsync("console.log", newIndex);
     }
 
@@ -45,6 +45,19 @@
     {
         ClassName = "MasterTeamCategory";
         return Task.CompletedTask;
+    }
+    
+    private void CompanySelected(Guid companyUId)
+    {
+        if (companyUId != Guid.Empty)
+        {
+            NavigationManager.NavigateTo("/companies/" + companyUId + "/tags");
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/tags");
+        }
+       
     }
 }
 

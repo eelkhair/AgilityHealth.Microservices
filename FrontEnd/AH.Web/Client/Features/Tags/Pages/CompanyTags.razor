@@ -1,0 +1,54 @@
+@page "/companies/{uid:guid}/tags"
+@layout AdminLayout
+@attribute [Authorize]
+@using AH.Web.Client.Shared.Components
+@using AH.Web.Client.Features.Tags.Components
+@inject NavigationManager NavigationManager
+
+<div style="text-align: center">
+    <MasterCompanyDropdown OnCompanySelected="@CompanySelected" SelectedCompanyUId="@Uid"/>
+</div>
+<TelerikTabStrip Width="1600px" ActiveTabIndexChanged="@TabChangedHandler">
+    <TabStripTab Title="Teams">
+        <CompanyTagAndCategoryGrids TabType="@SelectedTab"/>
+    </TabStripTab>
+    <TabStripTab Title="Team Members">
+        <CompanyTagAndCategoryGrids TabType="@SelectedTab"/>
+    </TabStripTab>
+    <TabStripTab Title="Stakeholders">
+        <CompanyTagAndCategoryGrids TabType="@SelectedTab"/>
+    </TabStripTab>
+    <TabStripTab Title="Skills">
+        <CompanyTagAndCategoryGrids TabType="@SelectedTab"/>
+    </TabStripTab>
+</TelerikTabStrip>
+
+@code {
+    [Parameter] public Guid Uid { get; set; }
+    private string SelectedTab { get; set; } = "Teams";
+    private void CompanySelected(Guid companyUId)
+    {
+       if (companyUId != Guid.Empty)
+       {
+           NavigationManager.NavigateTo("/companies/" + companyUId + "/tags");
+       }
+       else
+       {
+           NavigationManager.NavigateTo("/tags");
+       }
+       
+    }
+
+    private void TabChangedHandler(int newIndex)
+    {
+        SelectedTab = newIndex switch
+        {
+            0 => "Teams",
+            1 => "Team Members",
+            2 => "Stakeholders",
+            3 => "Skills",
+            _ => SelectedTab
+        };
+    }
+    
+}

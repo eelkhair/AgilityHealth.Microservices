@@ -3,6 +3,7 @@ using AH.Integration.Auth0.ServiceAgent.Dtos;
 using AH.Integration.Auth0.ServiceAgent.SDK;
 using AH.User.Application.Dtos;
 using AH.User.Application.Interfaces;
+using Dapr.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -20,15 +21,15 @@ public static class DependencyInjection
 
     private static void AddDaprUtility(this IServiceCollection services)
     {
-        services.AddSingleton<IDaprUtility, DaprUtility>();
-
-        var logger = LoggerFactory.Create(config =>
+        services.AddDaprClient();
+        services.AddSingleton<IDaprUtility, DaprUtility>(p=>
         {
-            config.AddConsole();
-            config.AddDebug();
-        }).CreateLogger<IDaprUtility>();
+            var logger = p.GetService<ILoggerFactory>()?.CreateLogger<DaprUtility>()!;
+            var client = p.GetService<DaprClient>()!;
+            return new DaprUtility(logger, client);
+        });
 
-        services.AddSingleton(typeof(ILogger), logger);
+       
     }
     
     private static void AddAuth0ServiceAgent(this IServiceCollection services, IConfiguration configuration)

@@ -1,0 +1,43 @@
+@using Telerik.DataSource.Extensions
+@using CompanyResponse = AH.Company.Shared.V1.Models.Companies.Responses.CompanyResponse
+@inject HttpClient Http
+
+<TelerikDropDownList Data="@Companies"
+                     TextField="@nameof(CompanyResponse.Name)"  
+                     @bind-Value="@CompanyUId"
+                 Filterable="true"
+                 Width="300px"
+                 ValueField="@nameof(CompanyResponse.UId)">
+
+</TelerikDropDownList>
+<TelerikButton OnClick="@OnClickHandler">Select</TelerikButton>
+
+@code {
+    [Inject] public IJSRuntime JsRuntime { get; set; } = null!; 
+    [Parameter] public EventCallback<Guid> OnCompanySelected { get; set; }
+    [Parameter] public Guid SelectedCompanyUId { get; set; }
+    private Guid CompanyUId { get; set; }= Guid.Empty;
+    private List<CompanyResponse> Companies { get; set; } = new();
+   
+    protected override async Task  OnInitializedAsync()
+    {
+        var companies = new List<CompanyResponse>
+        {
+            new()
+            {
+                Name = "Master",
+                UId = Guid.Empty
+            }
+        };
+        var response = await Http.GetFromJsonAsync<List<CompanyResponse>>("api/companies") ?? new List<CompanyResponse>();
+        companies.AddRange(response);
+        Companies = companies;
+        CompanyUId = SelectedCompanyUId;
+    }
+
+    private async Task OnClickHandler()
+    {
+        await OnCompanySelected.InvokeAsync(CompanyUId);
+    }
+
+}

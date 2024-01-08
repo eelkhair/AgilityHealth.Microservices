@@ -39,12 +39,14 @@ public class DaprUtility(ILogger<DaprUtility> logger, DaprClient daprClient) : I
     }
 
     public async Task SaveStateAsync(string store, string key, object value, CancellationToken cancellationToken)
-    {
+    {   
+        logger.LogInformation("Saving state to store - {Store} - {Key}", store, key);
         await daprClient.SaveStateAsync(store, key, value, cancellationToken: cancellationToken);
     }
 
     public async Task<T> GetStateAsync<T>(string store, string key, CancellationToken cancellationToken)
     {
+        logger.LogInformation("Getting state from store - {Store} - {Key}", store, key);
         return await daprClient.GetStateAsync<T>(store, key,  cancellationToken:cancellationToken);
     }
 }

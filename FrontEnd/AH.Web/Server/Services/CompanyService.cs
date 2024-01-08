@@ -23,7 +23,8 @@ public class CompanyService : ICompanyService
          await _metadataHttpClient.Upsert<CompanyWithDomainResponse>($"v1/companies", BuildCreateRequest(company), false);
 
     public async Task DeleteCompany(Guid uid) => await _metadataHttpClient.Delete($"v1/companies/{uid}");
-    public async Task<List<CompanyResponse>> GetCompanies() => await _companyHttpClient.Get<CompanyResponse>("api/companies");
+    public async Task<List<CompanyWithDomainResponse>> GetCompaniesForAllDomains() => await _metadataHttpClient.Get<CompanyWithDomainResponse>($"v1/companies");
+    public async Task<List<CompanyResponse>> GetCompaniesForCurrentDomain() => await _companyHttpClient.Get<CompanyResponse>("api/companies");
     
     private static CreateCompanyRequest BuildCreateRequest(CompanyWithDomainResponse company)
     {

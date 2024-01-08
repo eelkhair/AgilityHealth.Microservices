@@ -19,7 +19,14 @@ public class CompaniesController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> Get()
     {
-        var response = await _companyService.GetCompanies();
+        var response = await _companyService.GetCompaniesForCurrentDomain();
+        return Ok(response);
+    }
+    
+    [HttpGet("/api/allcompanies")]
+    public async Task<ActionResult> GetAllDomains()
+    {
+        var response = await _companyService.GetCompaniesForAllDomains();
         return Ok(response);
     }
     

@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Runtime.Intrinsics.X86;
+using System.Security.Claims;
 using AH.Metadata.Application.Dtos;
 using AH.Metadata.Application.Interfaces;
 using AutoMapper;
@@ -23,7 +24,7 @@ public class ListCompaniesQueryHandler : BaseQueryHandler, IRequestHandler<ListC
 
     public async Task<List<CompanyDto>> Handle(ListCompaniesQuery request, CancellationToken cancellationToken)
     {
-        var countries = await Context.Companies.ToListAsync(cancellationToken);
+        var countries = await Context.Companies.Include(x=>x.Domain).ToListAsync(cancellationToken);
         return Mapper.Map<List<CompanyDto>>(countries);
     }
 }
