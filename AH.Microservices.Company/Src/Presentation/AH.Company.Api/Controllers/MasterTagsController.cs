@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using AH.Company.Application.Interfaces;
 using AH.Company.Application.Queries.MasterTagCategories;
+using AH.Company.Application.Queries.MasterTags;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace AH.Company.Api.Controllers;
 
 /// <summary>
-/// MasterTagCategoriesController
+/// MasterTagsController
 /// </summary>
-public class MasterTagCategoriesController : BaseController
+public class MasterTagsController : BaseController
 {
     private readonly ICompanyMicroServiceDbContext _contextAccessor;
    
@@ -23,19 +24,19 @@ public class MasterTagCategoriesController : BaseController
     /// <param name="logger"></param>
     /// <param name="mediator"></param>
     /// <returns></returns>
-    public MasterTagCategoriesController(IMapper mapper, ILogger logger, IMediator mediator, ICompanyMicroServiceDbContext contextAccessor) : base(mapper, logger, mediator)
+    public MasterTagsController(IMapper mapper, ILogger logger, IMediator mediator, ICompanyMicroServiceDbContext contextAccessor) : base(mapper, logger, mediator)
     {
         _contextAccessor = contextAccessor;
     }
     
     /// <summary>
-    /// Get all master tag categories
+    /// Get all master tags
     /// </summary>
     /// <returns></returns>
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        var query = new ListMasterTagCategoriesQuery(User, Logger);
+        var query = new ListMasterTagsQuery(User, Logger);
         var result = await Mediator.Send(query);
         return Ok(result);
     } 

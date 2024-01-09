@@ -23,7 +23,7 @@ public class CompanyMessageListeners : BaseMessageListener
     /// <param name="logger"></param>
     /// <param name="mediator"></param>
     /// <param name="activitySource"></param>
-    public CompanyMessageListeners(IMapper mapper, ILogger logger, IMediator mediator, ActivitySource activitySource) : base(mapper, logger, mediator)
+    public CompanyMessageListeners(IMapper mapper, ILogger<CompanyMessageListeners> logger, IMediator mediator, ActivitySource activitySource) : base(mapper, logger, mediator)
     {
         _activitySource = activitySource ?? throw new ArgumentNullException(nameof(activitySource));
     }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AH.Metadata.Api.Controllers;
@@ -9,6 +10,7 @@ namespace AH.Metadata.Api.Controllers;
 /// </summary>
 [ApiController]
 [Route("/v1/[controller]")]
+[Authorize]
 public abstract class BaseController : ControllerBase
 {
     /// <summary>

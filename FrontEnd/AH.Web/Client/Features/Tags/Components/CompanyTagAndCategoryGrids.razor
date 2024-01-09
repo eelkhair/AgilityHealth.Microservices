@@ -1,5 +1,9 @@
+@inject HttpClient Http
 
-@TabType
 @code {
     [Parameter] public string TabType { get; set; } = "Teams";
+    [Parameter] public Guid CompanyUId { get; set; }
+    [Inject] public IJSRuntime JsRuntime { get; set; }
+    
+    
 }

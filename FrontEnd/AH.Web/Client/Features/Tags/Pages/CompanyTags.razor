@@ -10,16 +10,16 @@
 </div>
 <TelerikTabStrip Width="1600px" ActiveTabIndexChanged="@TabChangedHandler">
     <TabStripTab Title="Teams">
-        <CompanyTagAndCategoryGrids TabType="@SelectedTab"/>
+        <CompanyTagAndCategoryGrids TabType="@SelectedTab" CompanyUId="@Uid"/>
     </TabStripTab>
     <TabStripTab Title="Team Members">
-        <CompanyTagAndCategoryGrids TabType="@SelectedTab"/>
+        <CompanyTagAndCategoryGrids TabType="@SelectedTab" CompanyUId="@Uid"/>
     </TabStripTab>
     <TabStripTab Title="Stakeholders">
-        <CompanyTagAndCategoryGrids TabType="@SelectedTab"/>
+        <CompanyTagAndCategoryGrids TabType="@SelectedTab" CompanyUId="@Uid"/>
     </TabStripTab>
     <TabStripTab Title="Skills">
-        <CompanyTagAndCategoryGrids TabType="@SelectedTab"/>
+        <CompanyTagAndCategoryGrids TabType="@SelectedTab" CompanyUId="@Uid"/>
     </TabStripTab>
 </TelerikTabStrip>
 

@@ -34,9 +34,10 @@ public static class DependencyInjection
     
     private static void AddAuth0ServiceAgent(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddLogging();
         services.AddTransient<IServiceAgentFactory, ServiceAgentFactory>(p =>
         {
-            var logger = p.GetService<ILoggerFactory>()?.CreateLogger<ServiceAgentFactory>()!;
+            var logger = p.GetRequiredService<ILogger<ServiceAgentFactory>>();
             
             var daprUtility = p.GetService<IDaprUtility>();
             

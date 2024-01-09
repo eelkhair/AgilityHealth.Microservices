@@ -24,5 +24,13 @@ public class MappingProfile:Profile
             .ReverseMap();
 
         CreateMap<CompanyDto, Domain.Entities.Company>().ReverseMap();
+        CreateMap<CompanyTeamCategory, CompanyTeamCategoryDto>().ReverseMap();
+        CreateMap<CompanyTeamTag, CompanyTeamTagDto>().ReverseMap();  
+        CreateMap<CompanyTeamMemberCategory, CompanyTeamMemberCategoryDto>().ReverseMap();
+        CreateMap<CompanyTeamMemberTag, CompanyTeamMemberTagDto>().ReverseMap();  
+        CreateMap<CompanyStakeholderCategory, CompanyStakeholderCategory>().ReverseMap();
+        CreateMap<CompanyStakeholderTag, CompanyStakeholderTagDto>().ReverseMap();  
+        CreateMap<CompanySkillCategory, CompanySkillCategoryDto>().ReverseMap();
+        CreateMap<CompanySkillTag, CompanySkillTagDto>().ReverseMap();
     }
 }
