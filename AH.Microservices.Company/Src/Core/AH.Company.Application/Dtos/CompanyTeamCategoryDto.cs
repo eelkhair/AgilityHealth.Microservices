@@ -2,7 +2,6 @@
 
 public class CompanyTeamCategoryDto : BaseDto
 {
-
     public int CompanyId { get; set; }
     public int? MasterTagCategoryId { get; set; }
     public string Name { get; set; } = null!;

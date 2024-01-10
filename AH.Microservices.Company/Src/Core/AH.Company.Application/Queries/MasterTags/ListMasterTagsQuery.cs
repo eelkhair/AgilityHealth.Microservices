@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using AH.Company.Application.Dtos;
 using AH.Company.Application.Interfaces;
+using AH.Company.Domain.Entities;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +21,19 @@ public class ListMasterTagsQueryHandler(ICompanyMicroServiceDbContext context, I
     {
         request.Logger.LogInformation("Connections string: {ConnectionString}", Context.GetConnectionString());
         request.Logger.LogInformation("Getting master tags");
-        var masterTags = await Context.MasterTags.ToListAsync(cancellationToken);
+        var masterTags = await Context.MasterTags.Select(x=> new MasterTag
+        {
+            Name = x.Name,
+            ClassName = x.ClassName,
+            UId = x.UId,
+            MasterTagCategory = new MasterTagCategory
+            {
+                Name = x.MasterTagCategory.Name,
+                UId = x.MasterTagCategory.UId,
+                ClassName = x.MasterTagCategory.ClassName,
+                Type = x.MasterTagCategory.Type
+            }
+        }).ToListAsync(cancellationToken);
         return Mapper.Map<List<MasterTagDto>>(masterTags);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AH.Company.Api.Controllers;
@@ -9,10 +10,20 @@ namespace AH.Company.Api.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public abstract class BaseController : ControllerBase
 {
+    /// <summary>
+    /// Mapper
+    /// </summary>
     protected readonly IMapper Mapper;
+    /// <summary>
+    /// Logger
+    /// </summary>
     protected readonly ILogger Logger;
+    /// <summary>
+    /// Mediator
+    /// </summary>
     protected readonly IMediator Mediator;
 
     /// <summary>

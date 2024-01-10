@@ -70,6 +70,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", 
 		Components\secret.yaml = Components\secret.yaml
 		Components\jaeger.yaml = Components\jaeger.yaml
 		Components\secrets.json = Components\secrets.json
+		Components\binding-auth0token.yaml = Components\binding-auth0token.yaml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AH.Shared.Application", "Shared\AH.Shared.Application\AH.Shared.Application.csproj", "{C3D7FF4C-07CB-4BA0-8E92-758CC3762DFA}"

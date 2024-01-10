@@ -30,5 +30,11 @@ public class ApiMappingProfileV1 : Profile
             .ForMember(x => x.DomainName, opt => opt.MapFrom(src => src.Domain.Name));
         CreateMap<CompanyDto, CompanyResponse>();
         CreateMap<MasterTagCategoryDto, CompanyMasterTagCategoryResponse>();
+        CreateMap<MasterTagDto, CompanyMasterTagResponse>();
+        CreateMap<CompanyTeamCategoryDto, CompanyTeamCategoryResponse>();
+        CreateMap<CompanyTeamMemberCategoryDto, CompanyTeamMemberCategoryResponse>();
+        CreateMap<CompanyTeamMemberTagDto, CompanyTeamMemberTagResponse>();
+        CreateMap<CompanyTeamTagDto, CompanyTeamTagResponse>();
+        
     }
 }

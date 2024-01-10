@@ -1,7 +1,5 @@
-﻿using System.Diagnostics;
-using AH.Company.Application.Interfaces;
-using AH.Company.Application.Queries.MasterTagCategories;
-using AH.Company.Application.Queries.MasterTags;
+﻿using AH.Company.Application.Queries.MasterTags;
+using AH.Company.Shared.V1.Models.Tags.Responses;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -14,9 +12,6 @@ namespace AH.Company.Api.Controllers;
 /// </summary>
 public class MasterTagsController : BaseController
 {
-    private readonly ICompanyMicroServiceDbContext _contextAccessor;
-   
-
     /// <summary>
     /// Constructor
     /// </summary>
@@ -24,9 +19,9 @@ public class MasterTagsController : BaseController
     /// <param name="logger"></param>
     /// <param name="mediator"></param>
     /// <returns></returns>
-    public MasterTagsController(IMapper mapper, ILogger logger, IMediator mediator, ICompanyMicroServiceDbContext contextAccessor) : base(mapper, logger, mediator)
+    public MasterTagsController(IMapper mapper, ILogger logger, IMediator mediator) : base(mapper, logger, mediator)
     {
-        _contextAccessor = contextAccessor;
+  
     }
     
     /// <summary>
@@ -38,6 +33,7 @@ public class MasterTagsController : BaseController
     {
         var query = new ListMasterTagsQuery(User, Logger);
         var result = await Mediator.Send(query);
-        return Ok(result);
+        
+        return Ok(Mapper.Map<List<CompanyMasterTagResponse>>(result));
     } 
 }

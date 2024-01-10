@@ -22,7 +22,7 @@ public class ListCompanyTeamTagsQueryHandler(ICompanyMicroServiceDbContext conte
     {
         request.Logger.LogInformation("Connections string: {ConnectionString}", Context.GetConnectionString());
         request.Logger.LogInformation("Getting company team tags");
-        var companyTeamTags = await Context.CompanyTeamTags.Where(x=> x.CompanyTeamCategory.UId == request.CompanyTeamCategoryUId).Include(x=>x.MasterTag).ToListAsync(cancellationToken);
+        var companyTeamTags = await Context.CompanyTeamTags.Where(x=> x.CompanyTeamCategory.UId == request.CompanyTeamCategoryUId).Include(x=>x.MasterTag).ThenInclude(x=>x!.MasterTagCategory).ToListAsync(cancellationToken);
         return Mapper.Map<List<CompanyTeamTagDto>>(companyTeamTags);
     }
 }
