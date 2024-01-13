@@ -3,7 +3,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
 using AH.Web.Server.Middleware;
 using AH.Web.Server.Services;
+using AH.Web.Server.Services.Implementations.CategoriesAndTags;
 using AH.Web.Server.Services.Interfaces;
+using AH.Web.Server.Services.Interfaces.CategoriesAndTags;
 using Dapr.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
@@ -15,6 +17,17 @@ builder.Services.AddTransient<IMasterTagService, MasterTagService>(p=>  new Mast
 builder.Services.AddTransient<IDomainService, DomainService>(p=>  new DomainService(GetHttpClient(p, "ah-metadata-api")));
 builder.Services.AddTransient<ICompanyService, CompanyService>(p=> new CompanyService(
         GetHttpClient(p, "ah-metadata-api"),
+    GetHttpClient(p, "ah-company-api")));
+
+builder.Services.AddTransient<ICompanyTeamCategoryService, CompanyTeamCategoryService>(p=> new CompanyTeamCategoryService(
+    GetHttpClient(p, "ah-company-api")));
+builder.Services.AddTransient<ICompanyTeamMemberCategoryService, CompanyTeamMemberCategoryService>(p=> new CompanyTeamMemberCategoryService(
+    GetHttpClient(p, "ah-company-api")));
+builder.Services.AddTransient<ICompanyStakeholderCategoryService, CompanyStakeholderCategoryService>(p=> new CompanyStakeholderCategoryService(
+    GetHttpClient(p, "ah-company-api")));
+builder.Services.AddTransient<ICompanySkillCategoryService, CompanySkillCategoryService>(p=> new CompanySkillCategoryService(
+    GetHttpClient(p, "ah-company-api")));
+builder.Services.AddTransient<ICompanyTeamTagService, CompanyTeamTagService>(p=> new CompanyTeamTagService(
     GetHttpClient(p, "ah-company-api")));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -98,7 +111,23 @@ HttpClient GetHttpClient(IServiceProvider services, string appId)
     var token = accessor.HttpContext?.Request.Headers["Authorization"].ToString() ?? string.Empty;
     httpClient.DefaultRequestHeaders.Authorization =
         new AuthenticationHeaderValue("Bearer", token.Replace("Bearer ", string.Empty));
-    httpClient.DefaultRequestHeaders.Add("WebHost", accessor.HttpContext?.Request.Host.ToString());
+
+    if (accessor.HttpContext?.Request.Host.ToString() == string.Empty)
+    {
+        var referer = accessor.HttpContext?.Request.Headers["Referer"].FirstOrDefault();
+
+        if (!string.IsNullOrEmpty(referer))
+        {
+            var uriValue = new Uri(referer);
+            httpClient.DefaultRequestHeaders.Add("WebHost", uriValue.Host);
+
+        }
+    }
+    else
+    {
+        httpClient.DefaultRequestHeaders.Add("WebHost", accessor.HttpContext?.Request.Host.ToString());
+
+    }
     
     return httpClient;
 }

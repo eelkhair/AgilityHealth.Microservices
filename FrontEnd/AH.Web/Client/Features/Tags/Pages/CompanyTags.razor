@@ -3,52 +3,66 @@
 @attribute [Authorize]
 @using AH.Web.Client.Shared.Components
 @using AH.Web.Client.Features.Tags.Components
+@using AH.Company.Shared.V1.Models.Companies.Responses
 @inject NavigationManager NavigationManager
+@inject HttpClient Http
 
 <div style="text-align: center">
     <MasterCompanyDropdown OnCompanySelected="@CompanySelected" SelectedCompanyUId="@Uid"/>
 </div>
+
 <TelerikTabStrip Width="1600px" ActiveTabIndexChanged="@TabChangedHandler">
     <TabStripTab Title="Teams">
-        <CompanyTagAndCategoryGrids TabType="@SelectedTab" CompanyUId="@Uid"/>
+        <CompanyTagAndCategoryGrids CompanyUId="@Uid" TabType="@SelectedTab"/>
     </TabStripTab>
     <TabStripTab Title="Team Members">
-        <CompanyTagAndCategoryGrids TabType="@SelectedTab" CompanyUId="@Uid"/>
+        <CompanyTagAndCategoryGrids CompanyUId="@Uid" TabType="@SelectedTab"/>
     </TabStripTab>
     <TabStripTab Title="Stakeholders">
-        <CompanyTagAndCategoryGrids TabType="@SelectedTab" CompanyUId="@Uid"/>
+        <CompanyTagAndCategoryGrids CompanyUId="@Uid" TabType="@SelectedTab"/>
     </TabStripTab>
     <TabStripTab Title="Skills">
-        <CompanyTagAndCategoryGrids TabType="@SelectedTab" CompanyUId="@Uid"/>
+        <CompanyTagAndCategoryGrids CompanyUId="@Uid" TabType="@SelectedTab"/>
     </TabStripTab>
 </TelerikTabStrip>
 
 @code {
     [Parameter] public Guid Uid { get; set; }
-    private string SelectedTab { get; set; } = "Teams";
+    private string SelectedTab { get; set; } = "Team";
+    private CompanyResponse Company { get; set; } = new();
+
     private void CompanySelected(Guid companyUId)
     {
-       if (companyUId != Guid.Empty)
-       {
-           NavigationManager.NavigateTo("/companies/" + companyUId + "/tags");
-       }
-       else
-       {
-           NavigationManager.NavigateTo("/tags");
-       }
-       
+        if (companyUId != Guid.Empty)
+        {
+            NavigationManager.NavigateTo("/companies/" + companyUId + "/tags"); 
+            StateHasChanged();
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/tags");
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Uid == Guid.Empty)
+        {
+            NavigationManager.NavigateTo("/tags");
+        }
+
+        Company = await Http.GetFromJsonAsync<CompanyResponse>("/api/companies/" + Uid) ?? new CompanyResponse();
     }
 
     private void TabChangedHandler(int newIndex)
     {
         SelectedTab = newIndex switch
         {
-            0 => "Teams",
-            1 => "Team Members",
-            2 => "Stakeholders",
-            3 => "Skills",
+            0 => "Team",
+            1 => "TeamMember",
+            2 => "Stakeholder",
+            3 => "Skill",
             _ => SelectedTab
         };
     }
-    
 }

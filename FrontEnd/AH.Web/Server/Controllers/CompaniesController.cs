@@ -23,6 +23,13 @@ public class CompaniesController : ControllerBase
         return Ok(response);
     }
     
+    [HttpGet("{uid:guid}")]
+    public async Task<ActionResult> Get([FromRoute] Guid uid)
+    {
+        var response = await _companyService.GetCompany(uid);
+        return Ok(response);
+    }
+    
     [HttpGet("/api/allcompanies")]
     public async Task<ActionResult> GetAllDomains()
     {

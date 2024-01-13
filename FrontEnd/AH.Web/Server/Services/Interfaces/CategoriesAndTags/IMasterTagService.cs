@@ -1,7 +1,6 @@
-﻿using AH.Metadata.Shared.V1.Models.Requests.Tags;
-using AH.Metadata.Shared.V1.Models.Responses.MasterTags;
+﻿using AH.Metadata.Shared.V1.Models.Responses.MasterTags;
 
-namespace AH.Web.Server.Services.Interfaces;
+namespace AH.Web.Server.Services.Interfaces.CategoriesAndTags;
 
 public interface IMasterTagService
 {

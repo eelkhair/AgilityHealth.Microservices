@@ -31,10 +31,23 @@ public class ApiMappingProfileV1 : Profile
         CreateMap<CompanyDto, CompanyResponse>();
         CreateMap<MasterTagCategoryDto, CompanyMasterTagCategoryResponse>();
         CreateMap<MasterTagDto, CompanyMasterTagResponse>();
-        CreateMap<CompanyTeamCategoryDto, CompanyTeamCategoryResponse>();
-        CreateMap<CompanyTeamMemberCategoryDto, CompanyTeamMemberCategoryResponse>();
-        CreateMap<CompanyTeamMemberTagDto, CompanyTeamMemberTagResponse>();
-        CreateMap<CompanyTeamTagDto, CompanyTeamTagResponse>();
         
+        
+        CreateMap<CompanyTeamCategoryDto, CompanyCategoryResponse>();
+        CreateMap<CompanyTeamMemberCategoryDto, CompanyCategoryResponse>();    
+        CreateMap<CompanyStakeholderCategoryDto, CompanyCategoryResponse>();
+        CreateMap<CompanySkillCategoryDto, CompanyCategoryResponse>();
+        
+        
+        CreateMap<CompanyTeamMemberTagDto, CompanyTagResponse>()
+            .ForMember(x => x.CompanyCategory, opt => opt.MapFrom(src => src.CompanyTeamMemberCategory))
+            .ForMember(x => x.CompanyTeamTag, opt => opt.MapFrom(src => src.CompanyTeamTag));
+        CreateMap<CompanyTeamTagDto, CompanyTagResponse>()
+            .ForMember(x => x.CompanyCategory, opt => opt.MapFrom(src => src.CompanyTeamCategory));
+        CreateMap<CompanyStakeholderTagDto, CompanyTagResponse>()
+            .ForMember(x => x.CompanyCategory, opt => opt.MapFrom(src => src.CompanyStakeholderCategory));
+        CreateMap<CompanySkillTagDto, CompanyTagResponse>()
+            .ForMember(x => x.CompanyCategory, opt => opt.MapFrom(src => src.CompanySkillCategory));
+
     }
 }

@@ -11,4 +11,5 @@ public interface ICompanyService
     Task<List<CompanyResponse>> GetCompaniesForCurrentDomain();
     
     Task<List<CompanyWithDomainResponse>> GetCompaniesForAllDomains();
+    Task<CompanyResponse?> GetCompany(Guid uid);
 }

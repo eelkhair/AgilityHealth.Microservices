@@ -7,13 +7,19 @@
         <RootNamespace>AH.Company.Shared.V1</RootNamespace>
         <PackageId>AH.Company.Shared.V1</PackageId>
         <Authors>Elkhair Elkhair</Authors>
-        <Version>1.0.3</Version>
+        <Version>1.0.5</Version>
         <Description>Shared components for the company microservice</Description>
         <IsPackable>true</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>
       <Folder Include="Models\Companies\Requests\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Models\Tags\Responses\CompanySkillTagResponse.cs" />
+      <Compile Remove="Models\Tags\Responses\CompanyStakeholderTagResponse.cs" />
+      <Compile Remove="Models\Tags\Responses\CompanyTeamTagResponse.cs" />
     </ItemGroup>
 
 </Project>

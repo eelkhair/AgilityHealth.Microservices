@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace AH.Company.Api.Controllers;
 
 /// <summary>
-/// CompanyTeamCategoriesController
+/// CompanyStakeholderCategoriesController
 /// </summary>
-public class CompanyTeamMemberCategoriesController : BaseController
+public class CompanyStakeholderCategoriesController : BaseController
 {
     /// <summary>
     /// Constructor
@@ -17,19 +17,19 @@ public class CompanyTeamMemberCategoriesController : BaseController
     /// <param name="mapper"></param>
     /// <param name="logger"></param>
     /// <param name="mediator"></param>
-    public CompanyTeamMemberCategoriesController(IMapper mapper, ILogger logger, IMediator mediator) : base(mapper, logger, mediator)
+    public CompanyStakeholderCategoriesController(IMapper mapper, ILogger<CompanyStakeholderCategoriesController> logger, IMediator mediator) : base(mapper, logger, mediator)
     {
     }
     
     /// <summary>
-    /// Get all company team member categories by company
+    /// Get all company stakeholder categories by company
     /// </summary>
     /// <param name="companyUId"></param>
     /// <returns></returns>
     [HttpGet("{companyUId:guid}")]
     public async Task<IActionResult> Get([FromRoute] Guid companyUId)
     {
-        var query = new ListCompanyTeamMemberCategoriesQuery(User, Logger, companyUId);
+        var query = new ListCompanyStakeholderCategoriesQuery(User, Logger, companyUId);
         var result = await Mediator.Send(query);
         return Ok(Mapper.Map<List<CompanyCategoryResponse>>(result));
     }

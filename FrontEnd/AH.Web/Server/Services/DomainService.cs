@@ -11,7 +11,7 @@ public class DomainService : IDomainService
     {
         _httpClient = httpClient;
     }
-    public async Task<List<DomainWithCompaniesResponse>> GetDomains() => await _httpClient.Get<DomainWithCompaniesResponse>("v1/domains");
+    public async Task<List<DomainWithCompaniesResponse>> GetDomains() => await _httpClient.GetList<DomainWithCompaniesResponse>("v1/domains");
 
     public async Task<DomainWithCompaniesResponse> UpdateDomain(DomainWithCompaniesResponse domain)
         => await _httpClient.Upsert<DomainWithCompaniesResponse>($"v1/domains/{domain.UId}", domain, true);

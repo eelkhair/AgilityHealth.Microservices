@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace AH.Company.Api.Controllers;
 
 /// <summary>
-/// CompanyTeamMemberTagsController
+/// CompanySkillTagsController
 /// </summary>
-public class CompanyTeamMemberTagsController : BaseController
+public class CompanySkillTagsController : BaseController
 {
     /// <summary>
     /// Constructor
@@ -17,19 +17,19 @@ public class CompanyTeamMemberTagsController : BaseController
     /// <param name="mapper"></param>
     /// <param name="logger"></param>
     /// <param name="mediator"></param>
-    public CompanyTeamMemberTagsController(IMapper mapper, ILogger logger, IMediator mediator) : base(mapper, logger, mediator)
+    public CompanySkillTagsController(IMapper mapper, ILogger<CompanySkillTagsController> logger, IMediator mediator) : base(mapper, logger, mediator)
     {
     }
     
     /// <summary>
-    /// Get all company team member tags by category
+    /// Get all company skill tags by category
     /// </summary>
-    /// <param name="companyTeamMemberCategoryUId"></param>
+    /// <param name="companySkillCategoryUId"></param>
     /// <returns></returns>
-    [HttpGet("{companyTeamMemberCategoryUId:guid}")]
-    public async Task<IActionResult> Get([FromRoute] Guid companyTeamMemberCategoryUId)
+    [HttpGet("{companySkillCategoryUId:guid}")]
+    public async Task<IActionResult> Get([FromRoute] Guid companySkillCategoryUId)
     {
-        var query = new ListCompanyTeamMemberTagsQuery(User, Logger, companyTeamMemberCategoryUId);
+        var query = new ListCompanySkillsQuery(User, Logger, companySkillCategoryUId);
         var result = await Mediator.Send(query);
         return Ok(Mapper.Map<List<CompanyTagResponse>>(result));
     }

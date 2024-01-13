@@ -7,23 +7,23 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace AH.Company.Application.Queries.CompanyStakeholderCategories;
+namespace AH.Company.Application.Queries.CompanyTagCategories;
 
-public class ListCompanyStakeholderCategoriesQuery(ClaimsPrincipal user, ILogger logger, Guid companyUId)
-    : BaseQuery<List<CompanyStakeholderCategoryDto>>(user, logger)
+public class ListCompanyTeamMemberCategoriesQuery(ClaimsPrincipal user, ILogger logger, Guid companyUId)
+    : BaseQuery<List<CompanyTeamMemberCategoryDto>>(user, logger)
 {
     public Guid CompanyUId { get; } = companyUId;
 }
 
-public class ListCompanyStakeholderCategoriesQueryHandler(ICompanyMicroServiceDbContext context, IMapper mapper)
+public class ListCompanyTeamMemberCategoriesQueryHandler(ICompanyMicroServiceDbContext context, IMapper mapper)
     : BaseQueryHandler(context, mapper),
-        IRequestHandler<ListCompanyStakeholderCategoriesQuery, List<CompanyStakeholderCategoryDto>>
+        IRequestHandler<ListCompanyTeamMemberCategoriesQuery, List<CompanyTeamMemberCategoryDto>>
 {
-    public async Task<List<CompanyStakeholderCategoryDto>> Handle(ListCompanyStakeholderCategoriesQuery request, CancellationToken cancellationToken)
+    public async Task<List<CompanyTeamMemberCategoryDto>> Handle(ListCompanyTeamMemberCategoriesQuery request, CancellationToken cancellationToken)
     {
         request.Logger.LogInformation("Connections string: {ConnectionString}", Context.GetConnectionString());
-        request.Logger.LogInformation("Getting company stakeholder categories");
-        var companyStakeholderCategories = await Context.CompanyStakeholderCategories.Where(x=>x.Company.UId == request.CompanyUId).Select(x=> new CompanyStakeholderCategory()
+        request.Logger.LogInformation("Getting company team member categories");
+        var companyTeamMemberCategories = await Context.CompanyTeamMemberCategories.Where(x=>x.Company.UId == request.CompanyUId).Select(x=> new CompanyTeamMemberCategory
         {
             UId = x.UId,
             Name = x.Name,
@@ -41,6 +41,6 @@ public class ListCompanyStakeholderCategoriesQueryHandler(ICompanyMicroServiceDb
                 ClassName = x.MasterTagCategory.ClassName
             }
         }).ToListAsync(cancellationToken);
-        return Mapper.Map<List<CompanyStakeholderCategoryDto>>(companyStakeholderCategories);
+        return Mapper.Map<List<CompanyTeamMemberCategoryDto>>(companyTeamMemberCategories);
     }
 }

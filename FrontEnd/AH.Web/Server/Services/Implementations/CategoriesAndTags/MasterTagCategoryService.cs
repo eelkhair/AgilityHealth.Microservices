@@ -1,7 +1,7 @@
 ﻿using AH.Metadata.Shared.V1.Models.Responses.MasterTagCategories;
-using AH.Web.Server.Services.Interfaces;
+using AH.Web.Server.Services.Interfaces.CategoriesAndTags;
 
-namespace AH.Web.Server.Services;
+namespace AH.Web.Server.Services.Implementations.CategoriesAndTags;
 
 public class MasterTagCategoryService : IMasterTagCategoryService
 {
@@ -13,7 +13,7 @@ public class MasterTagCategoryService : IMasterTagCategoryService
     }
 
     public async Task<List<MasterTagCategoryResponse>> GetMasterTagCategories() =>
-        await _httpClient.Get<MasterTagCategoryResponse>("v1/mastertagcategories");
+        await _httpClient.GetList<MasterTagCategoryResponse>("v1/mastertagcategories");
 
     public async Task<MasterTagCategoryResponse> CreateMasterTagCategory(MasterTagCategoryResponse category)
     {

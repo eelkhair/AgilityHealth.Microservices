@@ -1,9 +1,126 @@
+@using AH.Company.Shared.V1.Models.Tags.Responses
 @inject HttpClient Http
-
+<div class="tags-forty">
+     <TelerikGrid Data="@_gridCategories"
+                 EditMode="@GridEditMode.Popup"
+                 FilterMode="@GridFilterMode.FilterMenu"
+                 EnableLoaderContainer="true"
+                 Sortable="true"
+                 Height="600px"
+                 OnUpdate="@UpdateCategoryHandler"
+                 OnAdd="@AddCategoryHandler"
+                 OnEdit="@EditCategoryHandler"
+                 OnCreate="@CreateCategoryHandler"
+                 OnDelete="@DeleteCategoryHandler"
+                 SelectionMode="@GridSelectionMode.Single"
+                 ConfirmDelete="true"
+                 OnRowClick="@( async args => { await CategoryClicked(args); })">
+        <GridToolBarTemplate>
+            <GridCommandButton Command="Add" Icon = "@SvgIcon.Plus">Add Category</GridCommandButton>
+        </GridToolBarTemplate>
+        <GridColumns>
+            <GridColumn Field="@nameof(CompanyCategoryResponse.Name)" Title="Name"/>
+            <GridColumn Field="@nameof(CompanyCategoryResponse.Type)" Title="Type">
+                <EditorTemplate>
+                    @{
+                        _selectedCategory = (CompanyCategoryResponse) context;
+                        <TelerikDropDownList Data="@_types"
+                                             @bind-Value="@_selectedCategory.Type">
+                            <DropDownListSettings>
+                                <DropDownListPopupSettings Height="auto" />
+                            </DropDownListSettings>
+                        </TelerikDropDownList>
+                    }
+                </EditorTemplate>
+                <Template>
+                    @((context as CompanyCategoryResponse)?.Type == string.Empty ? "All" : (context as CompanyCategoryResponse)?.Type)
+                </Template>
+            </GridColumn>
+            <GridColumn Field="MasterTagCategoryName" Title="Description" Visible="true">
+                <Template>
+                    @((context as CompanyCategoryResponse)?.MasterTagCategory?.Name)
+                </Template>
+            </GridColumn>
+            <GridCommandColumn>
+                <GridCommandButton Command="Edit" Icon="@SvgIcon.Pencil">Edit</GridCommandButton>
+                <GridCommandButton Command="Delete" Icon="@SvgIcon.Trash">Delete</GridCommandButton>
+            </GridCommandColumn>
+        </GridColumns>
+         <GridSettings>
+                <GridPopupEditSettings Title="@_gridTitle"></GridPopupEditSettings>
+            </GridSettings>
+    </TelerikGrid>
+</div>
+<div class="k-master-row">
+    
+</div>
 @code {
-    [Parameter] public string TabType { get; set; } = "Teams";
+    [Parameter] public string TabType { get; set; } = "Team";
     [Parameter] public Guid CompanyUId { get; set; }
-    [Inject] public IJSRuntime JsRuntime { get; set; }
-    
-    
+    [Inject] public IJSRuntime JsRuntime { get; set; } = null!;
+
+    private CompanyCategoryResponse _selectedCategory = new();
+    private List<CompanyCategoryResponse> _gridCategories = new();
+    private List<CompanyTagResponse> _tags = new();
+    private List<string> _types = new() { "All", "Individual", "Team", "MultiTeam", "Enterprise" };
+    private string _gridTitle = "Category";
+
+    protected override async Task OnParametersSetAsync()
+    {
+            var response = await Http.GetAsync($"api/Company{TabType}Categories/{CompanyUId}");
+            _gridCategories = await response.Content.ReadFromJsonAsync<List<CompanyCategoryResponse>>() ?? new List<CompanyCategoryResponse>();
+    }
+
+    private void AddCategoryHandler(GridCommandEventArgs arg)
+    {
+        var category = (CompanyCategoryResponse)arg.Item;
+        category.Type = "All";
+        _gridTitle = "Add Category";
+    }
+    private void EditCategoryHandler(GridCommandEventArgs arg)
+    {
+        var category = (CompanyCategoryResponse)arg.Item;
+
+        if (category.Type == string.Empty)
+        {
+            category.Type = "All";
+        }
+        
+        _gridTitle = "Edit Category";
+    }
+    private Task CreateCategoryHandler(GridCommandEventArgs arg)
+    {
+        throw new NotImplementedException();
+    }
+    private Task UpdateCategoryHandler(GridCommandEventArgs arg)
+    {
+        throw new NotImplementedException();
+    }
+    private Task DeleteCategoryHandler(GridCommandEventArgs arg)
+    {
+        throw new NotImplementedException();
+    }
+
+    private async Task CategoryClicked(GridRowClickEventArgs arg)
+    {
+        var category = (CompanyCategoryResponse)arg.Item;
+        var response = await Http.GetAsync($"api/Company{TabType}Tags/{category.UId}");
+        _tags = await response.Content.ReadFromJsonAsync<List<CompanyTagResponse>>() ?? new List<CompanyTagResponse>();
+        StateHasChanged();
+        await JsRuntime.InvokeVoidAsync("console.log", _tags);
+    }
+
+
 }
+<style>
+    .tags-forty{
+        display: inline-block;
+        width: 45%;
+        float: left;
+        padding: 0 10px;
+        
+    }
+    .k-master-row{
+        cursor: pointer;
+    }
+</style>

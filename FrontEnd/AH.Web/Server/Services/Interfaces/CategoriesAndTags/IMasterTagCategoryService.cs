@@ -1,6 +1,6 @@
 ﻿using AH.Metadata.Shared.V1.Models.Responses.MasterTagCategories;
 
-namespace AH.Web.Server.Services.Interfaces;
+namespace AH.Web.Server.Services.Interfaces.CategoriesAndTags;
 
 public interface IMasterTagCategoryService
 {

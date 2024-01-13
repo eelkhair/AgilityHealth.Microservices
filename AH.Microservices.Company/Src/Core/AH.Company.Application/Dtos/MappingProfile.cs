@@ -28,7 +28,7 @@ public class MappingProfile:Profile
         CreateMap<CompanyTeamTag, CompanyTeamTagDto>().ReverseMap();  
         CreateMap<CompanyTeamMemberCategory, CompanyTeamMemberCategoryDto>().ReverseMap();
         CreateMap<CompanyTeamMemberTag, CompanyTeamMemberTagDto>().ReverseMap();  
-        CreateMap<CompanyStakeholderCategory, CompanyStakeholderCategory>().ReverseMap();
+        CreateMap<CompanyStakeholderCategory, CompanyStakeholderCategoryDto>().ReverseMap();
         CreateMap<CompanyStakeholderTag, CompanyStakeholderTagDto>().ReverseMap();  
         CreateMap<CompanySkillCategory, CompanySkillCategoryDto>().ReverseMap();
         CreateMap<CompanySkillTag, CompanySkillTagDto>().ReverseMap();

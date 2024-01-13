@@ -7,23 +7,25 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace AH.Company.Application.Queries.CompanyTeamCategories;
+namespace AH.Company.Application.Queries.CompanyTagCategories;
 
-public class ListCompanyTeamCategoriesQuery(ClaimsPrincipal user, ILogger logger, Guid companyUId)
-    : BaseQuery<List<CompanyTeamCategoryDto>>(user, logger)
+public class ListCompanySkillCategoriesQuery(ClaimsPrincipal user, ILogger logger, Guid companyUId)
+    : BaseQuery<List<CompanySkillCategoryDto>>(user, logger)
 {
     public Guid CompanyUId { get; } = companyUId;
 }
 
-public class ListCompanyTeamCategoriesQueryHandler(ICompanyMicroServiceDbContext context, IMapper mapper)
+public class ListCompanySkillCategoriesQueryHandler(ICompanyMicroServiceDbContext context, IMapper mapper)
     : BaseQueryHandler(context, mapper),
-        IRequestHandler<ListCompanyTeamCategoriesQuery, List<CompanyTeamCategoryDto>>
+        IRequestHandler<ListCompanySkillCategoriesQuery, List<CompanySkillCategoryDto>>
 {
-    public async Task<List<CompanyTeamCategoryDto>> Handle(ListCompanyTeamCategoriesQuery request, CancellationToken cancellationToken)
+    public async Task<List<CompanySkillCategoryDto>> Handle(ListCompanySkillCategoriesQuery request, CancellationToken cancellationToken)
     {
         request.Logger.LogInformation("Connections string: {ConnectionString}", Context.GetConnectionString());
-        request.Logger.LogInformation("Getting company team categories");
-        var companyTeamCategories = await Context.CompanyTeamCategories.Where(x=>x.Company.UId == request.CompanyUId).Select(x=> new CompanyTeamCategory
+        request.Logger.LogInformation("Getting company skill categories");
+        var companySkillCategories = await Context.CompanySkillCategories
+            .Where(x=>x.Company.UId == request.CompanyUId)
+            .Select(x=> new CompanySkillCategory
         {
             UId = x.UId,
             Name = x.Name,
@@ -41,6 +43,6 @@ public class ListCompanyTeamCategoriesQueryHandler(ICompanyMicroServiceDbContext
                 ClassName = x.MasterTagCategory.ClassName
             }
         }).ToListAsync(cancellationToken);
-        return Mapper.Map<List<CompanyTeamCategoryDto>>(companyTeamCategories);
+        return Mapper.Map<List<CompanySkillCategoryDto>>(companySkillCategories);
     }
 }

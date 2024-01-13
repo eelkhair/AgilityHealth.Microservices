@@ -37,5 +37,22 @@ public class CompaniesController : BaseController
         var result = await Mediator.Send(query);
         return Ok(Mapper.Map<List<CompanyResponse>>(result));
     }
+
+    /// <summary>
+    /// Get company by uid
+    /// </summary>
+    /// <param name="uid"></param>
+    /// <returns></returns>
+    /// <response code="200">Returns all companies</response>
+    /// <response code="400">If the item is null</response>
+    /// <response code="500">If there was an internal server error</response>
+    /// <remarks></remarks>
+    [HttpGet("{uid:guid}")]
+    public async Task<IActionResult> Get([FromRoute] Guid uid)
+    {
+        var query = new GetCompanyQuery(User, Logger, uid);
+        var result = await Mediator.Send(query);
+        return Ok(Mapper.Map<CompanyResponse>(result));
+    }
     
 }

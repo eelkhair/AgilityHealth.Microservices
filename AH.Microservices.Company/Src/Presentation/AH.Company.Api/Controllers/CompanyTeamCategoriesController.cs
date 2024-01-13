@@ -1,4 +1,4 @@
-using AH.Company.Application.Queries.CompanyTeamCategories;
+using AH.Company.Application.Queries.CompanyTagCategories;
 using AH.Company.Shared.V1.Models.Tags.Responses;
 using AutoMapper;
 using MediatR;
@@ -31,6 +31,6 @@ public class CompanyTeamCategoriesController : BaseController
     {
         var query = new ListCompanyTeamCategoriesQuery(User, Logger, companyUId);
         var result = await Mediator.Send(query);
-        return Ok(Mapper.Map<List<CompanyTeamCategoryResponse>>(result));
+        return Ok(Mapper.Map<List<CompanyCategoryResponse>>(result));
     }
 }

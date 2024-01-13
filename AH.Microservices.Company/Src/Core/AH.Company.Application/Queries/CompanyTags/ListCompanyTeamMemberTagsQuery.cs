@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace AH.Company.Application.Queries.CompanyTeamMemberTags;
+namespace AH.Company.Application.Queries.CompanyTags;
 
 public class ListCompanyTeamMemberTagsQuery(ClaimsPrincipal user, ILogger logger, Guid companyTeamMemberCategoryUId)
     : BaseQuery<List<CompanyTeamMemberTagDto>>(user, logger)
@@ -45,10 +45,29 @@ public class ListCompanyTeamMemberTagsQueryHandler(ICompanyMicroServiceDbContext
                 CompanyTeamTag = x.CompanyTeamTag == null ? null : new CompanyTeamTag
                 {
                     Name = x.CompanyTeamTag.Name,
+                    CompanyTeamCategory = new CompanyTeamCategory
+                    {
+                        Name = x.CompanyTeamTag.CompanyTeamCategory.Name,
+                        Type = x.CompanyTeamTag.CompanyTeamCategory.Type,
+                        UId = x.CompanyTeamTag.CompanyTeamCategory.UId,
+                        Company = new Domain.Entities.Company
+                        {
+                            Name = x.CompanyTeamTag.CompanyTeamCategory.Company.Name,
+                            UId = x.CompanyTeamTag.CompanyTeamCategory.Company.UId
+                        },
+                        MasterTagCategory = new MasterTagCategory
+                        {
+                            Name = x.CompanyTeamTag.CompanyTeamCategory.MasterTagCategory.Name,
+                            ClassName = x.CompanyTeamTag.CompanyTeamCategory.MasterTagCategory.ClassName,
+                            Type = x.CompanyTeamTag.CompanyTeamCategory.MasterTagCategory.Type,
+                            UId = x.CompanyTeamTag.CompanyTeamCategory.MasterTagCategory.UId
+                        }
+                    },
                     MasterTag = x.CompanyTeamTag.MasterTag == null ? null : new MasterTag
                     {
                         Name = x.CompanyTeamTag.MasterTag.Name,
                         ClassName = x.CompanyTeamTag.MasterTag.ClassName,
+                        
                         MasterTagCategory =  new MasterTagCategory
                         {
                             Name = x.CompanyTeamTag.MasterTag.MasterTagCategory.Name,
@@ -59,6 +78,25 @@ public class ListCompanyTeamMemberTagsQueryHandler(ICompanyMicroServiceDbContext
                         UId = x.CompanyTeamTag.MasterTag.UId
                     },
                     UId = x.CompanyTeamTag.UId
+                },
+                CompanyTeamMemberCategory = new CompanyTeamMemberCategory
+                {
+                    Name = x.CompanyTeamMemberCategory.Name,
+                    Type = x.CompanyTeamMemberCategory.Type,
+                    UId = x.CompanyTeamMemberCategory.UId,
+                    Company = new Domain.Entities.Company
+                    {
+                        Name = x.CompanyTeamMemberCategory.Company.Name,
+                        UId = x.CompanyTeamMemberCategory.Company.UId
+                    },
+                    MasterTagCategory = new MasterTagCategory
+                    {
+                        Name = x.CompanyTeamMemberCategory.MasterTagCategory.Name,
+                        ClassName = x.CompanyTeamMemberCategory.MasterTagCategory.ClassName,
+                        Type = x.CompanyTeamMemberCategory.MasterTagCategory.Type,
+                        UId = x.CompanyTeamMemberCategory.MasterTagCategory.UId
+                    }
+                
                 },
                 UId = x.UId
             }).ToListAsync(cancellationToken);

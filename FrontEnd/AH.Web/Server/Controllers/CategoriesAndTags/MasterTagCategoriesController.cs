@@ -1,9 +1,9 @@
 using AH.Metadata.Shared.V1.Models.Responses.MasterTagCategories;
-using AH.Web.Server.Services.Interfaces;
+using AH.Web.Server.Services.Interfaces.CategoriesAndTags;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AH.Web.Server.Controllers;
+namespace AH.Web.Server.Controllers.CategoriesAndTags;
 
 [ApiController]
 [Route("api/[controller]")]
