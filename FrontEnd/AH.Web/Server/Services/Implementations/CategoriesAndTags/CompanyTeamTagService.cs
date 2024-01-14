@@ -11,6 +11,7 @@ public class CompanyTeamTagService: ICompanyTeamTagService
     {
         _httpClient = httpClient;
     }
-    public async Task<List<CompanyTagResponse>> GetCompanyTeamTags(Guid companyTeamCategoryUId) => await _httpClient.GetList<CompanyTagResponse>($"/api/companyteamtags/{companyTeamCategoryUId}");
+    public async Task<List<CompanyTagResponse>> GetCompanyTeamTags(Guid companyTeamCategoryUId) => 
+        await _httpClient.GetList<CompanyTagResponse>($"/api/companyteamtags/{companyTeamCategoryUId}");
    
 }

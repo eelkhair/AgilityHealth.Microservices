@@ -52,14 +52,43 @@
     </TelerikGrid>
 </div>
 <div class="k-master-row">
-    
+    @if (_selectedCategory != null)
+    {
+        <TelerikGrid Data="@_tags"
+                     EditMode="@GridEditMode.Popup"
+                     FilterMode="@GridFilterMode.FilterMenu"
+                     EnableLoaderContainer="true"
+                     Sortable="true"
+                     Height="600px"
+                     OnAdd="@AddTagHandler"
+                     OnEdit="@EditTagHandler"
+                     OnCreate="@CreateTagHandler"
+                     OnDelete="@DeleteTagHandler"
+                     OnUpdate="@UpdateTagHandler"
+                     SelectionMode="@GridSelectionMode.Single"
+                     ConfirmDelete="true">
+            <GridToolBarTemplate>
+                <GridCommandButton Command="Add" Icon="@SvgIcon.Plus">Add Tag</GridCommandButton>
+            </GridToolBarTemplate>
+            <GridColumns>
+                <GridColumn Field="@nameof(CompanyTagResponse.Name)" Title="Name"/>
+                <GridCommandColumn>
+                    <GridCommandButton Command="Edit" Icon="@SvgIcon.Pencil">Edit</GridCommandButton>
+                    <GridCommandButton Command="Delete" Icon="@SvgIcon.Trash">Delete</GridCommandButton>
+                </GridCommandColumn>
+            </GridColumns>
+            <GridSettings>
+                <GridPopupEditSettings Title="@_gridTitle"></GridPopupEditSettings>
+            </GridSettings>
+        </TelerikGrid>
+    }
 </div>
 @code {
     [Parameter] public string TabType { get; set; } = "Team";
     [Parameter] public Guid CompanyUId { get; set; }
     [Inject] public IJSRuntime JsRuntime { get; set; } = null!;
 
-    private CompanyCategoryResponse _selectedCategory = new();
+    private CompanyCategoryResponse? _selectedCategory;
     private List<CompanyCategoryResponse> _gridCategories = new();
     private List<CompanyTagResponse> _tags = new();
     private List<string> _types = new() { "All", "Individual", "Team", "MultiTeam", "Enterprise" };
@@ -108,8 +137,33 @@
         _tags = await response.Content.ReadFromJsonAsync<List<CompanyTagResponse>>() ?? new List<CompanyTagResponse>();
         StateHasChanged();
         await JsRuntime.InvokeVoidAsync("console.log", _tags);
+        _selectedCategory = category;
     }
 
+    private Task AddTagHandler(GridCommandEventArgs arg)
+    {
+        throw new NotImplementedException();
+    }
+    
+    private Task EditTagHandler(GridCommandEventArgs arg)
+    {
+        throw new NotImplementedException();
+    }
+    
+    private Task CreateTagHandler(GridCommandEventArgs arg)
+    {
+        throw new NotImplementedException();
+    }
+    
+    private Task UpdateTagHandler(GridCommandEventArgs arg)
+    {
+        throw new NotImplementedException();
+    }
+    
+    private Task DeleteTagHandler(GridCommandEventArgs arg)
+    {
+        throw new NotImplementedException();
+    }
 
 }
 <style>

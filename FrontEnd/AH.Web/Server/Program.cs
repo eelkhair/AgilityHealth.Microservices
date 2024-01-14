@@ -12,23 +12,33 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddTransient<IMasterTagCategoryService, MasterTagCategoryService>(p=>  new MasterTagCategoryService(GetHttpClient(p, "ah-metadata-api")));
-builder.Services.AddTransient<IMasterTagService, MasterTagService>(p=>  new MasterTagService(GetHttpClient(p, "ah-metadata-api")));
-builder.Services.AddTransient<IDomainService, DomainService>(p=>  new DomainService(GetHttpClient(p, "ah-metadata-api")));
+
+const string ahCompanyApi = "ah-company-api";
+const string ahMetadataApi = "ah-metadata-api";
+
+builder.Services.AddTransient<IMasterTagCategoryService, MasterTagCategoryService>(p=>  new MasterTagCategoryService(GetHttpClient(p, ahMetadataApi)));
+builder.Services.AddTransient<IMasterTagService, MasterTagService>(p=>  new MasterTagService(GetHttpClient(p, ahMetadataApi)));
+builder.Services.AddTransient<IDomainService, DomainService>(p=>  new DomainService(GetHttpClient(p, ahMetadataApi)));
 builder.Services.AddTransient<ICompanyService, CompanyService>(p=> new CompanyService(
-        GetHttpClient(p, "ah-metadata-api"),
-    GetHttpClient(p, "ah-company-api")));
+        GetHttpClient(p, ahMetadataApi),
+    GetHttpClient(p, ahCompanyApi)));
 
 builder.Services.AddTransient<ICompanyTeamCategoryService, CompanyTeamCategoryService>(p=> new CompanyTeamCategoryService(
-    GetHttpClient(p, "ah-company-api")));
+    GetHttpClient(p, ahCompanyApi)));
 builder.Services.AddTransient<ICompanyTeamMemberCategoryService, CompanyTeamMemberCategoryService>(p=> new CompanyTeamMemberCategoryService(
-    GetHttpClient(p, "ah-company-api")));
+    GetHttpClient(p, ahCompanyApi)));
 builder.Services.AddTransient<ICompanyStakeholderCategoryService, CompanyStakeholderCategoryService>(p=> new CompanyStakeholderCategoryService(
-    GetHttpClient(p, "ah-company-api")));
+    GetHttpClient(p, ahCompanyApi)));
 builder.Services.AddTransient<ICompanySkillCategoryService, CompanySkillCategoryService>(p=> new CompanySkillCategoryService(
-    GetHttpClient(p, "ah-company-api")));
+    GetHttpClient(p, ahCompanyApi)));
 builder.Services.AddTransient<ICompanyTeamTagService, CompanyTeamTagService>(p=> new CompanyTeamTagService(
-    GetHttpClient(p, "ah-company-api")));
+    GetHttpClient(p, ahCompanyApi)));
+builder.Services.AddTransient<ICompanyTeamMemberTagService, CompanyTeamMemberTagService>(p=> new CompanyTeamMemberTagService(
+    GetHttpClient(p, ahCompanyApi)));
+builder.Services.AddTransient<ICompanyStakeholderTagService, CompanyStakeholderTagService>(p=> new CompanyStakeholderTagService(
+    GetHttpClient(p, ahCompanyApi)));
+builder.Services.AddTransient<ICompanySkillTagService, CompanySkillTagService>(p=> new CompanySkillTagService(
+    GetHttpClient(p, ahCompanyApi)));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, c =>
