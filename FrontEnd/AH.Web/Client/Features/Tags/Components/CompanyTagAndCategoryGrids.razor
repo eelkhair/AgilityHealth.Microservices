@@ -12,6 +12,7 @@
                  OnEdit="@EditCategoryHandler"
                  OnCreate="@CreateCategoryHandler"
                  OnDelete="@DeleteCategoryHandler"
+                 OnCancel="@CancelCategoryHandler"
                  SelectionMode="@GridSelectionMode.Single"
                  ConfirmDelete="true"
                  OnRowClick="@( async args => { await CategoryClicked(args); })">
@@ -25,6 +26,7 @@
                     @{
                         _selectedCategory = (CompanyCategoryResponse) context;
                         <TelerikDropDownList Data="@_types"
+                                             OnChange="@CategoryTypeChanged"
                                              @bind-Value="@_selectedCategory.Type">
                             <DropDownListSettings>
                                 <DropDownListPopupSettings Height="auto" />
@@ -36,7 +38,20 @@
                     @((context as CompanyCategoryResponse)?.Type == string.Empty ? "All" : (context as CompanyCategoryResponse)?.Type)
                 </Template>
             </GridColumn>
-            <GridColumn Field="MasterTagCategoryName" Title="Description" Visible="true">
+            <GridColumn Field="MasterTagCategory.UId" Title="Master Category" Visible="@CategoryEditMode">
+                <EditorTemplate>
+                    @{
+                        _selectedCategory = (CompanyCategoryResponse) context;
+                        <TelerikDropDownList Data="@_currentMasterTagCategories"
+                                             ValueField="UId"
+                                             TextField="Name"
+                                             @bind-Value="@_selectedCategory.MasterTagCategory!.UId">
+                            <DropDownListSettings>
+                                <DropDownListPopupSettings Height="auto" />
+                            </DropDownListSettings>
+                        </TelerikDropDownList>
+                    }
+                </EditorTemplate>
                 <Template>
                     @((context as CompanyCategoryResponse)?.MasterTagCategory?.Name)
                 </Template>
@@ -88,48 +103,92 @@
     [Parameter] public Guid CompanyUId { get; set; }
     [Inject] public IJSRuntime JsRuntime { get; set; } = null!;
 
+    private bool CategoryEditMode { get; set; }
     private CompanyCategoryResponse? _selectedCategory;
     private List<CompanyCategoryResponse> _gridCategories = new();
     private List<CompanyTagResponse> _tags = new();
     private List<string> _types = new() { "All", "Individual", "Team", "MultiTeam", "Enterprise" };
     private string _gridTitle = "Category";
+    
+    private List<CompanyMasterTagCategoryResponse> _masterTagCategories = new();
+    private List<CompanyMasterTagCategoryResponse> _currentMasterTagCategories = new();
 
     protected override async Task OnParametersSetAsync()
     {
-            var response = await Http.GetAsync($"api/Company{TabType}Categories/{CompanyUId}");
-            _gridCategories = await response.Content.ReadFromJsonAsync<List<CompanyCategoryResponse>>() ?? new List<CompanyCategoryResponse>();
+        var response = await Http.GetAsync($"api/Company{TabType}Categories/{CompanyUId}");
+        _gridCategories = await response.Content.ReadFromJsonAsync<List<CompanyCategoryResponse>>() ?? new List<CompanyCategoryResponse>();
+        
+        var masterTagCategoriesResponse = await Http.GetAsync($"api/MasterTagCategories");
+        _masterTagCategories  = await masterTagCategoriesResponse.Content.ReadFromJsonAsync<List<CompanyMasterTagCategoryResponse>>() ?? new List<CompanyMasterTagCategoryResponse>();
     }
 
     private void AddCategoryHandler(GridCommandEventArgs arg)
     {
         var category = (CompanyCategoryResponse)arg.Item;
         category.Type = "All";
+        category.MasterTagCategory = new CompanyMasterTagCategoryResponse();
+        _currentMasterTagCategories = _masterTagCategories.Where(x => x.ClassName == (TabType == "Skill" ? "MasterSkillsCategory" : $"Master{TabType}Category")).ToList();
         _gridTitle = "Add Category";
+        
+        CategoryEditMode = true;
     }
-    private void EditCategoryHandler(GridCommandEventArgs arg)
+    
+    private async Task EditCategoryHandler(GridCommandEventArgs arg)
     {
         var category = (CompanyCategoryResponse)arg.Item;
-
+        await JsRuntime.InvokeVoidAsync("console.log", category);
+        _currentMasterTagCategories = _masterTagCategories.Where(x => x.ClassName == (TabType == "Skill" ? "MasterSkillsCategory" : $"Master{TabType}Category")).ToList();
+        await JsRuntime.InvokeVoidAsync("console.log", _currentMasterTagCategories);
         if (category.Type == string.Empty)
         {
             category.Type = "All";
+            _currentMasterTagCategories = _currentMasterTagCategories.Where(x => string.IsNullOrWhiteSpace(x.Type)).ToList();
         }
-        
+        else
+        {
+            _currentMasterTagCategories = _currentMasterTagCategories.Where(x => x.Type == category.Type || string.IsNullOrWhiteSpace(x.Type) ).ToList();
+        }
         _gridTitle = "Edit Category";
+        CategoryEditMode = true;
     }
-    private Task CreateCategoryHandler(GridCommandEventArgs arg)
+    
+    private async Task CreateCategoryHandler(GridCommandEventArgs arg)
     {
-        throw new NotImplementedException();
+        var category = (CompanyCategoryResponse)arg.Item;
+        await JsRuntime.InvokeVoidAsync("console.log", category);
+        CategoryEditMode = false;
     }
-    private Task UpdateCategoryHandler(GridCommandEventArgs arg)
+    
+    private async Task UpdateCategoryHandler(GridCommandEventArgs arg)
     {
-        throw new NotImplementedException();
+        var category = (CompanyCategoryResponse)arg.Item;
+        await JsRuntime.InvokeVoidAsync("console.log", category);
+        CategoryEditMode = false;
+        
     }
+    
     private Task DeleteCategoryHandler(GridCommandEventArgs arg)
     {
         throw new NotImplementedException();
     }
-
+    
+    private void CancelCategoryHandler(GridCommandEventArgs arg)
+    {
+        CategoryEditMode = false;
+    }  
+    private async Task CategoryTypeChanged(object arg)
+    {
+        var type = (string)arg;
+        
+        _currentMasterTagCategories = _masterTagCategories.Where(x => x.ClassName == (TabType == "Skill" ? "MasterSkillsCategory" : $"Master{TabType}Category")).ToList();
+        await JsRuntime.InvokeVoidAsync("console.log", _currentMasterTagCategories);
+        if (type != "All")
+        {
+            _currentMasterTagCategories = _currentMasterTagCategories.Where(x => x.Type == type || string.IsNullOrWhiteSpace(x.Type)).ToList();
+        }
+        StateHasChanged();
+    }
+    
     private async Task CategoryClicked(GridRowClickEventArgs arg)
     {
         var category = (CompanyCategoryResponse)arg.Item;

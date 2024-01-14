@@ -40,8 +40,6 @@ public class CopyTagsCommandHandler(ICompanyMicroServiceDbContext context, IMapp
         var masterStakeholders = allCategories.Where(x => x.ClassName == "MasterStakeholderCategory").ToList();
         var masterStakeholderTags = allTags.Where(x => x.ClassName == "MasterStakeholderTag").ToList();
 
-        
-
         masterStakeholders.ForEach(masterStakeholder =>
         {
             var teamStakeholder = masterStakeholder.CopyToCompanyStakeholderCategory();
