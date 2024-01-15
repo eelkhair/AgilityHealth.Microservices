@@ -12,5 +12,5 @@ public partial class CompanyTeamMemberCategory : BaseAuditableEntity
     public string? Type { get; set; }
     public ICollection<CompanyTeamMemberTag> CompanyTeamMemberTags { get; set; }
     public Company Company { get; set; }
-    public MasterTagCategory MasterTagCategory { get; set; }
+    public MasterTagCategory? MasterTagCategory { get; set; }
 }

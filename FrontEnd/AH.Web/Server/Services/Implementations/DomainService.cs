@@ -1,7 +1,7 @@
 using AH.Metadata.Shared.V1.Models.Responses.Domains;
 using AH.Web.Server.Services.Interfaces;
 
-namespace AH.Web.Server.Services;
+namespace AH.Web.Server.Services.Implementations;
 
 public class DomainService : IDomainService
 {

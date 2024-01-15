@@ -51,7 +51,7 @@ public class ListCompanyTeamTagsQueryHandler(ICompanyMicroServiceDbContext conte
                         Name = x.CompanyTeamCategory.Company.Name,
                         UId = x.CompanyTeamCategory.Company.UId
                     },
-                    MasterTagCategory = new MasterTagCategory
+                    MasterTagCategory = x.CompanyTeamCategory.MasterTagCategory == null ? null : new MasterTagCategory
                     {
                         Name = x.CompanyTeamCategory.MasterTagCategory.Name,
                         ClassName = x.CompanyTeamCategory.MasterTagCategory.ClassName,

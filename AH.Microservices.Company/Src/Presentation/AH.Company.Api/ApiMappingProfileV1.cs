@@ -28,16 +28,14 @@ public class ApiMappingProfileV1 : Profile
 
         CreateMap<CompanyWithDomainResponse, CompanyDto>()
             .ForMember(x => x.DomainName, opt => opt.MapFrom(src => src.Domain.Name));
-        CreateMap<CompanyDto, CompanyResponse>();
-        CreateMap<MasterTagCategoryDto, CompanyMasterTagCategoryResponse>();
-        CreateMap<MasterTagDto, CompanyMasterTagResponse>();
+        CreateMap<CompanyDto, CompanyResponse>().ReverseMap();
+        CreateMap<MasterTagCategoryDto, CompanyMasterTagCategoryResponse>().ReverseMap();
+        CreateMap<MasterTagDto, CompanyMasterTagResponse>().ReverseMap();
         
-        
-        CreateMap<CompanyTeamCategoryDto, CompanyCategoryResponse>();
-        CreateMap<CompanyTeamMemberCategoryDto, CompanyCategoryResponse>();    
-        CreateMap<CompanyStakeholderCategoryDto, CompanyCategoryResponse>();
-        CreateMap<CompanySkillCategoryDto, CompanyCategoryResponse>();
-        
+        CreateMap<CompanyTeamCategoryDto, CompanyCategoryResponse>().ReverseMap();
+        CreateMap<CompanyTeamMemberCategoryDto, CompanyCategoryResponse>().ReverseMap();    
+        CreateMap<CompanyStakeholderCategoryDto, CompanyCategoryResponse>().ReverseMap();
+        CreateMap<CompanySkillCategoryDto, CompanyCategoryResponse>().ReverseMap();
         
         CreateMap<CompanyTeamMemberTagDto, CompanyTagResponse>()
             .ForMember(x => x.CompanyCategory, opt => opt.MapFrom(src => src.CompanyTeamMemberCategory))

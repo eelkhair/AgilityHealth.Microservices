@@ -46,7 +46,7 @@ public class ListCompanySkillsQueryHandler(ICompanyMicroServiceDbContext context
                     Name = x.CompanySkillCategory.Name,
                     Type = x.CompanySkillCategory.Type,
                     UId = x.CompanySkillCategory.UId,
-                    MasterTagCategory = new MasterTagCategory
+                    MasterTagCategory = x.CompanySkillCategory.MasterTagCategory == null ? null : new MasterTagCategory
                     {
                         Name = x.CompanySkillCategory.MasterTagCategory.Name,
                         ClassName = x.CompanySkillCategory.MasterTagCategory.ClassName,

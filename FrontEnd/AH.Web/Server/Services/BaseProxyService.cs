@@ -8,13 +8,6 @@ namespace AH.Web.Server.Services;
 
 public static class BaseProxyService
 {
-    // private static void SetHeaders(HttpClient httpClient)
-    // {
-    //     var token = accessor.HttpContext?.Request.Headers["Authorization"].ToString() ?? string.Empty;
-    //     httpClient.DefaultRequestHeaders.Authorization =
-    //         new AuthenticationHeaderValue("Bearer", token.Replace("Bearer ", string.Empty));
-    //     httpClient.DefaultRequestHeaders.Add("WebHost", accessor.HttpContext?.Request.Host.ToString());
-    // }
     public static async Task<List<T>> GetList<T>(this HttpClient httpClient, string url)
     {
         try
@@ -150,7 +143,7 @@ public static class BaseProxyService
         return default!;
     }
     
-    public static async Task<bool> Delete(this HttpClient httpClient, string url)
+    public static async Task Delete(this HttpClient httpClient, string url)
     {
         try
         {
@@ -159,7 +152,7 @@ public static class BaseProxyService
         
             if(response.IsSuccessStatusCode)
             {
-                return true;
+                return;
             }
 
             // Log status code
@@ -175,7 +168,5 @@ public static class BaseProxyService
             // Handle any unhandled exceptions here
             Console.WriteLine($"An unexpected error occurred: {ex.Message}");
         }
-    
-        return false;
     }
 }

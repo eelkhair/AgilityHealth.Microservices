@@ -51,7 +51,7 @@ public class ListCompanyStakeholdersQueryHandler(ICompanyMicroServiceDbContext c
                       Name = x.CompanyStakeholderCategory.Company.Name,
                       UId = x.CompanyStakeholderCategory.Company.UId
                     },
-                    MasterTagCategory = new MasterTagCategory
+                    MasterTagCategory = x.CompanyStakeholderCategory.MasterTagCategory == null ? null : new MasterTagCategory
                     {
                         Name = x.CompanyStakeholderCategory.MasterTagCategory.Name,
                         ClassName = x.CompanyStakeholderCategory.MasterTagCategory.ClassName,

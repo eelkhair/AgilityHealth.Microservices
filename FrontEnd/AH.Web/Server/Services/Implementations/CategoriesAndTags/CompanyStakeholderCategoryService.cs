@@ -12,5 +12,7 @@ public class CompanyStakeholderCategoryService : ICompanyStakeholderCategoryServ
         _httpClient = httpClient;
     }
     public async Task<List<CompanyCategoryResponse>> GetCompanyStakeholderCategories(Guid companyUId) => await _httpClient.GetList<CompanyCategoryResponse>($"/api/companystakeholdercategories/{companyUId}");
-  
+    public async Task<CompanyCategoryResponse> CreateCompanyStakeholderCategory(CompanyCategoryResponse category) => await _httpClient.Upsert<CompanyCategoryResponse>("/api/companystakeholdercategories", category, false);
+    public async Task<CompanyCategoryResponse> UpdateCompanyStakeholderCategory(CompanyCategoryResponse category) => await _httpClient.Upsert<CompanyCategoryResponse>("/api/companystakeholdercategories", category, true);
+    public async Task DeleteCompanyStakeholderCategory(Guid uid) => await _httpClient.Delete($"/api/companystakeholdercategories/{uid}");
 }

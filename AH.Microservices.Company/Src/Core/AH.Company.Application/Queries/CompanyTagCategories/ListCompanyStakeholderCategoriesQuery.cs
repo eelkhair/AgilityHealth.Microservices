@@ -35,13 +35,13 @@ public class ListCompanyStakeholderCategoriesQueryHandler(ICompanyMicroServiceDb
                 UId = x.Company.UId,
                 Name = x.Company.Name
             },
-            MasterTagCategory = new MasterTagCategory
+            MasterTagCategory = x.MasterTagCategory != null ? new MasterTagCategory
             {
                 UId = x.MasterTagCategory.UId,
                 Name = x.MasterTagCategory.Name,
                 Type = x.MasterTagCategory.Type,
                 ClassName = x.MasterTagCategory.ClassName
-            }
+            } : null
         }).ToListAsync(cancellationToken);
         return Mapper.Map<List<CompanyStakeholderCategoryDto>>(companyStakeholderCategories);
     }

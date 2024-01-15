@@ -8,5 +8,5 @@ public class CompanySkillCategory : BaseAuditableEntity
     public string? Type { get; set; }
     public ICollection<CompanySkillTag> CompanySkillTags { get; set; } = new List<CompanySkillTag>();
     public Company Company { get; set; }
-    public MasterTagCategory MasterTagCategory { get; set; }
+    public MasterTagCategory? MasterTagCategory { get; set; }
 }

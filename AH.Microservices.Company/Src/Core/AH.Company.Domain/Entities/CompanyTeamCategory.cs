@@ -13,5 +13,5 @@ public class CompanyTeamCategory : BaseAuditableEntity
     public string? Type { get; set; }
     public ICollection<CompanyTeamTag> CompanyTeamTags { get; set; }
     public Company Company { get; set; }
-    public MasterTagCategory MasterTagCategory { get; set; }
+    public MasterTagCategory? MasterTagCategory { get; set; }
 }

@@ -3,7 +3,7 @@ using AH.Metadata.Shared.V1.Models.Responses.Companies;
 using AH.Web.Server.Services.Interfaces;
 using CompanyResponse = AH.Company.Shared.V1.Models.Companies.Responses.CompanyResponse;
 
-namespace AH.Web.Server.Services;
+namespace AH.Web.Server.Services.Implementations;
 
 public class CompanyService : ICompanyService
 {

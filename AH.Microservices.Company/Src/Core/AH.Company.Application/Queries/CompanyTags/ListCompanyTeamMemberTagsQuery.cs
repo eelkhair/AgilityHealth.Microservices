@@ -55,7 +55,7 @@ public class ListCompanyTeamMemberTagsQueryHandler(ICompanyMicroServiceDbContext
                             Name = x.CompanyTeamTag.CompanyTeamCategory.Company.Name,
                             UId = x.CompanyTeamTag.CompanyTeamCategory.Company.UId
                         },
-                        MasterTagCategory = new MasterTagCategory
+                        MasterTagCategory = x.CompanyTeamTag.CompanyTeamCategory.MasterTagCategory == null ? null : new MasterTagCategory
                         {
                             Name = x.CompanyTeamTag.CompanyTeamCategory.MasterTagCategory.Name,
                             ClassName = x.CompanyTeamTag.CompanyTeamCategory.MasterTagCategory.ClassName,
@@ -89,7 +89,7 @@ public class ListCompanyTeamMemberTagsQueryHandler(ICompanyMicroServiceDbContext
                         Name = x.CompanyTeamMemberCategory.Company.Name,
                         UId = x.CompanyTeamMemberCategory.Company.UId
                     },
-                    MasterTagCategory = new MasterTagCategory
+                    MasterTagCategory = x.CompanyTeamMemberCategory.MasterTagCategory == null ? null : new MasterTagCategory
                     {
                         Name = x.CompanyTeamMemberCategory.MasterTagCategory.Name,
                         ClassName = x.CompanyTeamMemberCategory.MasterTagCategory.ClassName,

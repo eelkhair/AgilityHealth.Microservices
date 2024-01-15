@@ -1,3 +1,5 @@
+using AH.Company.Application.Commands.CompanyTagCategories.Stakeholder;
+using AH.Company.Application.Dtos;
 using AH.Company.Application.Queries.CompanyTagCategories;
 using AH.Company.Shared.V1.Models.Tags.Responses;
 using AutoMapper;
@@ -32,5 +34,46 @@ public class CompanyStakeholderCategoriesController : BaseController
         var query = new ListCompanyStakeholderCategoriesQuery(User, Logger, companyUId);
         var result = await Mediator.Send(query);
         return Ok(Mapper.Map<List<CompanyCategoryResponse>>(result));
+    }
+    
+    /// <summary>
+    /// Create company stakeholder category
+    /// </summary>
+    /// <param name="category"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public async Task<IActionResult> Post([FromBody] CompanyCategoryResponse category)
+    {
+        var dto = Mapper.Map<CompanyStakeholderCategoryDto>(category);
+        var command = new CreateCompanyStakeholderCategoryCommand(User, Logger, dto);
+        var result = await Mediator.Send(command);
+        return Ok(Mapper.Map<CompanyCategoryResponse>(result));
+    }
+    
+    /// <summary>
+    /// Update company stakeholder category
+    /// </summary>
+    /// <param name="category"></param>
+    /// <returns></returns>
+    [HttpPut]
+    public async Task<IActionResult> Put([FromBody] CompanyCategoryResponse category)
+    {
+        var dto = Mapper.Map<CompanyStakeholderCategoryDto>(category);
+        var command = new UpdateCompanyStakeholderCategoryCommand(User, Logger, dto);
+        var result = await Mediator.Send(command);
+        return Ok(Mapper.Map<CompanyCategoryResponse>(result));
+    }
+    
+    /// <summary>
+    /// Delete company stakeholder category
+    /// </summary>
+    /// <param name="categoryUId"></param>
+    /// <returns></returns>
+    [HttpDelete("{categoryUId:guid}")]
+    public async Task<IActionResult> Delete([FromRoute] Guid categoryUId)
+    {
+        var command = new DeleteCompanyStakeholderCategoryCommand(User, Logger, categoryUId);
+        await Mediator.Send(command);
+        return Ok();
     }
 }

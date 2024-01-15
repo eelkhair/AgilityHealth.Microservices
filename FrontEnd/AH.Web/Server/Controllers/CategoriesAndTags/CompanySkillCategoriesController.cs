@@ -1,3 +1,4 @@
+using AH.Company.Shared.V1.Models.Tags.Responses;
 using AH.Web.Server.Services.Interfaces.CategoriesAndTags;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,5 +22,26 @@ public class CompanySkillCategoriesController : ControllerBase
     {
         var tags = await _companySkillCategoryService.GetCompanySkillCategories(companyUId);
         return Ok(tags);
+    }
+    
+    [HttpPost]
+    public async Task<ActionResult> Post([FromBody] CompanyCategoryResponse category)
+    {
+        var result = await _companySkillCategoryService.CreateCompanySkillCategory(category);
+        return Ok(result);
+    }
+    
+    [HttpPut]
+    public async Task<ActionResult> Put([FromBody] CompanyCategoryResponse category)
+    {
+        var result = await _companySkillCategoryService.UpdateCompanySkillCategory(category);
+        return Ok(result);
+    }
+    
+    [HttpDelete("{categoryUId:guid}")]
+    public async Task<ActionResult> Delete([FromRoute] Guid categoryUId)
+    {
+        await _companySkillCategoryService.DeleteCompanySkillCategory(categoryUId);
+        return Ok();
     }
 }
