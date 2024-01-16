@@ -32,7 +32,9 @@ public class ApiMappingProfileV1 : Profile
         CreateMap<MasterTagCategoryDto, CompanyMasterTagCategoryResponse>().ReverseMap();
         CreateMap<MasterTagDto, CompanyMasterTagResponse>().ReverseMap();
         
-        CreateMap<CompanyTeamCategoryDto, CompanyCategoryResponse>().ReverseMap();
+        CreateMap<CompanyTeamCategoryDto, CompanyCategoryResponse>()
+            .ForMember(x=>x.Tags, x=>x.MapFrom(y=>y.CompanyTeamTags))
+            .ReverseMap();
         CreateMap<CompanyTeamMemberCategoryDto, CompanyCategoryResponse>().ReverseMap();    
         CreateMap<CompanyStakeholderCategoryDto, CompanyCategoryResponse>().ReverseMap();
         CreateMap<CompanySkillCategoryDto, CompanyCategoryResponse>().ReverseMap();

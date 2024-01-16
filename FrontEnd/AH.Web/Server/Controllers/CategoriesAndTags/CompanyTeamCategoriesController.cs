@@ -22,6 +22,12 @@ public class CompanyTeamCategoriesController : ControllerBase
     {
         var tags = await _companyTeamCategoryService.GetCompanyTeamCategories(companyUId);
         return Ok(tags);
+    }  
+    [HttpGet("with-tags/{companyUId:guid}")]
+    public async Task<ActionResult> GetWithTags([FromRoute] Guid companyUId)
+    {
+        var tags = await _companyTeamCategoryService.GetCompanyTeamCategoriesWithTags(companyUId);
+        return Ok(tags);
     }
     
     [HttpPost]

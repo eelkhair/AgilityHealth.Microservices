@@ -8,5 +8,6 @@ public class CompanyCategoryResponse : BaseResponse
     public string Type { get; set; } = string.Empty;
     public CompanyResponse Company { get; set; } = null!;
     public CompanyMasterTagCategoryResponse? MasterTagCategory { get; set; }
+    public List<CompanyTagResponse> Tags { get; set; } = new();
     
 }

@@ -38,6 +38,19 @@ public class CompanyTeamCategoriesController : BaseController
     }
     
     /// <summary>
+    /// Get all company team categories with tagsby company
+    /// </summary>
+    /// <param name="companyUId"></param>
+    /// <returns></returns>
+    [HttpGet("with-tags/{companyUId:guid}")]
+    public async Task<IActionResult> GetWithTags([FromRoute] Guid companyUId)
+    {
+        var query = new ListCompanyTeamCategoriesWithTagsQuery(User, Logger, companyUId);
+        var result = await Mediator.Send(query);
+        return Ok(Mapper.Map<List<CompanyCategoryResponse>>(result));
+    }
+    
+    /// <summary>
     /// Create company team category
     /// </summary>
     /// <param name="category"></param>

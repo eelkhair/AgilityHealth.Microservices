@@ -12,6 +12,7 @@ public class CompanyTeamCategoryService : ICompanyTeamCategoryService
         _httpClient = httpClient;
     }
     public async Task<List<CompanyCategoryResponse>> GetCompanyTeamCategories(Guid companyUId) => await _httpClient.GetList<CompanyCategoryResponse>($"/api/companyteamcategories/{companyUId}");
+    public async Task<List<CompanyCategoryResponse>> GetCompanyTeamCategoriesWithTags(Guid companyUId) => await _httpClient.GetList<CompanyCategoryResponse>($"/api/companyteamcategories/with-tags/{companyUId}");
     public Task<CompanyCategoryResponse> CreateCompanyTeamCategory(CompanyCategoryResponse category) => _httpClient.Upsert<CompanyCategoryResponse>($"/api/companyteamcategories", category, false);
     public Task<CompanyCategoryResponse> UpdateCompanyTeamCategory(CompanyCategoryResponse category) => _httpClient.Upsert<CompanyCategoryResponse>($"/api/companyteamcategories", category, true);
     public async Task DeleteCompanyTeamCategory(Guid uid) => await _httpClient.Delete($"/api/companyteamcategories/{uid}");

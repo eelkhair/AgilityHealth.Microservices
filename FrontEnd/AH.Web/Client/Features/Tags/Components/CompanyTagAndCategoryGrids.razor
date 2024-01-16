@@ -81,13 +81,73 @@
                      OnCreate="@CreateTagHandler"
                      OnDelete="@DeleteTagHandler"
                      OnUpdate="@UpdateTagHandler"
-                     SelectionMode="@GridSelectionMode.Single"
                      ConfirmDelete="true">
             <GridToolBarTemplate>
                 <GridCommandButton Command="Add" Icon="@SvgIcon.Plus">Add Tag</GridCommandButton>
             </GridToolBarTemplate>
             <GridColumns>
                 <GridColumn Field="@nameof(CompanyTagResponse.Name)" Title="Name"/>
+                @if (TabType == "TeamMember")
+                {
+                    <GridColumn Field="CompanyTeamTag.CompanyCategory.UId" Title="Company Team Category" Visible="@(_selectedCategory.Name == "Role")">
+                        <Template>
+                            @((context as CompanyTagResponse)?.CompanyTeamTag?.CompanyCategory?.Name)
+                        </Template>
+                        <EditorTemplate>
+                            @{
+                                var tag = (CompanyTagResponse) context;
+                                <TelerikDropDownList @bind-Value="@tag.CompanyTeamTag!.CompanyCategory!.UId"
+                                                     ValueField="@nameof(CompanyCategoryResponse.UId)"
+                                                     TextField="@nameof(CompanyCategoryResponse.Name)"
+                                                     DefaultText="Select Category"
+                                                     OnChange="@CurrentCategoryChanged"
+                                                     Data="@_currentCompanyCategories.Where(x=> x.Name != "Methodology" && x.Type == _selectedCategory.Type).ToList()">
+                                    <DropDownListSettings>
+                                        <DropDownListPopupSettings Height="auto" MaxHeight="200px" />
+                                    </DropDownListSettings>
+                                </TelerikDropDownList>
+                            }
+                        </EditorTemplate>
+                    </GridColumn>
+                    <GridColumn Field="CompanyTeamTag.UId" Title="Company Team Tag" Visible="@(_selectedCategory.Name == "Role")">
+                        <Template>
+                            @((context as CompanyTagResponse)?.CompanyTeamTag?.Name)
+                        </Template>
+                        <EditorTemplate>
+                            @{
+                                var tag = (CompanyTagResponse) context;
+                                <TelerikDropDownList @bind-Value="@tag.CompanyTeamTag!.UId"
+                                                     ValueField="@nameof(CompanyTagResponse.UId)"
+                                                     TextField="@nameof(CompanyTagResponse.Name)"
+                                                     DefaultText="Select Tag"
+                                                     Data="@_cascadedTags">
+                                    <DropDownListSettings>
+                                        <DropDownListPopupSettings Height="auto" MaxHeight="200px" />
+                                    </DropDownListSettings>
+                                </TelerikDropDownList>
+                            }
+                        </EditorTemplate>
+                    </GridColumn>
+                }
+                <GridColumn Field="MasterTag.UId" Title="Parent">
+                    <Template>
+                        @((context as CompanyTagResponse)?.MasterTag?.Name)
+                    </Template>
+                    <EditorTemplate>
+                        @{
+                            var tag = (CompanyTagResponse) context;
+                            <TelerikDropDownList @bind-Value="@tag.MasterTag!.UId"
+                                                 ValueField="@nameof(CompanyTagResponse.UId)"
+                                                 TextField="@nameof(CompanyTagResponse.Name)"
+                                                 DefaultText="Select Parent Tag"
+                                                 Data="@_currentMasterTags">
+                                <DropDownListSettings>
+                                    <DropDownListPopupSettings Height="auto" MaxHeight="200px" />
+                                </DropDownListSettings>
+                            </TelerikDropDownList>
+                        }
+                    </EditorTemplate>
+                </GridColumn>
                 <GridCommandColumn>
                     <GridCommandButton Command="Edit" Icon="@SvgIcon.Pencil">Edit</GridCommandButton>
                     <GridCommandButton Command="Delete" Icon="@SvgIcon.Trash">Delete</GridCommandButton>
@@ -102,7 +162,7 @@
 @code {
     [Parameter] public string TabType { get; set; } = "Team";
     [Parameter] public Guid CompanyUId { get; set; }
-    [Inject] public IJSRuntime JsRuntime { get; set; } = null!;
+ //   [Inject] public IJSRuntime JsRuntime { get; set; } = null!;
 
     private bool CategoryEditMode { get; set; }
     private CompanyCategoryResponse? _selectedCategory;
@@ -111,8 +171,15 @@
     private List<string> _types = new() { "All", "Individual", "Team", "MultiTeam", "Enterprise" };
     private string _gridTitle = "Category";
     
+    private List<CompanyCategoryResponse> _currentCompanyCategories = new();
+    private List<CompanyTagResponse> _cascadedTags = new();
+    
     private List<CompanyMasterTagCategoryResponse> _masterTagCategories = new();
     private List<CompanyMasterTagCategoryResponse> _currentMasterTagCategories = new();
+    
+    private List<CompanyMasterTagResponse> _masterTags = new();
+    private List<CompanyMasterTagResponse> _currentMasterTags = new();
+    
 
     protected override async Task OnParametersSetAsync()
     {
@@ -121,6 +188,11 @@
         
         var masterTagCategoriesResponse = await Http.GetAsync($"api/MasterTagCategories");
         _masterTagCategories  = await masterTagCategoriesResponse.Content.ReadFromJsonAsync<List<CompanyMasterTagCategoryResponse>>() ?? new List<CompanyMasterTagCategoryResponse>();
+        
+        if (TabType == "TeamMember")
+        {
+            _currentCompanyCategories= await Http.GetFromJsonAsync<List<CompanyCategoryResponse>>($"api/CompanyTeamCategories/with-tags/{CompanyUId}") ?? new List<CompanyCategoryResponse>();
+        }
     }
 
     private void AddCategoryHandler(GridCommandEventArgs arg)
@@ -175,7 +247,7 @@
         var category = (CompanyCategoryResponse)arg.Item;
 
         category.MasterTagCategory ??= new CompanyMasterTagCategoryResponse();
-        await JsRuntime.InvokeVoidAsync("console.log", category.MasterTagCategory?.UId);
+
         category.MasterTagCategory = category.MasterTagCategory?.UId == Guid.Empty ? null : category.MasterTagCategory;
         
         var response = await Http.PutAsJsonAsync($"api/Company{TabType}Categories", category);
@@ -213,7 +285,7 @@
         }
         StateHasChanged();
     }
-    
+
     private async Task CategoryClicked(GridRowClickEventArgs arg)
     {
         var category = (CompanyCategoryResponse)arg.Item;
@@ -221,16 +293,37 @@
         _tags = await response.Content.ReadFromJsonAsync<List<CompanyTagResponse>>() ?? new List<CompanyTagResponse>();
         StateHasChanged();
         _selectedCategory = category;
+
+        if (category.MasterTagCategory != null)
+        {
+            _masterTags = await Http.GetFromJsonAsync<List<CompanyMasterTagResponse>>($"api/MasterTags/Category/{category.MasterTagCategory.UId}") ?? new List<CompanyMasterTagResponse>();
+        }
     }
 
-    private Task AddTagHandler(GridCommandEventArgs arg)
+    private void AddTagHandler(GridCommandEventArgs arg)
     {
-        throw new NotImplementedException();
+        var tag = (CompanyTagResponse)arg.Item;
+        tag.MasterTag = new CompanyMasterTagResponse();
+        tag.CompanyTeamTag = new CompanyTagResponse
+        {
+            CompanyCategory = new CompanyCategoryResponse()
+        };
+        _gridTitle = "Add Tag";
     }
     
-    private Task EditTagHandler(GridCommandEventArgs arg)
+    private void EditTagHandler(GridCommandEventArgs arg)
     {
-        throw new NotImplementedException();
+        var tag = (CompanyTagResponse)arg.Item;
+        tag.MasterTag ??= new CompanyMasterTagResponse();
+        tag.CompanyTeamTag ??= new CompanyTagResponse
+        {
+            CompanyCategory = new CompanyCategoryResponse()
+        };
+        _gridTitle = "Edit Tag";
+        
+        _cascadedTags = _currentCompanyCategories.FirstOrDefault(x => x.UId == tag.CompanyTeamTag?.CompanyCategory?.UId)?.Tags ?? new List<CompanyTagResponse>();
+
+        _currentMasterTags = _masterTags;
     }
     
     private Task CreateTagHandler(GridCommandEventArgs arg)
@@ -246,6 +339,13 @@
     private Task DeleteTagHandler(GridCommandEventArgs arg)
     {
         throw new NotImplementedException();
+    }
+
+    private void CurrentCategoryChanged(object obj)
+    {
+        var categoryUId = (Guid)obj;
+        _cascadedTags = _currentCompanyCategories.FirstOrDefault(x => x.UId == categoryUId)?.Tags ?? new List<CompanyTagResponse>();
+
     }
 
 }

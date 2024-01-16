@@ -5,6 +5,7 @@ namespace AH.Web.Server.Services.Interfaces.CategoriesAndTags;
 public interface ICompanyTeamCategoryService
 {
     Task<List<CompanyCategoryResponse>> GetCompanyTeamCategories(Guid companyUId);
+    Task<List<CompanyCategoryResponse>> GetCompanyTeamCategoriesWithTags(Guid companyUId);
     Task<CompanyCategoryResponse> CreateCompanyTeamCategory(CompanyCategoryResponse category);
     Task<CompanyCategoryResponse> UpdateCompanyTeamCategory(CompanyCategoryResponse category);
     Task DeleteCompanyTeamCategory(Guid uid);
