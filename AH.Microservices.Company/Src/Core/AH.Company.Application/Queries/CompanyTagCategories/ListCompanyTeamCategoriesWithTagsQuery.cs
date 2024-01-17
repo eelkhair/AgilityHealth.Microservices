@@ -43,7 +43,13 @@ public class ListCompanyTeamCategoriesWithTagsQueryHandler(ICompanyMicroServiceD
             CompanyTeamTags = x.CompanyTeamTags.Select(y=> new CompanyTeamTag
             {
                 UId = y.UId,
-                Name = y.Name
+                Name = y.Name,
+                MasterTag = y.MasterTag != null ? new MasterTag
+                {
+                    UId = y.MasterTag.UId,
+                    Name = y.MasterTag.Name,
+                    ClassName = y.MasterTag.ClassName
+                } : null
             }).ToList()
         }).ToListAsync(cancellationToken);
         return Mapper.Map<List<CompanyTeamCategoryDto>>(companyTeamCategories);

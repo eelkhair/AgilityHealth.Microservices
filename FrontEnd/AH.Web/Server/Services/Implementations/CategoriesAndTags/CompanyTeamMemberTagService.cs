@@ -13,4 +13,9 @@ public class CompanyTeamMemberTagService: ICompanyTeamMemberTagService
     }
     public async Task<List<CompanyTagResponse>> GetCompanyTeamMemberTags(Guid companyTeamMemberCategoryUId) => await _httpClient.GetList<CompanyTagResponse>($"/api/companyteammembertags/{companyTeamMemberCategoryUId}");
    
+    public async Task<CompanyTagResponse> CreateCompanyTeamMemberTag(CompanyTagResponse tag) => await _httpClient.Upsert<CompanyTagResponse>($"/api/companyteammembertags", tag, false);
+    
+    public async Task<CompanyTagResponse> UpdateCompanyTeamMemberTag(CompanyTagResponse tag) => await _httpClient.Upsert<CompanyTagResponse>($"/api/companyteammembertags", tag, true);
+    
+    public async Task DeleteCompanyTeamMemberTag(Guid uid) => await _httpClient.Delete($"/api/companyteammembertags/{uid}");
 }

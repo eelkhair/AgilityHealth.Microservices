@@ -1,3 +1,5 @@
+using AH.Company.Application.Commands.CompanyTags.Team;
+using AH.Company.Application.Dtos;
 using AH.Company.Application.Queries.CompanyTags;
 using AH.Company.Shared.V1.Models.Tags.Responses;
 using AutoMapper;
@@ -32,5 +34,46 @@ public class CompanyTeamTagsController : BaseController
         var query = new ListCompanyTeamTagsQuery(User, Logger, companyTeamCategoryUId);
         var result = await Mediator.Send(query);
         return Ok(Mapper.Map<List<CompanyTagResponse>>(result));
+    }
+    
+    /// <summary>
+    /// Create new company team tag
+    /// </summary>
+    /// <param name="tag"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public async Task<IActionResult> Post([FromBody] CompanyTagResponse tag)
+    {
+        var dto = Mapper.Map<CompanyTeamTagDto>(tag);
+        var command = new CreateCompanyTeamTagCommand(User, Logger, dto);
+        var result = await Mediator.Send(command);
+        return Ok(Mapper.Map<CompanyTagResponse>(result));
+    }
+    
+    /// <summary>
+    /// Update company team tag
+    /// </summary>
+    /// <param name="tag"></param>
+    /// <returns></returns>
+    [HttpPut]
+    public async Task<IActionResult> Put([FromBody] CompanyTagResponse tag)
+    {
+        var dto = Mapper.Map<CompanyTeamTagDto>(tag);
+        var command = new UpdateCompanyTeamTagCommand(User, Logger, dto);
+        var result = await Mediator.Send(command);
+        return Ok(Mapper.Map<CompanyTagResponse>(result));
+    }
+    
+    /// <summary>
+    /// Delete company team tag
+    /// </summary>
+    /// <param name="tagUId"></param>
+    /// <returns></returns>
+    [HttpDelete("{tagUId:guid}")]
+    public async Task<IActionResult> Delete([FromRoute] Guid tagUId)
+    {
+        var command = new DeleteCompanyTeamTagCommand(User, Logger, tagUId);
+        await Mediator.Send(command);
+        return Ok();
     }
 }

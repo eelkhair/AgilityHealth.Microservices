@@ -21,5 +21,18 @@ public class CompanyTeamMemberTagsController : ControllerBase
     public async Task<List<CompanyTagResponse>> GetCompanyTeamMemberTags([FromRoute] Guid companyTeamMemberCategoryUId)
         => await _companyTeamMemberTagService.GetCompanyTeamMemberTags(companyTeamMemberCategoryUId); 
     
+    [HttpPost]
+    public async Task<CompanyTagResponse> CreateCompanyTeamMemberTag([FromBody] CompanyTagResponse tag)
+        => await _companyTeamMemberTagService.CreateCompanyTeamMemberTag(tag);
     
+    [HttpPut]
+    public async Task<CompanyTagResponse> UpdateCompanyTeamMemberTag([FromBody] CompanyTagResponse tag)
+        => await _companyTeamMemberTagService.UpdateCompanyTeamMemberTag(tag);
+    
+    [HttpDelete("{uid:guid}")]
+    public async Task<ActionResult> Delete([FromRoute] Guid uid)
+    {
+        await _companyTeamMemberTagService.DeleteCompanyTeamMemberTag(uid);
+        return NoContent();
+    }
 }

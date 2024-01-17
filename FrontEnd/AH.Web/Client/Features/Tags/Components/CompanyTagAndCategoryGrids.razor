@@ -1,5 +1,6 @@
 @using AH.Company.Shared.V1.Models.Tags.Responses
 @using AH.Company.Shared.V1.Models.Companies.Responses
+@using AH.Metadata.Shared.V1.Models.Responses.MasterTags
 @inject HttpClient Http
 <div class="tags-forty">
      <TelerikGrid Data="@_gridCategories"
@@ -25,10 +26,10 @@
             <GridColumn Field="@nameof(CompanyCategoryResponse.Type)" Title="Type">
                 <EditorTemplate>
                     @{
-                        _selectedCategory = (CompanyCategoryResponse) context;
+                        var category = (CompanyCategoryResponse) context;
                         <TelerikDropDownList Data="@_types"
                                              OnChange="@CategoryTypeChanged"
-                                             @bind-Value="@_selectedCategory.Type">
+                                             @bind-Value="@category.Type">
                             <DropDownListSettings>
                                 <DropDownListPopupSettings Height="auto" />
                             </DropDownListSettings>
@@ -42,11 +43,11 @@
             <GridColumn Field="MasterTagCategory.UId" Title="Master Category" Visible="@CategoryEditMode" >
                 <EditorTemplate>
                     @{
-                        _selectedCategory = (CompanyCategoryResponse) context;
+                        var category = (CompanyCategoryResponse) context;
                         <TelerikDropDownList Data="@_currentMasterTagCategories"
                                              ValueField="UId"
                                              TextField="Name"
-                                             @bind-Value="@_selectedCategory.MasterTagCategory!.UId">
+                                             @bind-Value="@category.MasterTagCategory!.UId">
                             <DropDownListSettings>
                                 <DropDownListPopupSettings Height="auto" />
                             </DropDownListSettings>
@@ -100,7 +101,7 @@
                                                      ValueField="@nameof(CompanyCategoryResponse.UId)"
                                                      TextField="@nameof(CompanyCategoryResponse.Name)"
                                                      DefaultText="Select Category"
-                                                     OnChange="@CurrentCategoryChanged"
+                                                     OnChange="@( uid=> CurrentCategoryChanged(uid, tag))"
                                                      Data="@_currentCompanyCategories.Where(x=> x.Name != "Methodology" && x.Type == _selectedCategory.Type).ToList()">
                                     <DropDownListSettings>
                                         <DropDownListPopupSettings Height="auto" MaxHeight="200px" />
@@ -119,7 +120,8 @@
                                 <TelerikDropDownList @bind-Value="@tag.CompanyTeamTag!.UId"
                                                      ValueField="@nameof(CompanyTagResponse.UId)"
                                                      TextField="@nameof(CompanyTagResponse.Name)"
-                                                     DefaultText="Select Tag"
+                                                     DefaultText="Select Tag" 
+                                                     OnChange = "@(uid => ParentTagChanged(uid, tag))"
                                                      Data="@_cascadedTags">
                                     <DropDownListSettings>
                                         <DropDownListPopupSettings Height="auto" MaxHeight="200px" />
@@ -162,7 +164,7 @@
 @code {
     [Parameter] public string TabType { get; set; } = "Team";
     [Parameter] public Guid CompanyUId { get; set; }
- //   [Inject] public IJSRuntime JsRuntime { get; set; } = null!;
+    [Inject] public IJSRuntime JsRuntime { get; set; } = null!;
 
     private bool CategoryEditMode { get; set; }
     private CompanyCategoryResponse? _selectedCategory;
@@ -177,8 +179,8 @@
     private List<CompanyMasterTagCategoryResponse> _masterTagCategories = new();
     private List<CompanyMasterTagCategoryResponse> _currentMasterTagCategories = new();
     
-    private List<CompanyMasterTagResponse> _masterTags = new();
-    private List<CompanyMasterTagResponse> _currentMasterTags = new();
+    private List<MasterTagWithCategoryAndParentTagResponse> _masterTags = new();
+    private List<MasterTagWithCategoryAndParentTagResponse> _currentMasterTags = new();
     
 
     protected override async Task OnParametersSetAsync()
@@ -296,19 +298,27 @@
 
         if (category.MasterTagCategory != null)
         {
-            _masterTags = await Http.GetFromJsonAsync<List<CompanyMasterTagResponse>>($"api/MasterTags/Category/{category.MasterTagCategory.UId}") ?? new List<CompanyMasterTagResponse>();
+            _masterTags = await Http.GetFromJsonAsync<List<MasterTagWithCategoryAndParentTagResponse>>($"api/MasterTags/Category/{category.MasterTagCategory.UId}") ?? new List<MasterTagWithCategoryAndParentTagResponse>();
         }
     }
 
-    private void AddTagHandler(GridCommandEventArgs arg)
+    private async Task AddTagHandler(GridCommandEventArgs arg)
     {
         var tag = (CompanyTagResponse)arg.Item;
         tag.MasterTag = new CompanyMasterTagResponse();
+        
+        tag.CompanyCategory = _selectedCategory;
         tag.CompanyTeamTag = new CompanyTagResponse
         {
-            CompanyCategory = new CompanyCategoryResponse()
+            CompanyCategory = new CompanyCategoryResponse
+            {
+                Company = _selectedCategory!.Company
+            },
         };
+        await JsRuntime.InvokeVoidAsync("console.log", tag);
         _gridTitle = "Add Tag";
+        
+        _currentMasterTags = _masterTags;
     }
     
     private void EditTagHandler(GridCommandEventArgs arg)
@@ -318,34 +328,72 @@
         tag.CompanyTeamTag ??= new CompanyTagResponse
         {
             CompanyCategory = new CompanyCategoryResponse()
+            {
+                Company = _selectedCategory!.Company
+            },
+            MasterTag = new CompanyMasterTagResponse()
         };
+        tag.CompanyCategory ??= _selectedCategory;
         _gridTitle = "Edit Tag";
         
         _cascadedTags = _currentCompanyCategories.FirstOrDefault(x => x.UId == tag.CompanyTeamTag?.CompanyCategory?.UId)?.Tags ?? new List<CompanyTagResponse>();
 
         _currentMasterTags = _masterTags;
+        
+        if (tag.CompanyTeamTag.UId != Guid.Empty &&  tag.CompanyTeamTag.MasterTag != null && tag.CompanyTeamTag.MasterTag.UId != Guid.Empty)
+        {
+            _currentMasterTags = _currentMasterTags.Where(x => x.ParentMasterTagUId == tag.CompanyTeamTag.MasterTag.UId).ToList();
+        }
+       
     }
     
-    private Task CreateTagHandler(GridCommandEventArgs arg)
+    private async Task CreateTagHandler(GridCommandEventArgs arg)
     {
-        throw new NotImplementedException();
+        var tag = (CompanyTagResponse)arg.Item;
+        await JsRuntime.InvokeVoidAsync("console.log", tag);
+        var response = await Http.PostAsJsonAsync($"api/Company{TabType}Tags", tag);
+        _tags.Add(await response.Content.ReadFromJsonAsync<CompanyTagResponse>() ?? new CompanyTagResponse());
     }
     
-    private Task UpdateTagHandler(GridCommandEventArgs arg)
+    private async Task UpdateTagHandler(GridCommandEventArgs arg)
     {
-        throw new NotImplementedException();
+        var tag = (CompanyTagResponse)arg.Item;
+        await JsRuntime.InvokeVoidAsync("console.log", tag);
+        var response = await Http.PutAsJsonAsync($"api/Company{TabType}Tags", tag);
+        var updatedTag = await response.Content.ReadFromJsonAsync<CompanyTagResponse>() ?? new CompanyTagResponse();
+        var index = _tags.FindIndex(x => x.UId == updatedTag.UId);
+        _tags[index] = updatedTag;
     }
     
-    private Task DeleteTagHandler(GridCommandEventArgs arg)
+    private async Task DeleteTagHandler(GridCommandEventArgs arg)
     {
-        throw new NotImplementedException();
+        var tag = (CompanyTagResponse)arg.Item;
+        var response = await Http.DeleteAsync($"api/Company{TabType}Tags/{tag.UId}");
+        if (response.IsSuccessStatusCode)
+        {
+            _tags.Remove(tag);
+        }
     }
 
-    private void CurrentCategoryChanged(object obj)
+    private void CurrentCategoryChanged(object uid, CompanyTagResponse tag )
     {
-        var categoryUId = (Guid)obj;
+
+        var categoryUId = (Guid) uid;
         _cascadedTags = _currentCompanyCategories.FirstOrDefault(x => x.UId == categoryUId)?.Tags ?? new List<CompanyTagResponse>();
+        _currentMasterTags = new List<MasterTagWithCategoryAndParentTagResponse>();
+        
+        tag.MasterTag!.UId = Guid.Empty;
+        tag.CompanyTeamTag!.UId = Guid.Empty;
+        
+    }
+    
+    private void ParentTagChanged(object obj, CompanyTagResponse tag)
+    {
+        
+        var tagUId = _cascadedTags.FirstOrDefault(x=>x.UId == (Guid)obj)?.MasterTag?.UId;
 
+        _currentMasterTags = _masterTags.Where(x => x.ParentMasterTagUId == tagUId).ToList();
+        tag.MasterTag!.UId = Guid.Empty;
     }
 
 }
