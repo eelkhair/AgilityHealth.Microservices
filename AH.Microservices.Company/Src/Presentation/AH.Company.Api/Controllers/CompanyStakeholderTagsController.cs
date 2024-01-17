@@ -1,3 +1,5 @@
+using AH.Company.Application.Commands.CompanyTags.Stakeholder;
+using AH.Company.Application.Dtos;
 using AH.Company.Application.Queries.CompanyTags;
 using AH.Company.Shared.V1.Models.Tags.Responses;
 using AutoMapper;
@@ -32,5 +34,46 @@ public class CompanyStakeholderTagsController : BaseController
         var query = new ListCompanyStakeholdersQuery(User, Logger, companyStakeholderCategoryUId);
         var result = await Mediator.Send(query);
         return Ok(Mapper.Map<List<CompanyTagResponse>>(result));
+    }
+    
+    /// <summary>
+    /// Create a new company stakeholder tag
+    /// </summary>
+    /// <param name="tag"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] CompanyTagResponse tag)
+    {
+        var dto = Mapper.Map<CompanyStakeholderTagDto>(tag);
+        var command = new CreateCompanyStakeholderTagCommand(User, Logger, dto);
+        var result = await Mediator.Send(command);
+        return Ok(Mapper.Map<CompanyTagResponse>(result));
+    }
+    
+    /// <summary>
+    /// Update a company stakeholder tag
+    /// </summary>
+    /// <param name="tag"></param>
+    /// <returns></returns>
+    [HttpPut]
+    public async Task<IActionResult> Update([FromBody] CompanyTagResponse tag)
+    {
+        var dto = Mapper.Map<CompanyStakeholderTagDto>(tag);
+        var command = new UpdateCompanyStakeholderTagCommand(User, Logger, dto);
+        var result = await Mediator.Send(command);
+        return Ok(Mapper.Map<CompanyTagResponse>(result));
+    }
+    
+    /// <summary>
+    /// Delete a company stakeholder tag
+    /// </summary>
+    /// <param name="uid"></param>
+    /// <returns></returns>
+    [HttpDelete("{uid:guid}")]
+    public async Task<IActionResult> Delete([FromRoute] Guid uid)
+    {
+        var command = new DeleteCompanyStakeholderTagCommand(User, Logger, uid);
+        await Mediator.Send(command);
+        return NoContent();
     }
 }

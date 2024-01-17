@@ -48,9 +48,11 @@ public class ApiMappingProfileV1 : Profile
             .ForMember(x => x.CompanyCategory, opt => opt.MapFrom(src => src.CompanyTeamCategory))
             .ReverseMap();
         CreateMap<CompanyStakeholderTagDto, CompanyTagResponse>()
-            .ForMember(x => x.CompanyCategory, opt => opt.MapFrom(src => src.CompanyStakeholderCategory));
+            .ForMember(x => x.CompanyCategory, opt => opt.MapFrom(src => src.CompanyStakeholderCategory))
+            .ReverseMap();
         CreateMap<CompanySkillTagDto, CompanyTagResponse>()
-            .ForMember(x => x.CompanyCategory, opt => opt.MapFrom(src => src.CompanySkillCategory));
+            .ForMember(x => x.CompanyCategory, opt => opt.MapFrom(src => src.CompanySkillCategory))
+            .ReverseMap();
 
     }
 }

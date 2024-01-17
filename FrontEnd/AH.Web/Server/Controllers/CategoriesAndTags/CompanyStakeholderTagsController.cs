@@ -19,4 +19,19 @@ public class CompanyStakeholderTagsController : ControllerBase
     [HttpGet("{companyStakeholderCategoryUId}")]
     public async Task<List<CompanyTagResponse>> GetCompanyStakeholderTags([FromRoute] Guid companyStakeholderCategoryUId)
         => await _companyStakeholderTagService.GetCompanyStakeholderTags(companyStakeholderCategoryUId);
+    
+    [HttpPost]
+    public async Task<CompanyTagResponse> CreateCompanyStakeholderTag([FromBody] CompanyTagResponse tag)=>
+        await _companyStakeholderTagService.CreateCompanyStakeholderTag(tag);
+   
+    [HttpPut]
+    public async Task<CompanyTagResponse> UpdateCompanyStakeholderTag([FromBody] CompanyTagResponse tag)=>
+        await _companyStakeholderTagService.UpdateCompanyStakeholderTag(tag);
+    
+    [HttpDelete("{uid:guid}")]
+    public async Task<ActionResult> Delete([FromRoute] Guid uid)
+    {
+        await _companyStakeholderTagService.DeleteCompanyStakeholderTag(uid);
+        return NoContent();
+    }
 }

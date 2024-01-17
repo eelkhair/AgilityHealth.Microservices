@@ -12,5 +12,10 @@ public class CompanyStakeholderTagService : ICompanyStakeholderTagService
         _httpClient = httpClient;
     }
     public async Task<List<CompanyTagResponse>> GetCompanyStakeholderTags(Guid companyStakeholderCategoryUId) =>
-    await _httpClient.GetList<CompanyTagResponse>($"/api/companystakeholdertags/{companyStakeholderCategoryUId}");
+        await _httpClient.GetList<CompanyTagResponse>($"/api/companystakeholdertags/{companyStakeholderCategoryUId}");
+    public async Task<CompanyTagResponse> CreateCompanyStakeholderTag(CompanyTagResponse tag) =>
+        await _httpClient.Upsert<CompanyTagResponse>($"/api/companystakeholdertags", tag, false);
+    public async Task<CompanyTagResponse> UpdateCompanyStakeholderTag(CompanyTagResponse tag) =>
+        await _httpClient.Upsert<CompanyTagResponse>($"/api/companystakeholdertags", tag, true);
+    public async Task DeleteCompanyStakeholderTag(Guid uid) => await _httpClient.Delete($"/api/companystakeholdertags/{uid}");
 }

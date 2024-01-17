@@ -23,11 +23,7 @@ public class UpdateCompanyTeamMemberTagCommandHandler(ICompanyMicroServiceDbCont
     {
         request.Logger.LogInformation("Connections string: {ConnectionString}", Context.GetConnectionString());
         request.Logger.LogInformation("Updating company team member tag");
-
-        var teamMemberCategory =
-            await Context.CompanyTeamMemberCategories.FirstAsync(
-                x => x.UId == request.Tag.CompanyTeamMemberCategory.UId, cancellationToken);
-
+        
         MasterTag? masterTag = null;
         CompanyTeamTag? companyTeamTag = null;
 
@@ -48,7 +44,6 @@ public class UpdateCompanyTeamMemberTagCommandHandler(ICompanyMicroServiceDbCont
             await Context.CompanyTeamMemberTags.FirstAsync(x => x.UId == request.Tag.UId, cancellationToken);
 
         companyTeamMemberTag.Name = request.Tag.Name;
-        companyTeamMemberTag.CompanyTeamMemberCategoryId = teamMemberCategory.Id;
         companyTeamMemberTag.MasterTagId = masterTag?.Id;
         companyTeamMemberTag.CompanyTeamTagId = companyTeamTag?.Id;
 

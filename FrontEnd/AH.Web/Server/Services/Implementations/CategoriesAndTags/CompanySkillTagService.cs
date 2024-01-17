@@ -12,5 +12,7 @@ public class CompanySkillTagService : ICompanySkillTagService
         _httpClient = httpClient;
     }
     public async Task<List<CompanyTagResponse>> GetCompanySkillTags(Guid companySkillCategoryUId) => await _httpClient.GetList<CompanyTagResponse>($"/api/companyskilltags/{companySkillCategoryUId}");
-  
+    public async Task<CompanyTagResponse> CreateCompanySkillTag(CompanyTagResponse tag) => await _httpClient.Upsert<CompanyTagResponse>($"/api/companyskilltags", tag, false);
+    public async Task<CompanyTagResponse> UpdateCompanySkillTag(CompanyTagResponse tag) => await _httpClient.Upsert<CompanyTagResponse>($"/api/companyskilltags", tag, true);
+    public async Task DeleteCompanySkillTag(Guid uid) => await _httpClient.Delete($"/api/companyskilltags/{uid}");
 }
