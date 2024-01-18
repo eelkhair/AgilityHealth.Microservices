@@ -22,8 +22,11 @@ public class DeleteMasterTagCategoryCommand : BaseCommand<Unit>
 
 public class DeleteMasterTagCategoryCommandHandler : BaseCommandHandler, IRequestHandler<DeleteMasterTagCategoryCommand, Unit>
 {
-    public DeleteMasterTagCategoryCommandHandler(ICompanyMicroServiceDbContext context, IMapper mapper) : base(context, mapper)
+    public IMediator Mediator { get; }
+
+    public DeleteMasterTagCategoryCommandHandler(ICompanyMicroServiceDbContext context, IMapper mapper, IMediator mediator) : base(context, mapper)
     {
+        Mediator = mediator;
     }
 
     public async Task<Unit> Handle(DeleteMasterTagCategoryCommand request, CancellationToken cancellationToken)
@@ -33,6 +36,9 @@ public class DeleteMasterTagCategoryCommandHandler : BaseCommandHandler, IReques
         var entity = await Context.MasterTagCategories.FirstAsync(x => x.UId == request.MasterTagCategory.UId, cancellationToken);
         Context.MasterTagCategories.Remove(entity);
         await Context.SaveChangesAsync(request.User, cancellationToken);
+        
+        await Mediator.Send(new DeleteCompanyCategoriesFromMasterCategoryCommand(request.User, request.Logger,
+            Mapper.Map<MasterTagCategoryDto>(entity), request.Domain), cancellationToken);
         return Unit.Value;
     }
 }

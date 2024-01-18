@@ -21,14 +21,11 @@ public class CreateMasterTagCommand : BaseCommand<Unit>
     }
 }
 
-public class CreateMasterTagCommandHandler : BaseCommandHandler,
+public class CreateMasterTagCommandHandler(ICompanyMicroServiceDbContext context, IMapper mapper) : BaseCommandHandler(
+        context,
+        mapper),
     IRequestHandler<CreateMasterTagCommand, Unit>
 {
-    public CreateMasterTagCommandHandler(ICompanyMicroServiceDbContext context, IMapper mapper) : base(context,
-        mapper)
-    {
-    }
-
     public async Task<Unit> Handle(CreateMasterTagCommand request, CancellationToken cancellationToken)
     {
         SetConnectionString(request.Domain, request.Logger);
