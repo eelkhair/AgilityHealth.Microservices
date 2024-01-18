@@ -8,4 +8,4 @@ spec:
   version: v1
   metadata:
     - name: schedule
-      value: "@every 12m"
+      value: "@every 1h"

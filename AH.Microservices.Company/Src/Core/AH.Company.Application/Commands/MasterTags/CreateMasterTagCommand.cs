@@ -9,23 +9,20 @@ using Microsoft.Extensions.Logging;
 
 namespace AH.Company.Application.Commands.MasterTags;
 
-public class CreateMasterTagCommand : BaseCommand<Unit>
+public class CreateMasterTagCommand(ClaimsPrincipal user, ILogger logger, MasterTagDto masterTag, string domain)
+    : BaseCommand<Unit>(user, logger)
 {
-    public MasterTagDto MasterTag { get; }
-    public string Domain { get; }
-
-    public CreateMasterTagCommand(ClaimsPrincipal user, ILogger logger, MasterTagDto masterTag, string domain) : base(user, logger)
-    {
-        MasterTag = masterTag;
-        Domain = domain;
-    }
+    public MasterTagDto MasterTag { get; } = masterTag;
+    public string Domain { get; } = domain;
 }
 
-public class CreateMasterTagCommandHandler(ICompanyMicroServiceDbContext context, IMapper mapper) : BaseCommandHandler(
+public class CreateMasterTagCommandHandler(ICompanyMicroServiceDbContext context, IMapper mapper, IMediator mediator) : BaseCommandHandler(
         context,
         mapper),
     IRequestHandler<CreateMasterTagCommand, Unit>
 {
+    public IMediator Mediator { get; } = mediator;
+
     public async Task<Unit> Handle(CreateMasterTagCommand request, CancellationToken cancellationToken)
     {
         SetConnectionString(request.Domain, request.Logger);
@@ -43,7 +40,13 @@ public class CreateMasterTagCommandHandler(ICompanyMicroServiceDbContext context
         entity.ParentMasterTagId = parentMasterTag?.Id;
         await Context.MasterTags.AddAsync(entity, cancellationToken);
         await Context.SaveChangesAsync(request.User, cancellationToken);
-
+        
+        var updatedMapping = Mapper.Map<MasterTagDto>(entity);
+        updatedMapping.MasterTagCategory = Mapper.Map<MasterTagCategoryDto>(category);
+        updatedMapping.ParentMasterTag = Mapper.Map<MasterTagDto>(parentMasterTag);
+        
+        request.Logger.LogInformation("Updated mapping: {@UpdatedMapping}", updatedMapping);
+        await Mediator.Send(new CreateCompanyTagsFromMasterTagCommand(request.User, request.Logger, updatedMapping, request.Domain), cancellationToken);
         return Unit.Value;
        
     }
