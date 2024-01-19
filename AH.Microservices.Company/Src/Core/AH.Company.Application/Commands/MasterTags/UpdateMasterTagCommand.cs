@@ -9,25 +9,19 @@ using Microsoft.Extensions.Logging;
 
 namespace AH.Company.Application.Commands.MasterTags;
 
-public class UpdateMasterTagCommand : BaseCommand<Unit>
+public class UpdateMasterTagCommand(ClaimsPrincipal user, ILogger logger, MasterTagDto masterTag, string domain)
+    : BaseCommand<Unit>(user, logger)
 {
-    public MasterTagDto MasterTag { get; }
-    public string Domain { get; }
-        
-    public UpdateMasterTagCommand(ClaimsPrincipal user, ILogger logger , MasterTagDto masterTag, string domain) : base(user, logger)
-    {
-        MasterTag = masterTag;
-        Domain = domain;
-    }
+    public MasterTagDto MasterTag { get; } = masterTag;
+    public string Domain { get; } = domain;
 }
 
-public class UpdateMasterTagCommandHandler : BaseCommandHandler,
+public class UpdateMasterTagCommandHandler(ICompanyMicroServiceDbContext context, IMapper mapper, IMediator mediator) : BaseCommandHandler(
+        context,
+        mapper),
     IRequestHandler<UpdateMasterTagCommand, Unit>
 {
-    public UpdateMasterTagCommandHandler(ICompanyMicroServiceDbContext context, IMapper mapper) : base(context,
-        mapper)
-    {
-    }
+    public IMediator Mediator { get; } = mediator;
 
     public async Task<Unit> Handle(UpdateMasterTagCommand request, CancellationToken cancellationToken)
     {
@@ -48,6 +42,7 @@ public class UpdateMasterTagCommandHandler : BaseCommandHandler,
         var entity = await Context.MasterTags.FirstAsync(x => x.UId == request.MasterTag.UId,
             cancellationToken: cancellationToken);
    
+        var oldEntity = Mapper.Map<MasterTagDto>(entity);
         entity.Name = request.MasterTag.Name;
         entity.ClassName = request.MasterTag.ClassName;
         entity.MasterTagCategoryId = category.Id;
@@ -56,6 +51,14 @@ public class UpdateMasterTagCommandHandler : BaseCommandHandler,
         
         Context.Update(entity);
         await Context.SaveChangesAsync(request.User, cancellationToken);
+        
+        var updatedMapping = Mapper.Map<MasterTagDto>(entity);
+        updatedMapping.MasterTagCategory = Mapper.Map<MasterTagCategoryDto>(category);
+        updatedMapping.ParentMasterTag = Mapper.Map<MasterTagDto>(parentMasterTag);
+        
+        request.Logger.LogInformation("Updated mapping: {@UpdatedMapping}", updatedMapping);
+        
+        await Mediator.Send(new UpdateCompanyTagsFromMasterTagCommand(request.User, request.Logger, updatedMapping, oldEntity, request.Domain), cancellationToken);
         return Unit.Value;
     }
 }

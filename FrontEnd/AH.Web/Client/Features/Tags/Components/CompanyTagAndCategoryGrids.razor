@@ -8,6 +8,7 @@
                  FilterMode="@GridFilterMode.FilterMenu"
                  EnableLoaderContainer="true"
                  Sortable="true"
+                 Resizable="true"
                  Height="600px"
                  OnUpdate="@UpdateCategoryHandler"
                  OnAdd="@AddCategoryHandler"
@@ -68,7 +69,7 @@
             </GridSettings>
     </TelerikGrid>
 </div>
-<div class="k-master-row">
+<div class="tags-forty1">
     @if (_selectedCategory != null)
     {
         <TelerikGrid Data="@_tags"
@@ -77,6 +78,7 @@
                      EnableLoaderContainer="true"
                      Sortable="true"
                      Height="600px"
+                     Resizable="true"
                      OnAdd="@AddTagHandler"
                      OnEdit="@EditTagHandler"
                      OnCreate="@CreateTagHandler"
@@ -400,12 +402,19 @@
 <style>
     .tags-forty{
         display: inline-block;
-        width: 45%;
+        width:700px;
+        float: left;
+        padding: 0 10px;
+        
+    }   
+    .tags-forty1{
+        display: inline-block;
+        width:750px;
         float: left;
         padding: 0 10px;
         
     }
-    .k-master-row{
-        cursor: pointer;
-    }
+      .k-master-row{
+            cursor: pointer;
+        }
 </style>

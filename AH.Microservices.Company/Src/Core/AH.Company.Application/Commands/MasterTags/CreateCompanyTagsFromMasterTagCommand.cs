@@ -54,13 +54,14 @@ public class CreateCompanyTagsFromMasterTagCommandHandler(
                 break;
         }
         await Context.SaveChangesAsync(request.User, cancellationToken);
+        activity?.Stop();
         return Unit.Value;
     }
 
     private async Task CreateCompanyTeamMemberTag(MasterTagDto requestMasterTag, CancellationToken cancellationToken)
     {
         var categories = await Context.CompanyTeamMemberCategories
-            .Where(x => x.MasterTagCategory != null &&  x.MasterTagCategory.UId == requestMasterTag.MasterTagCategory.UId).ToListAsync(cancellationToken);
+            .Where(x => x.MasterTagCategory != null &&  x.MasterTagCategory.UId == requestMasterTag.MasterTagCategory.UId && x.Name == requestMasterTag.MasterTagCategory.Name).ToListAsync(cancellationToken);
 
         Dictionary<int, int> teamTags = new();
         if (requestMasterTag.ParentMasterTag != null)
