@@ -53,7 +53,7 @@ public partial class UsersDbContext : DbContext, IUsersDbContext
             
         optionsBuilder.UseSqlServer(_configuration.GetConnectionString(connection!), x =>
         {
-            x.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "Users");
+            x.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "User");
         });
 
         base.OnConfiguring(optionsBuilder);
@@ -62,7 +62,7 @@ public partial class UsersDbContext : DbContext, IUsersDbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {                  
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(UsersDbContext).Assembly);
-        modelBuilder.HasDefaultSchema("Users");
+        modelBuilder.HasDefaultSchema("User");
         modelBuilder.SeedData();         
     }
 
