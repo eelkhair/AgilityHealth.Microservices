@@ -5,6 +5,7 @@ using AH.User.Domain.Constants;
 using AH.User.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 
@@ -12,7 +13,8 @@ namespace AH.User.Persistence;
 
 public partial class UsersDbContext
 {
-
+    public DbSet<ApplicationUser> Users { get; set; } = null!;
+    public DbSet<ApplicationUserClaim> UserClaims { get; set; } = null!;
 }
 public partial class UsersDbContext : DbContext, IUsersDbContext
 {
@@ -42,15 +44,16 @@ public partial class UsersDbContext : DbContext, IUsersDbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (optionsBuilder.IsConfigured) return;
-        var connection =  _contextAccessor.HttpContext?.Request.Headers["Host"].ToString();
-        connection = connection != null
-            ? connection.Replace(":", "")
-            : _configuration.GetConnectionString("DefaultConnection");
+        var connection = !string.IsNullOrEmpty(_contextAccessor.HttpContext?.Request.Headers["WebHost"].ToString())
+            ? _contextAccessor.HttpContext.Request.Headers["WebHost"].ToString().Replace(":","")
+            : !string.IsNullOrEmpty(_contextAccessor.HttpContext?.Request.Headers["Host"].ToString())
+                ? _contextAccessor.HttpContext.Request.Headers["Host"].ToString().Replace("ahcompany-", "").Replace(":","")
+                : _configuration.GetConnectionString("DefaultConnection");
             
             
         optionsBuilder.UseSqlServer(_configuration.GetConnectionString(connection!), x =>
         {
-            x.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "Company");
+            x.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "Users");
         });
 
         base.OnConfiguring(optionsBuilder);
@@ -103,5 +106,11 @@ public partial class UsersDbContext : DbContext, IUsersDbContext
     public string? GetConnectionString()
     {
         return Database.GetConnectionString();
+    }
+    
+    public override EntityEntry Update(object entity)
+    {
+        this.Entry(entity).State = EntityState.Modified;
+        return base.Update(entity);
     }
 }

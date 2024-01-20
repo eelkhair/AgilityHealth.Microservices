@@ -9,12 +9,11 @@ using AutoMapper;
 
 const string appName = "AgilityHealth User Api";
 const string appTag = "ah-user-api";
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.ConfigureServices(appName, appTag);
 builder.Services.AddHttpContextAccessor();
-
-
 
 var mapper = new MapperConfiguration(c =>
 {

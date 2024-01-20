@@ -151,6 +151,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Company", "Company", "{D8F81E35-C41E-46FD-B6BB-D90D74DAF8D2}"
 	ProjectSection(SolutionItems) = preProject
 		Solution Items\Company\Dapr Company.sh = Solution Items\Company\Dapr Company.sh
+		Solution Items\Company\Add Migration.sh = Solution Items\Company\Add Migration.sh
+		Solution Items\Company\Swagger.sh = Solution Items\Company\Swagger.sh
+		Solution Items\Company\Update Database.sh = Solution Items\Company\Update Database.sh
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Metadata", "Metadata", "{EE402946-195E-45AE-B9BB-31C812DCC7F0}"
@@ -185,6 +188,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AH.Integration.Auth0.ServiceAgent", "Integrations\Src\AH.Integration.Auth0.ServiceAgent\AH.Integration.Auth0.ServiceAgent.csproj", "{D88D14A8-EAE4-45BC-8F76-9EE091009B9E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AH.Integration.Auth0.ServiceAgent.SDK", "Integrations\Src\AH.Integration.Auth0.ServiceAgent.SDK\AH.Integration.Auth0.ServiceAgent.SDK.csproj", "{20C2BFC6-E7E4-45ED-BC38-10838BDDCA4D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User", "User", "{4B65D493-E9A0-4253-B43B-D42CA70F8BD5}"
+	ProjectSection(SolutionItems) = preProject
+		Solution Items\User\Swagger.sh = Solution Items\User\Swagger.sh
+		Solution Items\User\Dapr Company.sh = Solution Items\User\Dapr Company.sh
+		Solution Items\User\Add Migration.sh = Solution Items\User\Add Migration.sh
+		Solution Items\User\Update Database.sh = Solution Items\User\Update Database.sh
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -410,6 +421,7 @@ Global
 		{6F4AD0A8-118E-4BFD-A567-4EAB1628E033} = {55277A4E-2B89-45DA-AD57-84A6CF12C5EF}
 		{D88D14A8-EAE4-45BC-8F76-9EE091009B9E} = {41F7D394-B9CD-4FFD-9DA3-483366B87324}
 		{20C2BFC6-E7E4-45ED-BC38-10838BDDCA4D} = {41F7D394-B9CD-4FFD-9DA3-483366B87324}
+		{4B65D493-E9A0-4253-B43B-D42CA70F8BD5} = {4A11AD14-51D7-4DE9-92AA-BED7EABF5409}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ADA7513C-1144-4397-870D-DF008958C056}

@@ -10,10 +10,9 @@ const string appName = "AgilityHealth Company Api";
 const string appTag = "ah-company-api";
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddHttpContextAccessor();
 builder.ConfigureServices(appName, appTag);
-builder.Services.AddSingleton(builder.Configuration);
 
 var mapper = new MapperConfiguration(c =>
 {
