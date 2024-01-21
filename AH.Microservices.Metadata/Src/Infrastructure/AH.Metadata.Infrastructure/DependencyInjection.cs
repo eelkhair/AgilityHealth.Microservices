@@ -1,4 +1,6 @@
-﻿using AH.Metadata.Application.Interfaces;
+﻿using System.Net.Http.Headers;
+using AH.Metadata.Application.Interfaces;
+using Dapr.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -14,14 +16,12 @@ public static class DependencyInjection
      
     public static void AddMessageSender(this IServiceCollection services)
     {
-        services.AddSingleton<IMessageSender, MessageSender>();
-        
-        var logger = LoggerFactory.Create(config =>
+        services.AddTransient<IMessageSender, MessageSender>( sp =>
         {
-            config.AddConsole();
-            config.AddDebug();
-        }).CreateLogger<IMessageSender>();
-
-        services.AddSingleton(typeof(ILogger), logger);
+            var logger = sp.GetRequiredService<ILogger<MessageSender>>();
+            var client = new DaprClientBuilder().Build();
+            
+            return new MessageSender(logger, client);
+        });
     }
 }

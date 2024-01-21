@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics;
 using AH.User.Api.ProgramExtensions.Middleware;
-using HealthChecks;
+using AH.Microservices.HealthChecks;
 using HealthChecks.UI.Client;
+
 
 namespace AH.User.Api.ProgramExtensions;
 

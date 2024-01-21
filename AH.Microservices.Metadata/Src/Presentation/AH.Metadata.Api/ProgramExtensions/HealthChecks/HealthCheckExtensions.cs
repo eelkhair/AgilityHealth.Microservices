@@ -1,4 +1,4 @@
-using HealthChecks;
+using AH.Microservices.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace AH.Metadata.Api.ProgramExtensions.HealthChecks;

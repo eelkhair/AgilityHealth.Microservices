@@ -8,6 +8,8 @@
 /AH.Microservices.CompanyOrchestration/obj/*
 /AH.Microservices.Metadata/Src/*/AH.Metadata.*/obj/*
 /AH.Microservices.Metadata/Src/*/AH.Metadata.*/bin/*
+/AH.Microservices.Team/Src/*/AH.Team.*/obj/*
+/AH.Microservices.Team/Src/*/AH.Team.*/bin/*
 /AH.Microservices.Metadata/obj/*
 /AH.Microservices.User/Src/*/AH.User.*/obj/
 /AH.Microservices.User/Src/*/AH.User.*/bin/Debug/
@@ -41,8 +43,8 @@ FrontEnd/bin/*
 FrontEnd/AH.Web/*/obj/*
 FrontEnd/AH.Web/*/bin/*
 AH.Microservices.User/Src/Shared/AH.User.Shared.V1/bin/*
-HealthChecks/HealthChecks/obj/*
-HealthChecks/HealthChecks/bin/
-HealthChecks/WebStatus/obj/*
-HealthChecks/WebStatus/bin/*
+HealthChecks/AH.Microservices.HealthChecks/obj/*
+HealthChecks/AH.Microservices.HealthChecks/bin/
+HealthChecks/AH.Microservices.WebStatus/obj/*
+HealthChecks/AH.Microservices.WebStatus/bin/*
 Solution Items/Infrastructure*

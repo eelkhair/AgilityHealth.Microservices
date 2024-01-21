@@ -2,25 +2,31 @@ version: '3.4'
 
 services:
   ah-company-api:
-      image: ${DOCKER_REGISTRY-}ahcompanyapi
+      image: ${DOCKER_REGISTRY-}ah-company-api
       build:
         context: .
         dockerfile: AH.Microservices.Company/Src/Presentation/AH.Company.Api/Dockerfile
+      
+  ah-team-api:
+    image: ${DOCKER_REGISTRY-}ah-team-api
+    build:
+      context: .
+      dockerfile: AH.Microservices.Team/Src/Presentation/AH.Team.Api/Dockerfile
         
   ah-web:
-    image: ah.web.server
+    image: ${DOCKER_REGISTRY-}ah-web
     build:
       context: .
       dockerfile: FrontEnd/AH.Web/Server/Dockerfile
   
   ah-user-api:
-    image: ${DOCKER_REGISTRY-}ahuserapi
+    image: ${DOCKER_REGISTRY-}ah-user-api
     build:
       context: .
       dockerfile: AH.Microservices.User/Src/Presentation/AH.User.Api/Dockerfile  
       
   ah-metadata-api:
-    image: ${DOCKER_REGISTRY-}ahmetadataapi
+    image: ${DOCKER_REGISTRY-}ah-metadata-api
     build:
       context: .
       dockerfile: AH.Microservices.Metadata/Src/Presentation/AH.Metadata.Api/Dockerfile
@@ -34,15 +40,34 @@ services:
       "--placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
       "--components-path", "./Components",
       "-config", "./Config/config.yaml"
-    ]
+    ]   
     volumes:
       - "./Components/:/Components" # Mount our components folder for the runtime to use. The mounted location must match the --resources-path argument.
       - "./Config/:/Config"
     depends_on:
       - ah-company-api
       - placement
-    network_mode: "service:ah-company-api"    
-      
+    network_mode: "service:ah-company-api"  
+    
+    
+  ah-team-api-dapr:
+    image: "daprio/daprd:edge"
+    command: [
+      "./daprd",
+      "--app-id", "ah-team-api",
+      "--app-port", "8080",
+      "--placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
+      "--components-path", "./Components",
+      "-config", "./Config/config.yaml"
+    ]
+    volumes:
+      - "./Components/:/Components" # Mount our components folder for the runtime to use. The mounted location must match the --resources-path argument.
+      - "./Config/:/Config"
+    depends_on:
+      - ah-team-api
+      - placement
+    network_mode: "service:ah-team-api"
+  
   ah-metadata-api-dapr:
     image: "daprio/daprd:edge"
     command: [
@@ -111,7 +136,7 @@ services:
     image: ${DOCKER_REGISTRY-}ahwebstatus
     build:
       context: .
-      dockerfile: HealthChecks/WebStatus/Dockerfile
+      dockerfile: HealthChecks/AH.Microservices.WebStatus/Dockerfile
 
 
 

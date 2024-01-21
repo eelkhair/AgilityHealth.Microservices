@@ -11,6 +11,7 @@ myArray=(
 "${rootPath}AgilityHealth.Microservices/AH.Microservices.User/Src/Shared/AH.User.Shared.V1/"
 "${rootPath}AgilityHealth.Microservices/Integrations/Src/AH.Integration.Auth0.ServiceAgent/"
 "${rootPath}AgilityHealth.Microservices/Integrations/Src/AH.Integration.Auth0.ServiceAgent.SDK/"
+"${rootPath}AgilityHealth.Microservices/HealthChecks/AH.Microservices.HealthChecks/"
 )
 # shellcheck disable=SC2068
 for search_dir in ${myArray[@]}; 

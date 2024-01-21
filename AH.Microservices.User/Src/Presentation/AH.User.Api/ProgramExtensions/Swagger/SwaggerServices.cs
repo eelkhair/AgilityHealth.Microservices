@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using AH.User.Api.ProgramExtensions.Dtos;
 using AH.User.Domain.Constants;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 
@@ -29,7 +30,32 @@ internal static class SwaggerServices
                 Title = swaggerConfig.AppName,
                 Version = "v1",
             });
+            setup.TagActionsBy(api =>
+            {
+                if (api.GroupName != null)
+                {
+                    return new[] { api.GroupName };
+                }
 
+                if (api.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
+                {
+                    return new[] { controllerActionDescriptor.ControllerName };
+                }
+
+                throw new InvalidOperationException("Unable to determine tag for endpoint.");
+            });
+            
+            setup.OrderActionsBy((apiDesc) => 
+            { 
+                if (apiDesc.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
+                {
+                    // Order by the method name.
+                    return apiDesc.GroupName + "_" + controllerActionDescriptor.ControllerName;
+                }
+
+                return ""; 
+            });
+            setup.DocInclusionPredicate((_,_) => true);
             setup.DocumentFilter<LowercaseDocumentFilter>();
             setup.DocumentFilter<JsonPatchDocumentFilter>();
             setup.EnableAnnotations();

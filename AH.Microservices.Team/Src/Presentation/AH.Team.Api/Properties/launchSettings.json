@@ -1,0 +1,29 @@
+﻿{
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5012"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
+      "publishAllPorts": true
+    },
+    "dapr": {
+      "commandName": "Executable",
+      "workingDirectory": "$(ProjectDir)",
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:5012",
+      "executablePath": "dapr",
+      "commandLineArgs": "run --app-id ah-team-api --resources-path ../../../../Components/ --config ../../../../Config/config.yaml --app-port 5012 dotnet run"
+    }
+  },
+  "$schema": "https://json.schemastore.org/launchsettings.json"
+}

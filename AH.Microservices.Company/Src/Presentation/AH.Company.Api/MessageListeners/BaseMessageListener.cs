@@ -9,8 +9,8 @@ namespace AH.Company.Api.MessageListeners;
 /// Base class for message listeners
 /// </summary>
 [ApiController]
-[Route("api/[controller]/pubsub")]
-[ApiExplorerSettings(IgnoreApi = true)]
+[Route("pubsub/[controller]")]
+[ApiExplorerSettings(GroupName = "PubSub")]
 public abstract class BaseMessageListener : ControllerBase
 {
         /// <summary>

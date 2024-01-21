@@ -7,6 +7,13 @@ services:
     ports:
       - "5002:8080"
       - "5003:8080"
+  
+  ah-team-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5012:8080"
+      - "5013:8080"
   ah-metadata-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -40,6 +47,8 @@ services:
       - HealthChecksUI__HealthChecks__1__Uri=http://ah-company-api:8080/healthzEndpoint 
       - HealthChecksUI__HealthChecks__2__Name=AH User API
       - HealthChecksUI__HealthChecks__2__Uri=http://ah-user-api:8080/healthzEndpoint
+      - HealthChecksUI__HealthChecks__3__Name=AH Team API
+      - HealthChecksUI__HealthChecks__3__Uri=http://ah-team-api:8080/healthzEndpoint
     
     ports:
       - "5107:8080"

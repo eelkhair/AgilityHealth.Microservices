@@ -15,7 +15,6 @@
     <DocumentationFile>bin\Release\AH.Company.Api.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\HealthChecks\HealthChecks\HealthChecks.csproj" />
     <ProjectReference Include="..\..\Infrastructure\AH.Company.Infrastructure\AH.Company.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\AH.Company.Persistence\AH.Company.Persistence.csproj" />
     <ProjectReference Include="..\..\Shared\AH.Company.Shared.V1\AH.Company.Shared.V1.csproj" />
@@ -30,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AH.Metadata.Shared.V1" Version="1.0.10" />
+    <PackageReference Include="AH.Microservices.HealthChecks" Version="1.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="[1.19.6-Preview.1, 1.19.6]" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.0" />
