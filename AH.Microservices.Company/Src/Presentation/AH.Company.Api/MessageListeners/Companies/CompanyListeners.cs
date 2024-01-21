@@ -3,7 +3,6 @@ using System.Text.Json;
 using AH.Company.Application.Commands.Companies;
 using AH.Company.Application.Dtos;
 using AH.Company.Domain.Constants;
-using AH.Metadata.Shared.V1.Events;
 using AH.Metadata.Shared.V1.Models.Responses.Companies;
 using AutoMapper;
 using Dapr;
@@ -31,7 +30,7 @@ public class CompanyListeners(IMapper mapper, ILogger<CompanyListeners> logger, 
     [HttpPost("CreateCompany")]
     public async Task CreateCompany(EventDto<CompanyWithDomainResponse?> message)
     {
-        var company = mapper.Map<CompanyDto>( message.Data);
+        var company = Mapper.Map<CompanyDto>( message.Data);
         if (company is null)
         {
             Logger.LogError("Received message is null");
@@ -64,7 +63,7 @@ public class CompanyListeners(IMapper mapper, ILogger<CompanyListeners> logger, 
     [HttpPost("UpdateCompany")]
     public async Task UpdateCompany(EventDto<CompanyWithDomainResponse?> message)
     {
-        var company = mapper.Map<CompanyDto>( message.Data);
+        var company = Mapper.Map<CompanyDto>( message.Data);
         
         if (company is null)
         {
@@ -86,7 +85,7 @@ public class CompanyListeners(IMapper mapper, ILogger<CompanyListeners> logger, 
     [HttpPost("DeleteCompany")]
     public async Task DeleteCompany(EventDto<CompanyWithDomainResponse?> message)
     {
-        var company = mapper.Map<CompanyDto>( message.Data);
+        var company = Mapper.Map<CompanyDto>( message.Data);
         
         if (company is null)
         {

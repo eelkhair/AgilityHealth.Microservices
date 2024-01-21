@@ -7,7 +7,7 @@ namespace AH.Metadata.Api.MessageListeners;
 public class MessageListener : BaseMessageListener
 {
     /// <inheritdoc />
-    public MessageListener(IMapper mapper, ILogger logger, IMediator mediator) : base(mapper, logger, mediator)
+    public MessageListener(IMapper mapper, ILogger<MessageListener> logger, IMediator mediator) : base(mapper, logger, mediator)
     {
     }
 

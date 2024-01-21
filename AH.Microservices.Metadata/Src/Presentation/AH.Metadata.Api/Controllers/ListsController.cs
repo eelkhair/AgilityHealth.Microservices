@@ -18,7 +18,7 @@ public class ListsController : BaseController
     /// <param name="mapper">The mapper.</param>
     /// <param name="logger">The logger.</param>
     /// <param name="mediator">The mediator.</param>
-    public ListsController(IMapper mapper, ILogger logger, IMediator mediator) : base(mapper, logger, mediator)
+    public ListsController(IMapper mapper, ILogger<ListsController> logger, IMediator mediator) : base(mapper, logger, mediator)
     {
     }
 

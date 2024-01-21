@@ -19,7 +19,7 @@ public class MasterTagsController : BaseController
     /// <param name="logger"></param>
     /// <param name="mediator"></param>
     /// <returns></returns>
-    public MasterTagsController(IMapper mapper, ILogger logger, IMediator mediator) : base(mapper, logger, mediator)
+    public MasterTagsController(IMapper mapper, ILogger<MasterTagCategoriesController> logger, IMediator mediator) : base(mapper, logger, mediator)
     {
   
     }

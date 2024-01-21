@@ -19,7 +19,7 @@ public class CompanyTeamMemberCategoriesController : BaseController
     /// <param name="mapper"></param>
     /// <param name="logger"></param>
     /// <param name="mediator"></param>
-    public CompanyTeamMemberCategoriesController(IMapper mapper, ILogger logger, IMediator mediator) : base(mapper, logger, mediator)
+    public CompanyTeamMemberCategoriesController(IMapper mapper, ILogger<CompanyTeamMemberCategoriesController> logger, IMediator mediator) : base(mapper, logger, mediator)
     {
     }
     

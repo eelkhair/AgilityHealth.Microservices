@@ -25,7 +25,7 @@ public class MasterTagsController : BaseController
     /// <param name="logger">The logger.</param>
     /// <param name="mediator">The mediator.</param>
     /// <param name="sender">The master tag event sender.</param>
-    public MasterTagsController(IMapper mapper, ILogger logger, IMediator mediator, IMasterTagsMessageSender sender) : base(mapper, logger, mediator)
+    public MasterTagsController(IMapper mapper, ILogger<MasterTagsController> logger, IMediator mediator, IMasterTagsMessageSender sender) : base(mapper, logger, mediator)
     {
         _sender = sender;
     }
