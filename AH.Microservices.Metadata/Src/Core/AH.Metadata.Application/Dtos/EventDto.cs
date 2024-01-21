@@ -1,13 +1,8 @@
 ﻿namespace AH.Metadata.Application.Dtos;
 
-public class EventDto
+public class EventDto<T>(string userId, T data)
 {
-    public EventDto(string userId, string data )
-    {
-        UserId = userId;
-        Data = data;
-    }
-    public string UserId { get; set; }
-    public string Data { get; set; }
+    public string UserId { get; set; } = userId;
+    public T Data { get; set; } = data;
     public DateTime Created { get; set; } = DateTime.UtcNow;
 }

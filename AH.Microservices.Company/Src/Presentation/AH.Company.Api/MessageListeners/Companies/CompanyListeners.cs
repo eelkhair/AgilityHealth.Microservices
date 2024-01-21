@@ -4,6 +4,7 @@ using AH.Company.Application.Commands.Companies;
 using AH.Company.Application.Dtos;
 using AH.Company.Domain.Constants;
 using AH.Metadata.Shared.V1.Events;
+using AH.Metadata.Shared.V1.Models.Responses.Companies;
 using AutoMapper;
 using Dapr;
 using MediatR;
@@ -28,35 +29,28 @@ public class CompanyListeners(IMapper mapper, ILogger<CompanyListeners> logger, 
     /// <param name="message"></param>
     [Topic(PubSubNames.RabbitMq, "CompanyCreate")]
     [HttpPost("CreateCompany")]
-    public async Task CreateCompany(EventDto message)
+    public async Task CreateCompany(EventDto<CompanyWithDomainResponse?> message)
     {
-        var model = JsonSerializer.Deserialize<CompanyEventDto>(message.Data);
-        
-        if (model is null)
-        {
-            Logger.LogError("Received message is null");
-            return;
-        }
-        var dto = Mapper.Map<CompanyDto>(model.Company);
-        if (dto is null)
+        var company = mapper.Map<CompanyDto>( message.Data);
+        if (company is null)
         {
             Logger.LogError("Received message is null");
             return;
         }
             
-        Logger.LogInformation("Received message: {@Model}", model);
+        Logger.LogInformation("Received message: {@Model}", message);
         var companyCreateActivity = activitySource.StartActivity("Creating Company");
-        companyCreateActivity?.SetTag("Company dto", JsonSerializer.Serialize(dto));
-        var command = new CreateCompanyCommand(CreateUser(message.UserId), Logger, dto);
+        companyCreateActivity?.SetTag("Company dto", JsonSerializer.Serialize(company));
+        var command = new CreateCompanyCommand(CreateUser(message.UserId), Logger, company);
         var response = await Mediator.Send(command);
         
         companyCreateActivity?.SetTag("Company response", JsonSerializer.Serialize(response));
         companyCreateActivity?.Stop();
         
         var copyTagsActivity = activitySource.StartActivity("Copying tags");
-        copyTagsActivity?.SetTag("Company dto", JsonSerializer.Serialize(dto));
+        copyTagsActivity?.SetTag("Company dto", JsonSerializer.Serialize(company));
         
-        var copyTagsCommand = new CopyTagsCommand(CreateUser(message.UserId), Logger, dto);
+        var copyTagsCommand = new CopyTagsCommand(CreateUser(message.UserId), Logger, company);
         await Mediator.Send(copyTagsCommand);
         copyTagsActivity?.Stop();
     }
@@ -68,24 +62,18 @@ public class CompanyListeners(IMapper mapper, ILogger<CompanyListeners> logger, 
     /// <returns></returns>
     [Topic(PubSubNames.RabbitMq, "CompanyUpdate")]
     [HttpPost("UpdateCompany")]
-    public async Task UpdateCompany(EventDto message)
+    public async Task UpdateCompany(EventDto<CompanyWithDomainResponse?> message)
     {
-        var model = JsonSerializer.Deserialize<CompanyEventDto>(message.Data);
+        var company = mapper.Map<CompanyDto>( message.Data);
         
-        if (model is null)
-        {
-            Logger.LogError("Received message is null");
-            return;
-        }
-        var dto = Mapper.Map<CompanyDto>(model.Company);
-        if (dto is null)
+        if (company is null)
         {
             Logger.LogError("Received message is null");
             return;
         }
             
-        Logger.LogInformation("Received message: {@Model}", model);
-        var command = new UpdateCompanyCommand(CreateUser(message.UserId), Logger, dto);
+        Logger.LogInformation("Received message: {@Model}", company);
+        var command = new UpdateCompanyCommand(CreateUser(message.UserId), Logger, company);
         await Mediator.Send(command);
     }
     
@@ -96,24 +84,18 @@ public class CompanyListeners(IMapper mapper, ILogger<CompanyListeners> logger, 
     /// <returns></returns>
     [Topic(PubSubNames.RabbitMq, "CompanyDelete")]
     [HttpPost("DeleteCompany")]
-    public async Task DeleteCompany(EventDto message)
+    public async Task DeleteCompany(EventDto<CompanyWithDomainResponse?> message)
     {
-        var model = JsonSerializer.Deserialize<CompanyEventDto>(message.Data);
+        var company = mapper.Map<CompanyDto>( message.Data);
         
-        if (model is null)
-        {
-            Logger.LogError("Received message is null");
-            return;
-        }
-        var dto = Mapper.Map<CompanyDto>(model.Company);
-        if (dto is null)
+        if (company is null)
         {
             Logger.LogError("Received message is null");
             return;
         }
             
-        Logger.LogInformation("Received message: {@Model}", model);
-        var command = new DeleteCompanyCommand(CreateUser(message.UserId), Logger, dto);
+        Logger.LogInformation("Received message: {@Model}", company);
+        var command = new DeleteCompanyCommand(CreateUser(message.UserId), Logger, company);
         await Mediator.Send(command);
     }
 }

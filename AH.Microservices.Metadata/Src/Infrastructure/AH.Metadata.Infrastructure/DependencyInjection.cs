@@ -1,5 +1,4 @@
-﻿using System.Net.Http.Headers;
-using AH.Metadata.Application.Interfaces;
+﻿using AH.Metadata.Application.Interfaces;
 using Dapr.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

@@ -22,9 +22,9 @@ public static class DependencyInjection
     private static void AddDaprUtility(this IServiceCollection services)
     {
         services.AddDaprClient();
-        services.AddSingleton<IDaprUtility, DaprUtility>(p=>
+        services.AddTransient<IDaprUtility, DaprUtility>(p=>
         {
-            var logger = p.GetService<ILoggerFactory>()?.CreateLogger<DaprUtility>()!;
+            var logger = p.GetRequiredService<ILogger<DaprUtility>>();
             var client = p.GetService<DaprClient>()!;
             return new DaprUtility(logger, client);
         });

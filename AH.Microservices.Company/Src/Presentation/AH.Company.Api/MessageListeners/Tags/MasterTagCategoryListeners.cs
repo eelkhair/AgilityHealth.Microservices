@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using AH.Company.Application.Commands.MasterTagCategories;
+﻿using AH.Company.Application.Commands.MasterTagCategories;
 using AH.Company.Application.Dtos;
 using AH.Company.Domain.Constants;
 using AH.Metadata.Shared.V1.Events;
@@ -31,24 +30,18 @@ public class MasterTagCategoryListeners : BaseMessageListener
     /// <param name="message"></param>
     [Topic(PubSubNames.RabbitMq, "MasterTagCategoryCreate")]
     [HttpPost("CreateMasterTagCategory")]
-    public async Task CreateMasterTagCategory(EventDto message)
+    public async Task CreateMasterTagCategory(EventDto<MasterTagCategoryEventDto?> message)
     {
-        var model = JsonSerializer.Deserialize<MasterTagCategoryEventDto>(message.Data);
-        
+        var model = message.Data;
         if (model is null)
         {
             Logger.LogError("Received message is null");
             return;
         }
-            
+        
         var dto = Mapper.Map<MasterTagCategoryDto>(model.MasterTagCategory);
-        if (dto is null)
-        {
-            Logger.LogError("Received message is null");
-            return;
-        }
-            
-        Logger.LogInformation("Received message: {@Model}", model);
+        
+        Logger.LogInformation("Received message: {@Model}", dto);
         var command = new CreateMasterTagCategoryCommand(CreateUser(message.UserId), Logger, dto, model.Domain);
         await Mediator.Send(command);
     }
@@ -59,9 +52,9 @@ public class MasterTagCategoryListeners : BaseMessageListener
     /// <param name="message"></param>
     [Topic(PubSubNames.RabbitMq, "MasterTagCategoryUpdate")]
     [HttpPost("UpdateMasterTagCategory")]
-    public async Task UpdateMasterTagCategory(EventDto message)
+    public async Task UpdateMasterTagCategory(EventDto<MasterTagCategoryEventDto?> message)
     {
-        var model = JsonSerializer.Deserialize<MasterTagCategoryEventDto>(message.Data);
+        var model = message.Data;
         
         if (model is null)
         {
@@ -87,9 +80,9 @@ public class MasterTagCategoryListeners : BaseMessageListener
     /// <param name="message"></param>
     [Topic(PubSubNames.RabbitMq, "MasterTagCategoryDelete")]
     [HttpPost("DeleteMasterTagCategory")]
-    public async Task DeleteMasterTagCategory(EventDto message)
+    public async Task DeleteMasterTagCategory(EventDto<MasterTagCategoryEventDto?> message)
     {
-        var model = JsonSerializer.Deserialize<MasterTagCategoryEventDto>(message.Data);
+        var model = message.Data;
         
         if (model is null)
         {

@@ -1,35 +1,27 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using AH.Metadata.Application.Dtos;
 using AH.Metadata.Application.Interfaces;
+using AH.Metadata.Domain.Constants;
 using Dapr.Client;
 using Microsoft.Extensions.Logging;
 
 namespace AH.Metadata.Infrastructure;
 [ExcludeFromCodeCoverage]
-public class MessageSender : IMessageSender
+public class MessageSender(ILogger<MessageSender> logger, DaprClient daprClient) : IMessageSender
 {
-    private readonly ILogger<MessageSender> _logger;
-    private readonly DaprClient _daprClient;
-    
-    public MessageSender(ILogger<MessageSender> logger, DaprClient daprClient)
-    {
-        _logger = logger;
-        _daprClient = daprClient;
-    }
-    
-    public async Task SendEventAsync(string pubSubName, string topic, string userId, string message)
+    public async Task SendEventAsync<T>(string topic, string userId, T message)
     { 
-        var messageInfo = new {pubSubName, topic, userId, message};
+        var messageInfo = new {topic, userId, message};
         try
         {
-            var eventModel = new EventDto(userId, message);
-            await _daprClient.PublishEventAsync(pubSubName, topic, eventModel);
+            var eventModel = new EventDto<T>(userId, message);
+            await daprClient.PublishEventAsync(PubSubNames.RabbitMq, topic, eventModel);
            
-            _logger.LogInformation("Event sent - {MessageInfo}", messageInfo);
+            logger.LogInformation("Event sent - {MessageInfo}", messageInfo);
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error sending event - {MessageInfo}", messageInfo);
+            logger.LogError(e, "Error sending event - {MessageInfo}", messageInfo);
         }
     }
 }

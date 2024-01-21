@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using System.Text.Json;
-using AH.Metadata.Shared.V1.Events;
+using AH.Metadata.Shared.V1.Models.Responses.Companies;
 using AH.User.Application.Commands.Auth;
 using AH.User.Application.Dtos;
 using AH.User.Domain.Constants;
@@ -36,24 +36,24 @@ public class CompanyListeners : BaseMessageListener
     /// <param name="message"></param>
     [Topic(PubSubNames.RabbitMq, "CompanyCreate")]
     [HttpPost("CreateCompany")]
-    public async Task CreateCompanyListener(EventDto message)
+    public async Task CreateCompanyListener(EventDto<CompanyWithDomainResponse?> message)
     {
-        var model = JsonSerializer.Deserialize<CompanyEventDto>(message.Data);
+        var company = (message.Data);
 
-        if (model is null)
+        if (company is null)
         {
             Logger.LogError("Received message is null");
             return;
         }
 
-        var dto = Mapper.Map<CompanyDto>(model.Company);
+        var dto = Mapper.Map<CompanyDto>(company);
         if (dto is null)
         {
             Logger.LogError("Received message is null");
             return;
         }
 
-        Logger.LogInformation("Received message: {@Model}", model);
+        Logger.LogInformation("Received message: {@Model}", message);
         
         using var activity = _activitySource.StartActivity("Saving company to Auth0");
         activity?.SetTag("Company", JsonSerializer.Serialize(dto));
@@ -69,23 +69,23 @@ public class CompanyListeners : BaseMessageListener
     /// <returns></returns>
     [Topic(PubSubNames.RabbitMq, "CompanyUpdate")]
     [HttpPost("UpdateCompany")]
-    public async Task UpdateCompanyListener(EventDto message)
+    public async Task UpdateCompanyListener(EventDto<CompanyWithDomainResponse?> message)
     {
-        var model = JsonSerializer.Deserialize<CompanyEventDto>(message.Data);
+        var company = message.Data;
         
-        if (model is null)
+        if (company is null)
         {
             Logger.LogError("Received message is null");
             return;
         }
-        var dto = Mapper.Map<CompanyDto>(model.Company);
+        var dto = Mapper.Map<CompanyDto>(company);
         if (dto is null)
         {
             Logger.LogError("Received message is null");
             return;
         }
             
-        Logger.LogInformation("Received message: {@Model}", model);
+        Logger.LogInformation("Received message: {@Model}", message);
         
         using var activity = _activitySource.StartActivity("Updating company in Auth0");
         activity?.SetTag("Company", JsonSerializer.Serialize(dto));
@@ -101,23 +101,23 @@ public class CompanyListeners : BaseMessageListener
     /// <returns></returns>
     [Topic(PubSubNames.RabbitMq, "CompanyDelete")]
     [HttpPost("DeleteCompany")]
-    public async Task DeleteCompanyListener(EventDto message)
+    public async Task DeleteCompanyListener(EventDto<CompanyWithDomainResponse?> message)
     {
-        var model = JsonSerializer.Deserialize<CompanyEventDto>(message.Data);
+        var company = message.Data;
         
-        if (model is null)
+        if (company is null)
         {
             Logger.LogError("Received message is null");
             return;
         }
-        var dto = Mapper.Map<CompanyDto>(model.Company);
+        var dto = Mapper.Map<CompanyDto>(company);
         if (dto is null)
         {
             Logger.LogError("Received message is null");
             return;
         }
             
-        Logger.LogInformation("Received message: {@Model}", model);
+        Logger.LogInformation("Received message: {@Model}", message);
         
         using var activity = _activitySource.StartActivity("Deleting company in Auth0");
         activity?.SetTag("Company", JsonSerializer.Serialize(dto));

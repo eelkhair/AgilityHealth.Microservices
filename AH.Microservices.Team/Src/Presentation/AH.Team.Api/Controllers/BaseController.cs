@@ -10,7 +10,7 @@ namespace AH.Team.Api.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
+
 public abstract class BaseController : ControllerBase
 {
     /// <summary>

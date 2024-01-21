@@ -1,10 +1,7 @@
 using System.Security.Claims;
-using System.Text.Json;
 using AH.Metadata.Api.MessageSenders.Interfaces;
 using AH.Metadata.Application.Extensions;
 using AH.Metadata.Application.Interfaces;
-using AH.Metadata.Domain.Constants;
-using AH.Metadata.Shared.V1.Events;
 using AH.Metadata.Shared.V1.Models.Responses.Companies;
 using AutoMapper;
 using MediatR;
@@ -37,11 +34,7 @@ public class CompaniesMessageSender : BaseMetadataMessageSender, ICompaniesMessa
     /// <returns></returns>
     public async Task SendCreateCompanyMessageAsync(ClaimsPrincipal user, CompanyWithDomainResponse company)
     {
-        var message = new CompanyEventDto(company);
-
-        await MessageSender.SendEventAsync(PubSubNames.RabbitMq, "CompanyCreate", user.GetUserId(),
-            JsonSerializer.Serialize(message));
-
+        await MessageSender.SendEventAsync("CompanyCreate", user.GetUserId(), company);
     }
     
     /// <summary>
@@ -52,10 +45,7 @@ public class CompaniesMessageSender : BaseMetadataMessageSender, ICompaniesMessa
     /// <returns></returns>
     public async Task SendUpdateCompanyMessageAsync(ClaimsPrincipal user, CompanyWithDomainResponse company)
     {
-        var message = new CompanyEventDto(company);
-
-        await MessageSender.SendEventAsync(PubSubNames.RabbitMq, "CompanyUpdate", user.GetUserId(),
-            JsonSerializer.Serialize(message));
+        await MessageSender.SendEventAsync("CompanyUpdate", user.GetUserId(), company);
     }
     
     /// <summary>
@@ -66,9 +56,6 @@ public class CompaniesMessageSender : BaseMetadataMessageSender, ICompaniesMessa
     /// <returns></returns>
     public async Task SendDeleteCompanyMessageAsync(ClaimsPrincipal user, CompanyWithDomainResponse company)
     {
-        var message = new CompanyEventDto(company);
-
-        await MessageSender.SendEventAsync(PubSubNames.RabbitMq, "CompanyDelete", user.GetUserId(),
-            JsonSerializer.Serialize(message));
+        await MessageSender.SendEventAsync("CompanyDelete", user.GetUserId(), company);
     }
 }

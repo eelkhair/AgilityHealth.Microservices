@@ -1,10 +1,8 @@
 ﻿using System.Security.Claims;
-using System.Text.Json;
 using AH.Metadata.Api.MessageSenders.Interfaces;
 using AH.Metadata.Application.Extensions;
 using AH.Metadata.Application.Interfaces;
 using AH.Metadata.Application.Queries.Domains;
-using AH.Metadata.Domain.Constants;
 using AH.Metadata.Shared.V1.Events;
 using AH.Metadata.Shared.V1.Models.Responses.MasterTags;
 using AutoMapper;
@@ -64,13 +62,12 @@ public class MasterTagsMessageSender : BaseMetadataMessageSender, IMasterTagsMes
     {
         var domains = await Mediator.Send(new ListDomainsQuery(user, Logger));
 
-        foreach (var message in domains.Select(domain => new MasterTagEventDto
+        foreach (var dto in domains.Select(domain => new MasterTagEventDto
                  {
                      Domain = domain.Name, MasterTag = masterTag
                  }))
         {
-            await MessageSender.SendEventAsync(PubSubNames.RabbitMq, eventType, user.GetUserId(),
-                JsonSerializer.Serialize(message));
+            await MessageSender.SendEventAsync(eventType, user.GetUserId(), dto);
         }
     }
 

@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using AH.Company.Application.Commands.MasterTags;
+﻿using AH.Company.Application.Commands.MasterTags;
 using AH.Company.Application.Dtos;
 using AH.Company.Domain.Constants;
 using AH.Metadata.Shared.V1.Events;
@@ -31,9 +30,9 @@ public class MasterTagListeners : BaseMessageListener
     /// <param name="message"></param>
     [Topic(PubSubNames.RabbitMq, "MasterTagCreate")]
     [HttpPost("CreateMasterTag")]
-    public async Task CreateMasterTag(EventDto message)
+    public async Task CreateMasterTag(EventDto<MasterTagEventDto?> message)
     {
-        var model = JsonSerializer.Deserialize<MasterTagEventDto>(message.Data);
+        var model = message.Data;
         
         if (model is null)
         {
@@ -59,9 +58,9 @@ public class MasterTagListeners : BaseMessageListener
     /// <param name="message"></param>
     [Topic(PubSubNames.RabbitMq, "MasterTagUpdate")]
     [HttpPost("UpdateMasterTag")]
-    public async Task UpdateMasterTag(EventDto message)
+    public async Task UpdateMasterTag(EventDto<MasterTagEventDto?> message)
     {
-        var model = JsonSerializer.Deserialize<MasterTagEventDto>(message.Data);
+        var model = message.Data;
         
         if (model is null)
         {
@@ -87,9 +86,9 @@ public class MasterTagListeners : BaseMessageListener
     /// <param name="message"></param>
     [Topic(PubSubNames.RabbitMq, "MasterTagDelete")]
     [HttpPost("DeleteMasterTag")]
-    public async Task DeleteMasterTag(EventDto message)
+    public async Task DeleteMasterTag(EventDto<MasterTagEventDto?> message)
     {
-        var model = JsonSerializer.Deserialize<MasterTagEventDto>(message.Data);
+        var model = message.Data;
         
         if (model is null)
         {

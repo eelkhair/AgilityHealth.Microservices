@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using AH.User.Application.Dtos;
 using AH.User.Application.Interfaces;
+using AH.User.Domain.Constants;
 using Dapr.Client;
 using Microsoft.Extensions.Logging;
 
@@ -8,13 +9,13 @@ namespace AH.User.Infrastructure;
 [ExcludeFromCodeCoverage]
 public class DaprUtility(ILogger<DaprUtility> logger, DaprClient daprClient) : IDaprUtility
 {
-    public async Task SendEventAsync(string pubSubName, string topic, string userId, string message)
+    public async Task SendEventAsync<T>(string topic, string userId, T message)
     { 
-        var messageInfo = new {pubSubName, topic, userId, message};
+        var messageInfo = new {topic, userId, message};
         try
         {
-            var eventModel = new EventDto(userId, message);
-            await daprClient.PublishEventAsync(pubSubName, topic, eventModel);
+            var eventModel = new EventDto<T>(userId, message);
+            await daprClient.PublishEventAsync(PubSubNames.RabbitMq, topic, eventModel);
            
             logger.LogInformation("Event sent - {MessageInfo}", messageInfo);
         }

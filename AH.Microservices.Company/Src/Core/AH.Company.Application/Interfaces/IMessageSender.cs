@@ -2,5 +2,5 @@
 
 public interface IMessageSender
 {
-    Task SendEventAsync(string pubSubName, string topic, string userId, string message);
+    Task SendEventAsync<T>(string topic, string userId, T message);
 }

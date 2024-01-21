@@ -11,23 +11,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AH.Metadata.Api.Controllers;
 
+
 /// <summary>
 /// Companies Controller
 /// </summary>
-public class CompaniesController : BaseController
+/// <param name="mapper"></param>
+/// <param name="logger"></param>
+/// <param name="mediator"></param>
+/// <param name="sender"></param>
+public class CompaniesController(
+    IMapper mapper,
+    ILogger<CompaniesController> logger,
+    IMediator mediator,
+    ICompaniesMessageSender sender)
+    : BaseController(mapper, logger, mediator)
 {
-    private readonly ICompaniesMessageSender MessageSender;
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    /// <param name="mapper"></param>
-    /// <param name="logger"></param>
-    /// <param name="mediator"></param>
-    public CompaniesController(IMapper mapper, ILogger<CompaniesController> logger, IMediator mediator, ICompaniesMessageSender sender) : base(mapper, logger, mediator)
-    {
-        MessageSender = sender;
-    }
-    
     /// <summary>
     /// Get a list of all companies
     /// </summary>
@@ -94,7 +92,7 @@ public class CompaniesController : BaseController
         var companyModel = Mapper.Map<CompanyWithDomainResponse>(company);
         Logger.LogInformation("Company created {Data}", JsonSerializer.Serialize(companyModel));
         
-        await MessageSender.SendCreateCompanyMessageAsync(User, companyModel);
+        await sender.SendCreateCompanyMessageAsync(User, companyModel);
         return CreatedAtAction(nameof(GetCompany), new {uid = company.UId}, companyModel);
     }
     
@@ -122,7 +120,7 @@ public class CompaniesController : BaseController
         var companyModel = Mapper.Map<CompanyWithDomainResponse>(company);
         Logger.LogInformation("Company updated {Data}", JsonSerializer.Serialize(companyModel));
         
-        await MessageSender.SendUpdateCompanyMessageAsync(User, companyModel);
+        await sender.SendUpdateCompanyMessageAsync(User, companyModel);
         return Ok(companyModel);
     }
     
@@ -145,7 +143,7 @@ public class CompaniesController : BaseController
         Logger.LogInformation("company deleted {Uid}", uid);    
         
         var companyModel = Mapper.Map<CompanyWithDomainResponse>(response);
-        await MessageSender.SendDeleteCompanyMessageAsync(User, companyModel);
+        await sender.SendDeleteCompanyMessageAsync(User, companyModel);
         return NoContent();
     }
 }
