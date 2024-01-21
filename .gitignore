@@ -47,4 +47,6 @@ HealthChecks/AH.Microservices.HealthChecks/obj/*
 HealthChecks/AH.Microservices.HealthChecks/bin/
 HealthChecks/AH.Microservices.WebStatus/obj/*
 HealthChecks/AH.Microservices.WebStatus/bin/*
+HealthChecks/*/obj/*
+HealthChecks/*/bin/*
 Solution Items/Infrastructure*
