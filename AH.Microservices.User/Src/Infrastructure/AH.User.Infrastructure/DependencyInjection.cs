@@ -3,6 +3,7 @@ using AH.Integration.Auth0.ServiceAgent.Dtos;
 using AH.Integration.Auth0.ServiceAgent.SDK;
 using AH.User.Application.Dtos;
 using AH.User.Application.Interfaces;
+using AH.User.Domain.Constants;
 using Dapr.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,8 +29,6 @@ public static class DependencyInjection
             var client = p.GetService<DaprClient>()!;
             return new DaprUtility(logger, client);
         });
-
-       
     }
     
     private static void AddAuth0ServiceAgent(this IServiceCollection services, IConfiguration configuration)
@@ -39,9 +38,9 @@ public static class DependencyInjection
         {
             var logger = p.GetRequiredService<ILogger<ServiceAgentFactory>>();
             
-            var daprUtility = p.GetService<IDaprUtility>();
+            var daprUtility = p.GetRequiredService<IDaprUtility>();
             
-            var token = daprUtility!.GetStateAsync<TokenDto>("statestore.redis", "auth0token", CancellationToken.None).Result;
+            var token = daprUtility.GetStateAsync<TokenDto>(StateStores.Redis, StateStoreKeys.Auth0Token, CancellationToken.None).Result;
             
             var auth0Config = new Auth0Config(configuration["Auth0:Domain"] ?? string.Empty,
                 configuration["Auth0:ApiClientId"] ?? string.Empty,

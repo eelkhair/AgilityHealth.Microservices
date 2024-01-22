@@ -2,6 +2,7 @@
 
 public struct TopicNames
 {
-    public const string Metadata = "Metadata";
-    public const string Company = "Company";
+    public const string CompanyCreate = "CompanyCreate";
+    public const string CompanyUpdate = "CompanyUpdate";
+    public const string CompanyDelete = "CompanyDelete";
 }

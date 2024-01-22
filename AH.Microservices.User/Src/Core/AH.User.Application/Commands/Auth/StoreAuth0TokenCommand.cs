@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using AH.User.Application.Dtos;
 using AH.User.Application.Interfaces;
+using AH.User.Domain.Constants;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -21,7 +22,7 @@ public class StoreAuth0TokenCommandHandler(IUsersDbContext context, IMapper mapp
         
         var obj = new TokenDto(token, DateTime.UtcNow);
         
-        await daprUtility.SaveStateAsync("statestore.redis", "auth0token", obj, cancellationToken);
+        await daprUtility.SaveStateAsync(StateStores.Redis, StateStoreKeys.Auth0Token, obj, cancellationToken);
         return token;
     }
 }

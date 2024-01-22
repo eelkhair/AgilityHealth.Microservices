@@ -34,7 +34,7 @@ public class CompanyListeners : BaseMessageListener
     /// Listener for CompanyCreate event
     /// </summary>
     /// <param name="message"></param>
-    [Topic(PubSubNames.RabbitMq, "CompanyCreate")]
+    [Topic(PubSubNames.RabbitMq, TopicNames.CompanyCreate)]
     [HttpPost("CreateCompany")]
     public async Task CreateCompanyListener(EventDto<CompanyWithDomainResponse?> message)
     {
@@ -67,7 +67,7 @@ public class CompanyListeners : BaseMessageListener
     /// </summary>
     /// <param name="message"></param>
     /// <returns></returns>
-    [Topic(PubSubNames.RabbitMq, "CompanyUpdate")]
+    [Topic(PubSubNames.RabbitMq, TopicNames.CompanyUpdate)]
     [HttpPost("UpdateCompany")]
     public async Task UpdateCompanyListener(EventDto<CompanyWithDomainResponse?> message)
     {
@@ -99,7 +99,7 @@ public class CompanyListeners : BaseMessageListener
     /// </summary>
     /// <param name="message"></param>
     /// <returns></returns>
-    [Topic(PubSubNames.RabbitMq, "CompanyDelete")]
+    [Topic(PubSubNames.RabbitMq, TopicNames.CompanyDelete)]
     [HttpPost("DeleteCompany")]
     public async Task DeleteCompanyListener(EventDto<CompanyWithDomainResponse?> message)
     {

@@ -26,7 +26,7 @@ public class CompanyListeners(IMapper mapper, ILogger<CompanyListeners> logger, 
     /// Listener for CompanyCreate event
     /// </summary>
     /// <param name="message"></param>
-    [Topic(PubSubNames.RabbitMq, "CompanyCreate")]
+    [Topic(PubSubNames.RabbitMq, TopicNames.CompanyCreate)]
     [HttpPost("CreateCompany")]
     public async Task CreateCompany(EventDto<CompanyWithDomainResponse?> message)
     {
@@ -59,7 +59,7 @@ public class CompanyListeners(IMapper mapper, ILogger<CompanyListeners> logger, 
     /// </summary>
     /// <param name="message"></param>
     /// <returns></returns>
-    [Topic(PubSubNames.RabbitMq, "CompanyUpdate")]
+    [Topic(PubSubNames.RabbitMq, TopicNames.CompanyUpdate)]
     [HttpPost("UpdateCompany")]
     public async Task UpdateCompany(EventDto<CompanyWithDomainResponse?> message)
     {
@@ -81,7 +81,7 @@ public class CompanyListeners(IMapper mapper, ILogger<CompanyListeners> logger, 
     /// </summary>
     /// <param name="message"></param>
     /// <returns></returns>
-    [Topic(PubSubNames.RabbitMq, "CompanyDelete")]
+    [Topic(PubSubNames.RabbitMq, TopicNames.CompanyDelete)]
     [HttpPost("DeleteCompany")]
     public async Task DeleteCompany(EventDto<CompanyWithDomainResponse?> message)
     {

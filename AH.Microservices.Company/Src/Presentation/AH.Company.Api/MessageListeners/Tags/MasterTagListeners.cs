@@ -28,7 +28,7 @@ public class MasterTagListeners : BaseMessageListener
     /// Listener for MasterTagCreate event
     /// </summary>
     /// <param name="message"></param>
-    [Topic(PubSubNames.RabbitMq, "MasterTagCreate")]
+    [Topic(PubSubNames.RabbitMq, TopicNames.MasterTagCreate)]
     [HttpPost("CreateMasterTag")]
     public async Task CreateMasterTag(EventDto<MasterTagEventDto?> message)
     {
@@ -56,7 +56,7 @@ public class MasterTagListeners : BaseMessageListener
     /// Listener for MasterTagUpdate event
     /// </summary>
     /// <param name="message"></param>
-    [Topic(PubSubNames.RabbitMq, "MasterTagUpdate")]
+    [Topic(PubSubNames.RabbitMq, TopicNames.MasterTagUpdate)]
     [HttpPost("UpdateMasterTag")]
     public async Task UpdateMasterTag(EventDto<MasterTagEventDto?> message)
     {
@@ -84,7 +84,7 @@ public class MasterTagListeners : BaseMessageListener
     /// Listener for MasterTagDelete event
     /// </summary>
     /// <param name="message"></param>
-    [Topic(PubSubNames.RabbitMq, "MasterTagDelete")]
+    [Topic(PubSubNames.RabbitMq, TopicNames.MasterTagDelete)]
     [HttpPost("DeleteMasterTag")]
     public async Task DeleteMasterTag(EventDto<MasterTagEventDto?> message)
     {

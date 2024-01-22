@@ -3,6 +3,7 @@ using AH.Metadata.Api.MessageSenders.Interfaces;
 using AH.Metadata.Application.Extensions;
 using AH.Metadata.Application.Interfaces;
 using AH.Metadata.Application.Queries.Domains;
+using AH.Metadata.Domain.Constants;
 using AH.Metadata.Shared.V1.Events;
 using AH.Metadata.Shared.V1.Models.Responses.MasterTags;
 using AutoMapper;
@@ -35,7 +36,7 @@ public class MasterTagsMessageSender : BaseMetadataMessageSender, IMasterTagsMes
     /// <returns></returns>
     public async Task SendCreateMasterTagMessageAsync(ClaimsPrincipal user,
         MasterTagWithCategoryAndParentTagResponse masterTag)
-        => await SendMessage(user, masterTag, "MasterTagCreate");
+        => await SendMessage(user, masterTag, TopicNames.MasterTagCreate);
     
     /// <summary>
     /// Send a message to update a master tag 
@@ -45,7 +46,7 @@ public class MasterTagsMessageSender : BaseMetadataMessageSender, IMasterTagsMes
     /// <returns></returns>
     public async Task SendUpdateMasterTagMessageAsync(ClaimsPrincipal user,
         MasterTagWithCategoryAndParentTagResponse masterTag)
-        => await SendMessage(user, masterTag, "MasterTagUpdate");
+        => await SendMessage(user, masterTag, TopicNames.MasterTagUpdate);
     
     /// <summary>
     /// Send a message to delete a master tag
@@ -55,7 +56,7 @@ public class MasterTagsMessageSender : BaseMetadataMessageSender, IMasterTagsMes
     /// <returns></returns>
     public async Task SendDeleteMasterTagMessageAsync(ClaimsPrincipal user,
         MasterTagWithCategoryAndParentTagResponse masterTag)
-        => await SendMessage(user, masterTag, "MasterTagDelete");
+        => await SendMessage(user, masterTag, TopicNames.MasterTagDelete);
     
 
     private async Task SendMessage(ClaimsPrincipal user, MasterTagWithCategoryAndParentTagResponse masterTag, string eventType)

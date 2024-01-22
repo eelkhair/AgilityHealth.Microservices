@@ -2,6 +2,7 @@ using System.Security.Claims;
 using AH.Metadata.Api.MessageSenders.Interfaces;
 using AH.Metadata.Application.Extensions;
 using AH.Metadata.Application.Interfaces;
+using AH.Metadata.Domain.Constants;
 using AH.Metadata.Shared.V1.Models.Responses.Companies;
 using AutoMapper;
 using MediatR;
@@ -34,7 +35,7 @@ public class CompaniesMessageSender : BaseMetadataMessageSender, ICompaniesMessa
     /// <returns></returns>
     public async Task SendCreateCompanyMessageAsync(ClaimsPrincipal user, CompanyWithDomainResponse company)
     {
-        await MessageSender.SendEventAsync("CompanyCreate", user.GetUserId(), company);
+        await MessageSender.SendEventAsync(TopicNames.CompanyCreate, user.GetUserId(), company);
     }
     
     /// <summary>
@@ -45,7 +46,7 @@ public class CompaniesMessageSender : BaseMetadataMessageSender, ICompaniesMessa
     /// <returns></returns>
     public async Task SendUpdateCompanyMessageAsync(ClaimsPrincipal user, CompanyWithDomainResponse company)
     {
-        await MessageSender.SendEventAsync("CompanyUpdate", user.GetUserId(), company);
+        await MessageSender.SendEventAsync(TopicNames.CompanyUpdate, user.GetUserId(), company);
     }
     
     /// <summary>
@@ -56,6 +57,6 @@ public class CompaniesMessageSender : BaseMetadataMessageSender, ICompaniesMessa
     /// <returns></returns>
     public async Task SendDeleteCompanyMessageAsync(ClaimsPrincipal user, CompanyWithDomainResponse company)
     {
-        await MessageSender.SendEventAsync("CompanyDelete", user.GetUserId(), company);
+        await MessageSender.SendEventAsync(TopicNames.CompanyDelete, user.GetUserId(), company);
     }
 }
