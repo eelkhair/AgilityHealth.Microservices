@@ -22,7 +22,7 @@
       "launchBrowser": true,
       "applicationUrl": "http://localhost:5012",
       "executablePath": "dapr",
-      "commandLineArgs": "run --app-id ah-team-api --resources-path ../../../../Components/ --config ../../../../Config/config.yaml --app-port 5012 dotnet run"
+      "commandLineArgs": "run --app-id ah-team-api --resources-path ../../../../Components/ --resources-path ./Dapr/Components/Secrets --resources-path ./Dapr/Components/Timers --log-level debug --config ../../../../Config/config.yaml --app-port 5012 dotnet run"
     }
   },
   "$schema": "https://json.schemastore.org/launchsettings.json"

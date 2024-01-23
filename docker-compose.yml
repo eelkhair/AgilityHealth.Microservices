@@ -38,11 +38,15 @@ services:
       "--app-id", "ah-company-api",
       "--app-port", "8080",
       "--placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
-      "--components-path", "./Components",
+      "--resources-path", "./Components",
+      "--resources-path", "./Dapr/Components/Secrets",
+      "--resources-path", "./Dapr/Components/Timers",
+      "--log-level" ,"debug",
       "-config", "./Config/config.yaml"
     ]   
     volumes:
       - "./Components/:/Components" # Mount our components folder for the runtime to use. The mounted location must match the --resources-path argument.
+      - "./AH.Microservices.Company/Src/Presentation/AH.Company.Api/Dapr/Components:/Dapr/Components"
       - "./Config/:/Config"
     depends_on:
       - ah-company-api
@@ -57,11 +61,15 @@ services:
       "--app-id", "ah-team-api",
       "--app-port", "8080",
       "--placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
-      "--components-path", "./Components",
+      "--resources-path", "./Components",
+      "--resources-path", "./Dapr/Components/Secrets",
+      "--resources-path", "./Dapr/Components/Timers",
+      "--log-level" ,"debug",
       "-config", "./Config/config.yaml"
     ]
     volumes:
       - "./Components/:/Components" # Mount our components folder for the runtime to use. The mounted location must match the --resources-path argument.
+      - "./AH.Microservices.Team/Src/Presentation/AH.Team.Api/Dapr/Components:/Dapr/Components"
       - "./Config/:/Config"
     depends_on:
       - ah-team-api
@@ -74,12 +82,16 @@ services:
       "./daprd",
       "--app-id", "ah-metadata-api",
       "--placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
-      "--components-path", "./Components",
+      "--resources-path", "./Components",
+      "--resources-path", "./Dapr/Components/Secrets",
+      "--resources-path", "./Dapr/Components/Timers",
       "-config", "./Config/config.yaml",
+      "--log-level" ,"debug",
       "--app-port", "8080"
     ]
     volumes:
       - "./Components/:/Components" # Mount our components folder for the runtime to use. The mounted location must match the --resources-path argument.
+      - "./AH.Microservices.Metadata/Src/Presentation/AH.Metadata.Api/Dapr/Components:/Dapr/Components"
       - "./Config/:/Config"
     depends_on:
       - ah-metadata-api
@@ -93,12 +105,15 @@ services:
       "--app-id", "ah-user-api",
       "--app-port", "8080",
       "--placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
-      "--components-path", "./Components",
+      "--resources-path", "./Components",
+      "--resources-path", "./Dapr/Components/Secrets",
+      "--resources-path", "./Dapr/Components/Timers",
       "--log-level" ,"debug",
       "-config", "./Config/config.yaml"
     ]
     volumes:
       - "./Components/:/Components" # Mount our components folder for the runtime to use. The mounted location must match the --resources-path argument.
+      - "./AH.Microservices.User/Src/Presentation/AH.User.Api/Dapr/Components:/Dapr/Components"
       - "./Config/:/Config"
     depends_on:
       - ah-user-api

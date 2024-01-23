@@ -8,20 +8,19 @@ using Microsoft.AspNetCore.Mvc;
 namespace AH.User.Api.TimerTriggers;
 
 /// <summary>
-/// Test Controller
+/// TimerTrigger Controller
 /// </summary>
 
 [ApiController]
 public class TimerTriggerController(
     IMapper mapper,
     IMediator mediator,
-    ILogger<TimerTriggerController> logger,
-    DaprClient daprClient)
+    ILogger<TimerTriggerController> logger)
     : BaseController(mapper, logger, mediator)
 {
 
     /// <summary>
-    /// 
+    /// Refresh Auth0 Token
     /// </summary>
     /// <returns></returns>
     [HttpPost]

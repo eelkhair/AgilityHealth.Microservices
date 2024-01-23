@@ -8,6 +8,7 @@ internal static class DaprServices
     public static void RegisterDapr(this IServiceCollection services)
     {
         services.AddMessageSender();
+        services.AddStateManager();
         services.AddControllers().AddDapr().AddJsonOptions(x =>
         {
             x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());

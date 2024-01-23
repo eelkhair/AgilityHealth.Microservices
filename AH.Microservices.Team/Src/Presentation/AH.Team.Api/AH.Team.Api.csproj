@@ -56,7 +56,7 @@
   
 
     <ItemGroup>
-      <Folder Include="Components\" />
+      <Folder Include="Dapr\Components\Timers\" />
       <Folder Include="MessageSenders\Intefaces\" />
     </ItemGroup>
 

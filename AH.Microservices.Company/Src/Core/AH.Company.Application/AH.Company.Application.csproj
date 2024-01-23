@@ -9,6 +9,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="Dapr.AspNetCore" Version="1.12.0" />
     <PackageReference Include="FluentValidation" Version="11.9.0" />
     <PackageReference Include="MediatR" Version="12.2.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
@@ -18,5 +19,10 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Dapr.Client">
+      <HintPath>..\..\..\..\..\..\.nuget\packages\dapr.client\1.12.0\lib\net6.0\Dapr.Client.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

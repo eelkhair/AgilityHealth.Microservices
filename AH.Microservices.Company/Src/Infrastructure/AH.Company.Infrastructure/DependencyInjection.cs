@@ -24,4 +24,16 @@ public static class DependencyInjection
             return new MessageSender(logger, client);
         });
     }
+    
+    public static void AddStateManager(this IServiceCollection services)
+    {
+        services.AddLogging();
+        services.AddTransient<IStateManager, StateManager>( sp =>
+        {
+            var logger = sp.GetRequiredService<ILogger<StateManager>>();
+            var client = new DaprClientBuilder().Build();
+            
+            return new StateManager(logger, client);
+        });
+    }
 }

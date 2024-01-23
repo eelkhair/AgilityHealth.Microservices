@@ -18,7 +18,7 @@
     <ProjectReference Include="..\..\Shared\AH.User.Shared.V1\AH.User.Shared.V1.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Components\" />
+    <Folder Include="Dapr\Components\Timers\" />
     <Folder Include="MessageSenders\Interfaces\" />
   </ItemGroup>
   <ItemGroup>

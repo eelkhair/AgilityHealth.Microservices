@@ -55,6 +55,6 @@
   
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Components\" />
+    <Folder Include="Dapr\Components\Timers\" />
   </ItemGroup>
 </Project>
