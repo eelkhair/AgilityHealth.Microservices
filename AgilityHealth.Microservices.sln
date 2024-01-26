@@ -64,7 +64,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AH.Shared.Infrastructure", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{65AD27AA-F5FB-4334-AAF0-EE6DA63ED9A8}"
 	ProjectSection(SolutionItems) = preProject
-		Components\pubsub.redis.yaml = Components\pubsub.redis.yaml
 		Components\rabbitmq.yaml = Components\rabbitmq.yaml
 		Components\statestore.yaml = Components\statestore.yaml
 		Components\jaeger.yaml = Components\jaeger.yaml

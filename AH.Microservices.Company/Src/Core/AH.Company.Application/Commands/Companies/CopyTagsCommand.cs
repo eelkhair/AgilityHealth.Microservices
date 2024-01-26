@@ -1,8 +1,6 @@
-using System.Diagnostics;
 using System.Security.Claims;
 using AH.Company.Application.Dtos;
 using AH.Company.Application.Interfaces;
-using AH.Company.Domain.Constants;
 using AH.Company.Domain.Entities;
 using AutoMapper;
 using MediatR;
@@ -18,7 +16,7 @@ public class CopyTagsCommand(ClaimsPrincipal user, ILogger logger, CompanyDto co
     public CompanyDto Company { get; set; } = company;
 }
 
-public class CopyTagsCommandHandler(ICompanyMicroServiceDbContext context, IMapper mapper, ActivitySource activitySource, IStateManager stateManager)
+public class CopyTagsCommandHandler(ICompanyMicroServiceDbContext context, IMapper mapper)
     : BaseCommandHandler(context, mapper), IRequestHandler<CopyTagsCommand, Unit>
 {
     public async Task<Unit> Handle(CopyTagsCommand request, CancellationToken cancellationToken)
@@ -92,22 +90,17 @@ public class CopyTagsCommandHandler(ICompanyMicroServiceDbContext context, IMapp
         masterTeamMemberTags.ForEach(tag =>
         {
             var companyTeamMemberCategory =
-                companyTeamMemberCategories.FirstOrDefault(x => x.MasterTagCategory.Id == tag.MasterTagCategoryId);
+                companyTeamMemberCategories.FirstOrDefault(x => x.MasterTagCategory != null && x.MasterTagCategory.Id == tag.MasterTagCategoryId);
             var companyTeamTag = companyTeamTags.FirstOrDefault(x => x.MasterTag?.Id == tag.ParentMasterTagId);
             var newTag = tag.CopyToCompanyTeamMemberTag(companyTeamMemberCategory!, companyTeamTag!);
             companyTeamMemberCategory?.CompanyTeamMemberTags.Add(newTag);
         });
         await Context.SaveChangesAsync(request.User, cancellationToken);
         
-        await SaveToStateStore(request.Company.DomainName, company, cancellationToken);
-        
         return Unit.Value;
     }
 
-    private async Task SaveToStateStore(string domain, Domain.Entities.Company company, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
+   
 }
 
 public static class MasterTagExtensions

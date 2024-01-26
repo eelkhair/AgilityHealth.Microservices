@@ -1,7 +1,7 @@
 apiVersion: dapr.io/v1alpha1
 kind: Component
 metadata:
-  name: "cache-company"
+  name: "timer-trigger.cache-company"
 spec:
   type: bindings.cron
   version: v1

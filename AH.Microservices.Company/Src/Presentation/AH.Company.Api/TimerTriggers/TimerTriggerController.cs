@@ -10,19 +10,17 @@ namespace AH.Company.Api.TimerTriggers;
 /// TimerTrigger Controller
 /// </summary>
 
-[ApiController]
-
 public class TimerTriggerController(
     IMapper mapper,
     IMediator mediator,
-    ILogger<TimerTriggerController> logger) :ControllerBase
+    ILogger<TimerTriggerController> logger) :BaseTimerTrigger(mapper, logger, mediator)
 {
 
     /// <summary>
     /// Cache Company and its related data
     /// </summary>
     /// <returns></returns>
-    [HttpPost("/cache-company")]
+    [HttpPost("timer-trigger.cache-company")]
 
     public async Task<IActionResult> Post()
 

@@ -52,8 +52,7 @@ services:
       - ah-company-api
       - placement
     network_mode: "service:ah-company-api"  
-    
-    
+        
   ah-team-api-dapr:
     image: "daprio/daprd:edge"
     command: [
@@ -152,10 +151,3 @@ services:
     build:
       context: .
       dockerfile: HealthChecks/AH.Microservices.WebStatus/Dockerfile
-
-
-
- 
-
-
-  
