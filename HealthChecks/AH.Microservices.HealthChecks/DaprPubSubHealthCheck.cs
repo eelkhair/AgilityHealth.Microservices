@@ -20,7 +20,7 @@ public class DaprPubSubHealthCheck : IHealthCheck
     {
         try
         {
-            var topicName = $"{_distributedEventBusOptions.Prefix}-{"healthCheckTopic"}";
+            var topicName = $"{_distributedEventBusOptions.Prefix}{"healthCheckTopic"}";
             var ttl = 60;
             
             await _daprClient.PublishEventAsync(_distributedEventBusOptions.PubSubName, topicName, new { }, new Dictionary<string, string>()

@@ -7,7 +7,7 @@
         <RootNamespace>AH.Microservices.HealthChecks</RootNamespace>
         <PackageId>AH.Microservices.HealthChecks</PackageId>
         <Authors>Elkhair Elkhair</Authors>
-        <Version>1.0.1</Version>
+        <Version>1.0.2</Version>
         <Description>Health Checks for microservices</Description>
         <IsPackable>true</IsPackable>
     </PropertyGroup>

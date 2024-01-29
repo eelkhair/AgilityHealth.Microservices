@@ -14,13 +14,13 @@ internal static class HealthCheckExtensions
         {
             StoreName = StateStores.Redis
         };
-        builder.Services.AddSingleton(sp => new DaprStateStoreHealthCheck(new DaprClientBuilder().Build(), stateStore));
+        builder.Services.AddSingleton(_ => new DaprStateStoreHealthCheck(new DaprClientBuilder().Build(), stateStore));
        
         var secretStore = new SecretStoreOptions
         {
             StoreName = SecretStoreNames.Local
         };
-        builder.Services.AddSingleton(sp => new DaprSecretStoreHealthCheck(new DaprClientBuilder().Build(), secretStore));
+        builder.Services.AddSingleton(_ => new DaprSecretStoreHealthCheck(new DaprClientBuilder().Build(), secretStore));
 
         var pubSub = new DistributedEventBusOptions
         {
@@ -29,10 +29,10 @@ internal static class HealthCheckExtensions
             PubSubName = PubSubNames.RabbitMq
         };
         
-        builder.Services.AddSingleton(sp => new DaprPubSubHealthCheck(new DaprClientBuilder().Build(), pubSub));
+        builder.Services.AddSingleton(_ => new DaprPubSubHealthCheck(new DaprClientBuilder().Build(), pubSub));
         builder.Services
             .AddHealthChecks()
-            .AddCheck("self", () => HealthCheckResult.Healthy())
-            .AddDapr();
+            .AddDapr()
+            .AddCheck("self", () => HealthCheckResult.Healthy());
     }
 }

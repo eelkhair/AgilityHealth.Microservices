@@ -22,13 +22,13 @@ public class DaprSecretStoreHealthCheck : IHealthCheck
         try
         {
             var secret = await _daprClient.GetBulkSecretAsync(storeName: SecretStoreName, cancellationToken: cancellationToken).ConfigureAwait(false);
-            if (secret is null) return new HealthCheckResult(context.Registration.FailureStatus, "Dapr secret store is unhealthy.");
+            if (secret is null) return new HealthCheckResult(context.Registration.FailureStatus, $"Dapr secret store :{SecretStoreName} is unhealthy.");
         }
         catch (Exception ex)
         {
-            return new HealthCheckResult(context.Registration.FailureStatus, $"Dapr secret store is unhealthy. Exception: {ex.Message}");
+            return new HealthCheckResult(context.Registration.FailureStatus, $"Dapr secret store :{SecretStoreName} is unhealthy. Exception: {ex.Message}");
         }
 
-        return HealthCheckResult.Healthy("Dapr secret store is healthy.");
+        return HealthCheckResult.Healthy($"Dapr secret store: {SecretStoreName} is healthy.");
     }
 }
