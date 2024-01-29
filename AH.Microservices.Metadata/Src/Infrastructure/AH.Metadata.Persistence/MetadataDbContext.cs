@@ -4,6 +4,7 @@ using AH.Metadata.Application.Interfaces;
 using AH.Metadata.Domain.Constants;
 using AH.Metadata.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace AH.Metadata.Persistence;
 
