@@ -13,6 +13,7 @@
     <DocumentationFile>bin\Release\AH.User.Api.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\HealthChecks\AH.Microservices.HealthChecks\AH.Microservices.HealthChecks.csproj" />
     <ProjectReference Include="..\..\Infrastructure\AH.User.Infrastructure\AH.User.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\AH.User.Persistence\AH.User.Persistence.csproj" />
     <ProjectReference Include="..\..\Shared\AH.User.Shared.V1\AH.User.Shared.V1.csproj" />
@@ -23,7 +24,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AH.Metadata.Shared.V1" Version="1.0.10" />
-    <PackageReference Include="AH.Microservices.HealthChecks" Version="1.0.0" />
+    <PackageReference Include="AH.Microservices.HealthChecks" Version="1.0.1" />
     <PackageReference Include="Dapr.Extensions.Configuration" Version="1.12.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="[1.19.6-Preview.1, 1.19.6]" />

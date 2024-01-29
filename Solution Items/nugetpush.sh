@@ -1,11 +1,7 @@
 ﻿
 rootPath="/home/eelkhair/RiderProjects/"
 myArray=(
-"${rootPath}AgilityHealth.Microservices/Shared/AH.Shared.Domain/"
-"${rootPath}AgilityHealth.Microservices/Shared/AH.Shared.Application/"
-"${rootPath}AgilityHealth.Microservices/Shared/AH.Shared.Infrastructure/"
-"${rootPath}AgilityHealth.Microservices/Shared/AH.Shared.Persistence/"
-"${rootPath}AgilityHealth.Microservices/Shared/AH.Shared.API/"
+
 "${rootPath}AgilityHealth.Microservices/AH.Microservices.Metadata/Src/Shared/AH.Metadata.Shared.V1/"
 "${rootPath}AgilityHealth.Microservices/AH.Microservices.Company/Src/Shared/AH.Company.Shared.V1/"
 "${rootPath}AgilityHealth.Microservices/AH.Microservices.User/Src/Shared/AH.User.Shared.V1/"

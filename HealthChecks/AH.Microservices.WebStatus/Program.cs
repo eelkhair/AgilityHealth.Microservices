@@ -1,7 +1,8 @@
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
-    .AddHealthChecksUI()
+    .AddHealthChecksUI(s=> s.SetEvaluationTimeInSeconds(8))
     .AddInMemoryStorage();
 
 builder.Logging.AddJsonConsole();
@@ -13,6 +14,13 @@ if (!string.IsNullOrEmpty(pathBase))
 {
     app.UsePathBase(pathBase);
 }
+
+app.UseHealthChecksUI(config =>
+{
+    config.ResourcesPath = string.IsNullOrEmpty(pathBase)
+        ? "/ui/resources"
+        : $"{pathBase}/ui/resources";
+});
 
 app.MapGet(string.IsNullOrEmpty(pathBase)
     ? "/"
